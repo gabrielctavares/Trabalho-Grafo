@@ -1,0 +1,69 @@
+TAD Grafo:
+- Construtor: Grafo
+- Destrutor: Grafo
+
+- Adicionar vértice: addNo 
+- Remover vértice: removeNo 
+- Receber valor do vértice(get):
+- Mudar valor do vértice(set):
+
+- Adicionar aresta: addArco 
+- Remover aresta: removeArco 
+- Acessar valor aresta(get):
+- Mudar valor de aresta(set):
+
+- Verifica adjacência entre nó x e y:
+- Vizinhança aberta: vizinhancaAberta
+- Vizinhança fechada: vizinhancaFechada
+
+- Retornar o grau de um nó: grauNo 
+- Grau do grafo: grauGrafo
+- Sequência de graus: seqGraus
+- Verificar k-regularidade: verificarK
+- Ordem do Grafo: ordemGrafo
+
+- Leitura de arquivo: leituraArquivo 
+
+- Grafo é trivial: ehTrivial
+- Grafo é nulo: ehNulo
+- Multigrafo: ehMultigrafo
+- Completo: ehCompleto
+- Bipartido: ehBipartido
+
+- Fecho transitivo direto: fechoTransDir
+- Fecho transitivo indireto: fechoTransInd
+
+- Subgrafo induzido por subconjunto de nos: subgrafoInd
+- Complementar do grafo: complementarGrafo
+
+- Componentes fortemente conexas: compFortConex
+- Grafo é euleriano: ehEuleriano
+- Nó articulação: noArt
+- Arestas ponte: arestaP
+
+- Apresentar raio, diâmetro, centro e periferia: infGrafo
+
+- AGM e floresta de custo min:
+- Caminho minimo entre x e y(Dijkstra ou Floyd): 
+- Caminho minimo (Dijkstra ou Floyd):
+
+TAD no
+- Identificador: id
+- Peso: peso
+- Próximo nó: proxNo
+- Lista arestas: adjacentes
+
+- Construtor: No
+- Destrutor: ~No
+- Get no:
+- Set no:
+
+TAD aresta
+- Identificador do nó adjacente: idDestino
+- Peso: pesoArco
+- Próximo arco: proxArco
+
+- Construtor: Arco
+- Destrutor: ~Arco
+- Get aresta:
+- Set aresta:
