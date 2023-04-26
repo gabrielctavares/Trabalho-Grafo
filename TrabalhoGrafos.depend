@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1584205420 source:d:\dsn\projetos\trabalhografos\main.cpp
+	<iostream>
+
+1682542368 source:d:\dsn\projetos\trabalhografos\src\grafo.cpp
+	"Grafo.h"
+
+1682544298 d:\dsn\projetos\trabalhografos\include\grafo.h
+
+1682542453 source:d:\dsn\projetos\trabalhografos\src\no.cpp
+	"No.h"
+
+1682544462 d:\dsn\projetos\trabalhografos\include\no.h
+	<list>
+	<Aresta.h>
+
+1682542483 source:d:\dsn\projetos\trabalhografos\src\aresta.cpp
+	"Aresta.h"
+
+1682544391 d:\dsn\projetos\trabalhografos\include\aresta.h
+
