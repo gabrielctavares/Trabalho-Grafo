@@ -1,11 +1,58 @@
 #include "Grafo.h"
+#include <iostream>
+
+using namespace std;
 
 Grafo::Grafo()
 {
-    //ctor
+    //constrói grafo vazio
+    n = 0;
+    primeiro = NULL;
+}
+
+Grafo::Grafo(int num)
+{
+    //constrói grafo com o número de nós informado
+    n = 0;
+    primeiro = NULL;
+    for(int i=0; i<num; i++){
+        addNo(i+1);
+    }
 }
 
 Grafo::~Grafo()
 {
-    //dtor
+    cout << "Destruindo grafo" << endl;
+    No* aux;
+    while(primeiro!=NULL){
+        aux = primeiro;
+        primeiro = aux->getProxNo();
+        delete aux;
+        //deleta cada nó da lista de nós do grafo
+    }
+}
+
+void Grafo::addNo(int id)
+{
+    //confere se o id já está sendo usado por algum nó do grafo
+    for(No* aux = primeiro; aux!=NULL; aux = aux->getProxNo())
+        if(id == aux->getId())
+        {
+            cout << "Erro: id repetido!" << endl;
+            return;
+        }
+
+    No* no = new No(id); //inicializa um objeto do tipo nó
+    if(n==0)//se o grafo é vazio, o nó adicionado será o primeiro nó da lista
+    {
+        primeiro = no;
+    }
+    else
+    {
+        No* aux;
+        for(aux = primeiro; aux->getProxNo()!=NULL; aux = aux->getProxNo());//encontra o último nó na lista de nós do grafo
+        aux->setProxNo(no);//adiciona o nó no final da lista
+    }
+    //acrescenta 1 na quantidade de nós do grafo
+    n++;
 }

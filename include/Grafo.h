@@ -1,19 +1,24 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#import <No.h>
-#import <Aresta.h>
+#include "No.h"
+
 class Grafo
 {
+    private:
+        No *primeiro; //ponteiro para o primeiro nó da lista de nós do grafo
+        int n; //armazena a quantidade de nós que tem no grafo
+
     public:
         Grafo();
+        Grafo(int num);
         ~Grafo();
 
-        void addNo(No* no);
-        void removeNo(No* no);
-        //aqui ainda precisa da função de get e set do nó
-        void addArco(Aresta* aresta);
-        void removeArco(Aresta* aresta);
+        void addNo(int id); //adiciona nó com o id informado
+        void removeNo(int id); //remove o nó com o id informado
+
+        void addArco(int orig, int dest, float p);
+        void removeArco(int idNo, int idArc);
         //aqui ainda precisa da função de get e set da aresta
 
         bool ehAdjacente(No* x, No* y); // TODO: verificar se é isso mesmo
@@ -42,7 +47,6 @@ class Grafo
         void arestaPonte();
         void infografo();
         void AGM(); //muda o nome se necessário
-    private:
 };
 
 #endif // GRAFO_H

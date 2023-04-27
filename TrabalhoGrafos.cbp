@@ -34,9 +34,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Arco.h" />
 		<Unit filename="include/Grafo.h" />
+		<Unit filename="include/No.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Arco.cpp" />
 		<Unit filename="src/Grafo.cpp" />
+		<Unit filename="src/No.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
