@@ -15,7 +15,7 @@ class Grafo
         ~Grafo();
 
         void addNo(int id); //adiciona nó com o id informado
-        void removeNo(int id); //remove o nó com o id informado
+        void removeNo(int id); //remove o nó com o id informado (ainda não implementado)
 
         void addArco(int orig, int dest, float p);
         void removeArco(int idNo, int idArc);

@@ -56,3 +56,50 @@ void Grafo::addNo(int id)
     //acrescenta 1 na quantidade de nós do grafo
     n++;
 }
+
+void Grafo::removeNo(int id)
+{
+    if(n==0)
+        cout<<"ERRO: lista vazia!" << endl;
+    else
+    {
+        No* aux = primeiro;
+        for(No* aux2=NULL; aux!=NULL; aux2 = aux ,aux = aux->getProxNo())
+        {
+            if(id==aux->getId())
+            {
+                aux2->setProxNo(aux->getProxNo());
+                delete aux;
+                n--;
+                return;
+            }
+        }
+    }
+}
+
+void Grafo::addArco(int orig, int dest, float p)
+{
+    No* aux;
+    for(aux = primeiro; aux->getId()!=orig && aux!=NULL; aux = aux->getProxNo());
+    if(aux!=NULL)
+        aux->addArco(dest, p);
+    else
+        cout << "Erro: nó não está contido no grafo" << endl;
+}
+
+bool Grafo::ehMultigrafo()
+{
+    if(n==0)
+        return false; //se grafo é vazio, não é multigrafo
+
+    No* aux;
+    int* v = new int [n*2]; //vetor que contará o número de arcos incidentes em cada nó
+
+    for(int i=0; i<n*2; i++)
+        v[i] = 0;
+
+    for(aux = primeiro; aux!=NULL; aux=aux->getProxNo())
+        if(aux->temMultiarco(v, n*2))//verifica se o nó tem multiarco
+            return true;
+    return false;
+}

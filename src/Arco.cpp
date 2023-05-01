@@ -26,3 +26,13 @@ void Arco::setProxArc(Arco* arco)
 {
     proxArco = arco;
 }
+
+int Arco::getIdDest()
+{
+    return idDestino;
+}
+
+float Arco::getPesoArco()
+{
+    return pesoArco;
+}
