@@ -14,7 +14,7 @@ class No
         No(int n);
         ~No();
         void addArco(int idAdj, float p);
-        void removeArco();//ainda não implementado
+        void removeArco(int idDest);//ainda não implementado
         No* getProxNo();
         void setProxNo(No* no);
         int getId();

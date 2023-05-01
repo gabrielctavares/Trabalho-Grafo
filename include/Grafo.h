@@ -18,7 +18,7 @@ class Grafo
         void removeNo(int id); //remove o nó com o id informado (ainda não implementado)
 
         void addArco(int orig, int dest, float p);
-        void removeArco(int idNo, int idArc);
+        void removeArco(int idNo, int idDest);
         //aqui ainda precisa da função de get e set da aresta
 
         bool ehAdjacente(No* x, No* y); // TODO: verificar se é isso mesmo

@@ -87,6 +87,23 @@ void Grafo::addArco(int orig, int dest, float p)
         cout << "Erro: nó não está contido no grafo" << endl;
 }
 
+void Grafo::removeArco(int idNo, int idDest)
+{
+    if(n==0)
+    {
+        cout << "Erro: grafo vazio" << endl;
+        return;
+    }
+
+    No* aux;
+    for(aux = primeiro; aux!=NULL && aux->getId()!=idNo; aux=aux->getProxNo());
+
+    if(aux!=NULL)
+        aux->removeArco(idDest);
+    else
+        cout << "Erro: o grafo não possui esse nó" << endl;
+}
+
 bool Grafo::ehMultigrafo()
 {
     if(n==0)

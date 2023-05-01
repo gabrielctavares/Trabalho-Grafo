@@ -52,6 +52,29 @@ void No::addArco(int idAdj, float p)
         adjacentes = new Arco(idAdj, p);
 }
 
+void No::removeArco(int idDest)
+{
+    if(adjacentes==NULL)
+        return;
+
+    Arco* aux;
+    Arco* anterior = NULL;
+    for(aux = adjacentes; aux!=NULL && aux->getIdDest()!=idDest; aux=aux->getProxArc())
+        anterior = aux;
+
+    if(anterior==NULL)
+        adjacentes = aux->getProxArc();
+    else if(aux!=NULL)
+        anterior->setProxArc(aux->getProxArc());
+    else
+    {
+        cout << "Erro: o nó não possui esse arco" << endl;
+        return;
+    }
+
+    delete aux;
+}
+
 bool No::temMultiarco(int* v, int n)
 {
     if(adjacentes==NULL)//se nó não possui arcos, não tem multiarco
