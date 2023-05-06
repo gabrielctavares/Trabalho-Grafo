@@ -95,3 +95,10 @@ bool No::temMultiarco(int* v, int n)
     }
     return resultado;
 }
+
+void Grafo::getFechoTransDir(std::list<int> &fechoTransDir)
+{
+    if(adjacentes==NULL)
+        return;
+    Arco* adj = adjacentes;
+}

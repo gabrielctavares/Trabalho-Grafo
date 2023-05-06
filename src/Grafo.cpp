@@ -121,6 +121,11 @@ bool Grafo::ehMultigrafo()
     return false;
 }
 
+void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
+{
+    Arco* lista = no->getFechoTransDir();
+}
+
 list <int> Grafo::fechoTransDir(int idNo)
 {
     list <int> fTransDireto;
@@ -134,7 +139,6 @@ list <int> Grafo::fechoTransDir(int idNo)
     if(aux==NULL)
         return fTransDireto;
 
-    Arco* adj;
-    aux->getFechoTransDir(&fTransDireto);
+    auxFechoTransDir(aux, fTransDireto);
     return fTransDireto;
 }

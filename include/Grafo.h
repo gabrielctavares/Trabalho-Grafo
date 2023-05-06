@@ -9,6 +9,8 @@ class Grafo
         No *primeiro; //ponteiro para o primeiro nó da lista de nós do grafo
         int n; //armazena a quantidade de nós que tem no grafo
 
+        void auxFechoTransDir(No* no, list<int> &fTransDireto); //função auxiliar de fechoTransDir
+
     public:
         Grafo();
         Grafo(int num);

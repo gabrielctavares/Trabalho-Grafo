@@ -20,6 +20,8 @@ class No
         int getId();
 
         bool temMultiarco(int* v, int n); //usado pela função ehMultigrafo do TAD grafo
+
+        Arco* getFechoTransDir(std::list<int> &fechoTransDir);
 };
 
 #endif // NO_H
