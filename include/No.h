@@ -21,7 +21,7 @@ class No
 
         bool temMultiarco(int* v, int n); //usado pela função ehMultigrafo do TAD grafo
 
-        int* getAdjacentes(int nNos);
+        int* getAdjacentes(int nNos); //retorna um vetor com os id's dos nós adjacentes ao nó atual
 };
 
 #endif // NO_H

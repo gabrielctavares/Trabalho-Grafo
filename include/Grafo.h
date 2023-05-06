@@ -34,13 +34,13 @@ class Grafo
         void ordemGrafo();
         bool ehTrivial();
         bool ehNulo();
-        bool ehMultigrafo();
+        bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto();
         bool ehBipartido();
         void caminhoMinimo();
         void grauGrafo();
 
-        void fechoTransDir(int idNo, list <int> &fTransDireto); //preenche subconjunto de nós que podem ser "alcançados" a partir do nó com id idNo (a ser implementado)
+        void fechoTransDir(int idNo, list <int> &fTransDireto); //nós que podem ser "alcançados" a partir do nó com id idNo(incompleto)
         void fechoTransInd(int idNo); //retorna conjunto de nós que podem "alcançar" o nó com id idNo (a ser implementado)
         void seqGraus();
         void subgrafoInd();

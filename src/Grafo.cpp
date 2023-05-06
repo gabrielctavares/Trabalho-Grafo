@@ -146,6 +146,8 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 {
     if(n==0)
         return;
+    if(ehMultigrafo())
+        return;
 
     //precisa de função que verifica se o grafo é GAD, pois esse algoritmo não funciona se há ciclos
 
