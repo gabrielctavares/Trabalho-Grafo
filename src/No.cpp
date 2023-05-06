@@ -96,9 +96,18 @@ bool No::temMultiarco(int* v, int n)
     return resultado;
 }
 
-void Grafo::getFechoTransDir(std::list<int> &fechoTransDir)
+int* No::getAdjacentes(int nNos)
 {
     if(adjacentes==NULL)
-        return;
-    Arco* adj = adjacentes;
+        return NULL;
+    int* vet = new int [nNos-1];
+    int i;
+
+    for(Arco* aux=adjacentes, i=0; aux!=NULL && i<nNos-1; aux = aux->getProxArc(), i++)
+        vet[i] = aux->getIdDest();
+
+    for(; i<nNos-1; i++)
+        vet[i] = -1;
+
+    return vet;
 }

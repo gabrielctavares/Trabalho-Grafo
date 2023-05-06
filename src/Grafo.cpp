@@ -123,22 +123,38 @@ bool Grafo::ehMultigrafo()
 
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
 {
-    Arco* lista = no->getFechoTransDir();
+    //não funciona se grafo não é GAD
+    int* listaAdjacentes = no->getAdjacentes();
+
+    if(listaAdjacentes==NULL)
+        return;
+
+    for(int i=0; listaAdjacentes[i]!=-1; i++){
+        fTransDireto.push_back(listaAdjacentes[i]);
+        No* aux;
+        for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
+        auxFechoTransDir(aux, list<int> &fTransDireto);
+    }
+
+    fTransDireto.sort();
+    fTransDireto.unique();
+
+    delete listaAdjacentes;
 }
 
-list <int> Grafo::fechoTransDir(int idNo)
+void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 {
-    list <int> fTransDireto;
     if(n==0)
-        return fTransDireto;
+        return;
 
+    //precisa de função que verifica se o grafo é GAD, pois esse algoritmo não funciona se há ciclos
 
     No* aux;
     for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
 
     if(aux==NULL)
-        return fTransDireto;
+        return;
 
     auxFechoTransDir(aux, fTransDireto);
-    return fTransDireto;
+    return;
 }

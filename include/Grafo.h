@@ -40,7 +40,7 @@ class Grafo
         void caminhoMinimo();
         void grauGrafo();
 
-        list <int> fechoTransDir(int idNo); //retorna conjunto de nós que podem ser "alcançados" a partir do nó com id idNo (a ser implementado)
+        void fechoTransDir(int idNo, list <int> &fTransDireto); //preenche subconjunto de nós que podem ser "alcançados" a partir do nó com id idNo (a ser implementado)
         void fechoTransInd(int idNo); //retorna conjunto de nós que podem "alcançar" o nó com id idNo (a ser implementado)
         void seqGraus();
         void subgrafoInd();
