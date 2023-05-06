@@ -120,3 +120,21 @@ bool Grafo::ehMultigrafo()
             return true;
     return false;
 }
+
+list <int> Grafo::fechoTransDir(int idNo)
+{
+    list <int> fTransDireto;
+    if(n==0)
+        return fTransDireto;
+
+
+    No* aux;
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
+
+    if(aux==NULL)
+        return fTransDireto;
+
+    Arco* adj;
+    aux->getFechoTransDir(&fTransDireto);
+    return fTransDireto;
+}
