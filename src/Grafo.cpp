@@ -10,7 +10,7 @@ Grafo::Grafo()
     primeiro = NULL;
 }
 
-Grafo::Grafo(int num)
+Grafo::Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco)
 {
     //constrói grafo com o número de nós informado
     n = 0;

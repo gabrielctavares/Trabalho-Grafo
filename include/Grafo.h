@@ -13,7 +13,7 @@ class Grafo
 
     public:
         Grafo();
-        Grafo(int num);
+        Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
         ~Grafo();
 
         void addNo(int id); //adiciona nó com o id informado
