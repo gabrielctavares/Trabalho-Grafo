@@ -12,6 +12,15 @@ No::No(int n)
     adjacentes = NULL;
 }
 
+No::No(int n, float p)
+{
+    //construtor de nó sem peso
+    id = n;
+    peso = p;
+    proxNo = NULL;
+    adjacentes = NULL;
+}
+
 No::~No()
 {
     //destrutor
@@ -40,16 +49,23 @@ int No::getId()
     return id;
 }
 
-void No::addArco(int idAdj, float p)
+void No::addArco(int idAdj, float p, bool ehPondArc)
 {
+    Arco* novo;
+
+    //cria um novo arco que é ponderado ou não de acordo com o tipo de grafo
+    if(ehPondArc)
+        novo = new Arco(idAdj, p);
+    else
+        novo = new Arco(idAdj);
+
     if(adjacentes!=NULL){ //se o nó já possui arcos
         Arco* aux;
         for(aux = adjacentes; aux->getProxArc()!=NULL; aux = aux->getProxArc());//percorre a lista de adjacência até encontrar o último arco
-        Arco* novo = new Arco(idAdj, p);
-        aux->setProxArc(novo); //cria o novo arco
+        aux->setProxArc(novo);
     }
-    else
-        adjacentes = new Arco(idAdj, p);
+    else //se o nó não possui arcos
+        adjacentes = novo;
 }
 
 void No::removeArco(int idDest)
@@ -101,9 +117,9 @@ int* No::getAdjacentes(int nNos)
     if(adjacentes==NULL)
         return NULL;
     int* vet = new int [nNos-1];
-    int i;
+    int i=0;
 
-    for(Arco* aux=adjacentes, i=0; aux!=NULL && i<nNos-1; aux = aux->getProxArc(), i++)
+    for(Arco* aux=adjacentes; aux!=NULL && i<nNos-1; aux = aux->getProxArc(), i++)
         vet[i] = aux->getIdDest();
 
     for(; i<nNos-1; i++)

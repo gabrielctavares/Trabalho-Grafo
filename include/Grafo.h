@@ -8,15 +8,18 @@ class Grafo
     private:
         No *primeiro; //ponteiro para o primeiro nó da lista de nós do grafo
         int n; //armazena a quantidade de nós que tem no grafo
+        bool ehDigrafo;
+        bool ehPonderadoNo;
+        bool ehPonderadoArco;
 
-        void auxFechoTransDir(No* no, list<int> &fTransDireto); //função auxiliar de fechoTransDir
+        //void auxFechoTransDir(No* no, list<int> &fTransDireto); //função auxiliar de fechoTransDir
 
     public:
-        Grafo();
+        Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
         Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
         ~Grafo();
 
-        void addNo(int id); //adiciona nó com o id informado
+        void addNo(int id, float peso); //adiciona nó com o id informado
         void removeNo(int id); //remove o nó com o id informado
 
         void addArco(int orig, int dest, float p); //adiciona um arco do nó com id orig indo no nó com id dest
@@ -40,7 +43,7 @@ class Grafo
         void caminhoMinimo();
         void grauGrafo();
 
-        void fechoTransDir(int idNo, list <int> &fTransDireto); //nós que podem ser "alcançados" a partir do nó com id idNo(incompleto)
+        //void fechoTransDir(int idNo, list <int> &fTransDireto); //nós que podem ser "alcançados" a partir do nó com id idNo(incompleto)
         void fechoTransInd(int idNo); //retorna conjunto de nós que podem "alcançar" o nó com id idNo (a ser implementado)
         void seqGraus();
         void subgrafoInd();

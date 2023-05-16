@@ -12,8 +12,9 @@ class No
 
     public:
         No(int n);
+        No(int n, float p);
         ~No();
-        void addArco(int idAdj, float p);
+        void addArco(int idAdj, float p, bool ehPondArc);
         void removeArco(int idDest);//ainda não implementado
         No* getProxNo();
         void setProxNo(No* no);

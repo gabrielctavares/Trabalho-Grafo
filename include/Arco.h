@@ -10,6 +10,7 @@ class Arco
         Arco *proxArco; //ponteiro para o próximo arco na lista de adjacência
 
     public:
+        Arco(int dest);
         Arco(int dest, float p);
         ~Arco();
         Arco* getProxArc(); //get do próximo arco da lista de adjacência

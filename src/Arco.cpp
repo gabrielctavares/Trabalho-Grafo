@@ -3,6 +3,14 @@
 
 using namespace std;
 
+Arco::Arco(int dest)
+{
+    //construtor de arco não ponderado nas arestas
+    idDestino = dest;
+    pesoArco = 0;
+    proxArco = NULL;
+}
+
 Arco::Arco(int dest, float p)
 {
     //construtor

@@ -3,20 +3,30 @@
 
 using namespace std;
 
-Grafo::Grafo()
+Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
 {
     //constrói grafo vazio
     n = 0;
     primeiro = NULL;
+    ehDigrafo = ehDigraf;
+    ehPonderadoNo = ehPondNo;
+    ehPonderadoArco = ehPondArco;
 }
 
-Grafo::Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco)
+Grafo::Grafo(int num, bool ehDigraf, bool ehPondNo, bool ehPondArco)
 {
     //constrói grafo com o número de nós informado
     n = 0;
     primeiro = NULL;
-    for(int i=0; i<num; i++){
-        addNo(i+1);
+    ehDigrafo = ehDigraf;
+    ehPonderadoNo = ehPondNo;
+    ehPonderadoArco = ehPondArco;
+
+    if(!ehPondNo)
+    {
+        for(int i=0; i<num; i++){
+            addNo(i+1, 0);
+        }
     }
 }
 
@@ -32,7 +42,7 @@ Grafo::~Grafo()
     }
 }
 
-void Grafo::addNo(int id)
+void Grafo::addNo(int id, float peso)
 {
     //confere se o id já está sendo usado por algum nó do grafo
     for(No* aux = primeiro; aux!=NULL; aux = aux->getProxNo())
@@ -42,7 +52,11 @@ void Grafo::addNo(int id)
             return;
         }
 
-    No* no = new No(id); //inicializa um objeto do tipo nó
+    No* no;
+    if(ehPonderadoNo)
+        no = new No(id, peso); //inicializa um objeto do tipo nó para grafos ponderados no nó
+    else
+        no = new No(id); //inicializa um objeto do tipo nó para grafos não ponderados no nó
     if(n==0)//se o grafo é vazio, o nó adicionado será o primeiro nó da lista
     {
         primeiro = no;
@@ -82,7 +96,7 @@ void Grafo::addArco(int orig, int dest, float p)
     No* aux;
     for(aux = primeiro; aux->getId()!=orig && aux!=NULL; aux = aux->getProxNo());
     if(aux!=NULL)
-        aux->addArco(dest, p);
+        aux->addArco(dest, p, ehPonderadoArco);
     else
         cout << "Erro: nó não está contido no grafo" << endl;
 }
@@ -121,6 +135,7 @@ bool Grafo::ehMultigrafo()
     return false;
 }
 
+/*
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
 {
     //não funciona se grafo não é GAD
@@ -159,4 +174,4 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 
     auxFechoTransDir(aux, fTransDireto);
     return;
-}
+}*/
