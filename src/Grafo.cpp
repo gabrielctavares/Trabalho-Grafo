@@ -93,15 +93,33 @@ void Grafo::removeNo(int id)
 
 void Grafo::addArco(int orig, int dest, float p)
 {
-    No* aux;
-    for(aux = primeiro; aux->getId()!=orig && aux!=NULL; aux = aux->getProxNo());
-    if(aux!=NULL)
-        aux->addArco(dest, p, ehPonderadoArco);
-    else
+    No* auxOrig;
+    No* auxDest;
+
+    //verifica se o nó orig está contido no grafo
+    for(auxOrig = primeiro; auxOrig->getId()!=orig && auxOrig!=NULL; auxOrig = auxOrig->getProxNo());
+
+    if(auxOrig==NULL){
         cout << "Erro: nó não está contido no grafo" << endl;
+        return;
+    }
+
+    //verifica se o nó dest está contido no grafo
+    for(auxDest = primeiro; auxDest->getId()!=dest && auxDest!=NULL; auxDest = auxDest->getProxNo());
+
+    if(auxDest==NULL){
+        cout << "Erro: nó não está contido no grafo" << endl;
+        return;
+    }
+
+    auxOrig->addArco(dest, p, ehPonderadoArco);
+    if(!ehDigrafo){
+        //adiciona um arco saindo de dest e indo até orig em grafos não direcionados
+        auxDest->addArco(orig, p, ehPonderadoArco);
+    }
 }
 
-void Grafo::removeArco(int idNo, int idDest)
+void Grafo::removeArco(int idOrig, int idDest)
 {
     if(n==0)
     {
@@ -109,13 +127,29 @@ void Grafo::removeArco(int idNo, int idDest)
         return;
     }
 
-    No* aux;
-    for(aux = primeiro; aux!=NULL && aux->getId()!=idNo; aux=aux->getProxNo());
+    No* auxOrig;
+    for(auxOrig = primeiro; auxOrig!=NULL && auxOrig->getId()!=idOrig; auxOrig=auxOrig->getProxNo());
 
-    if(aux!=NULL)
-        aux->removeArco(idDest);
-    else
+    if(auxOrig==NULL)
+    {
         cout << "Erro: o grafo não possui esse nó" << endl;
+        return;
+    }
+
+    auxOrig->removeArco(idDest);
+    if(ehDigrafo)
+        return;
+
+    No* auxDest;
+    for(auxDest = primeiro; auxDest!=NULL && auxDest->getId()!=idDest; auxDest=auxDest->getProxNo());
+
+    if(auxDest==NULL)
+    {
+        cout << "Erro: o grafo não possui esse nó" << endl;
+        return;
+    }
+
+    auxDest->removeArco(idOrig);
 }
 
 bool Grafo::ehMultigrafo()
@@ -132,6 +166,7 @@ bool Grafo::ehMultigrafo()
     for(aux = primeiro; aux!=NULL; aux=aux->getProxNo())
         if(aux->temMultiarco(v, n*2))//verifica se o nó tem multiarco
             return true;
+
     return false;
 }
 

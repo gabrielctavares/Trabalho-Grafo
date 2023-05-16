@@ -23,7 +23,7 @@ class Grafo
         void removeNo(int id); //remove o nó com o id informado
 
         void addArco(int orig, int dest, float p); //adiciona um arco do nó com id orig indo no nó com id dest
-        void removeArco(int idNo, int idDest); //remove um arco do nó com id idNo indo no nó com id idDest
+        void removeArco(int idOrig, int idDest); //remove um arco do nó com id idNo indo no nó com id idDest
 
         bool ehAdjacente(No* x, No* y); // TODO: verificar se é isso mesmo
         //Gabi: acho melhor usar o id do nó, pois a main não deve ter acesso a endereço de nó
