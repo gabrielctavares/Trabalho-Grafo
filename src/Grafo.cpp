@@ -5,7 +5,7 @@ using namespace std;
 
 Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
 {
-    //constrói grafo vazio
+    //constrï¿½i grafo vazio
     n = 0;
     primeiro = NULL;
     ehDigrafo = ehDigraf;
@@ -15,7 +15,7 @@ Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
 
 Grafo::Grafo(int num, bool ehDigraf, bool ehPondNo, bool ehPondArco)
 {
-    //constrói grafo com o número de nós informado
+    //constrï¿½i grafo com o nï¿½mero de nï¿½s informado
     n = 0;
     primeiro = NULL;
     ehDigrafo = ehDigraf;
@@ -38,13 +38,13 @@ Grafo::~Grafo()
         aux = primeiro;
         primeiro = aux->getProxNo();
         delete aux;
-        //deleta cada nó da lista de nós do grafo
+        //deleta cada nï¿½ da lista de nï¿½s do grafo
     }
 }
 
 void Grafo::addNo(int id, float peso)
 {
-    //confere se o id já está sendo usado por algum nó do grafo
+    //confere se o id jï¿½ estï¿½ sendo usado por algum nï¿½ do grafo
     for(No* aux = primeiro; aux!=NULL; aux = aux->getProxNo())
         if(id == aux->getId())
         {
@@ -54,20 +54,20 @@ void Grafo::addNo(int id, float peso)
 
     No* no;
     if(ehPonderadoNo)
-        no = new No(id, peso); //inicializa um objeto do tipo nó para grafos ponderados no nó
+        no = new No(id, peso); //inicializa um objeto do tipo nï¿½ para grafos ponderados no nï¿½
     else
-        no = new No(id); //inicializa um objeto do tipo nó para grafos não ponderados no nó
-    if(n==0)//se o grafo é vazio, o nó adicionado será o primeiro nó da lista
+        no = new No(id); //inicializa um objeto do tipo nï¿½ para grafos nï¿½o ponderados no nï¿½
+    if(n==0)//se o grafo ï¿½ vazio, o nï¿½ adicionado serï¿½ o primeiro nï¿½ da lista
     {
         primeiro = no;
     }
     else
     {
         No* aux;
-        for(aux = primeiro; aux->getProxNo()!=NULL; aux = aux->getProxNo());//encontra o último nó na lista de nós do grafo
-        aux->setProxNo(no);//adiciona o nó no final da lista
+        for(aux = primeiro; aux->getProxNo()!=NULL; aux = aux->getProxNo());//encontra o ï¿½ltimo nï¿½ na lista de nï¿½s do grafo
+        aux->setProxNo(no);//adiciona o nï¿½ no final da lista
     }
-    //acrescenta 1 na quantidade de nós do grafo
+    //acrescenta 1 na quantidade de nï¿½s do grafo
     n++;
 }
 
@@ -96,25 +96,25 @@ void Grafo::addArco(int orig, int dest, float p)
     No* auxOrig;
     No* auxDest;
 
-    //verifica se o nó orig está contido no grafo
+    //verifica se o nï¿½ orig estï¿½ contido no grafo
     for(auxOrig = primeiro; auxOrig->getId()!=orig && auxOrig!=NULL; auxOrig = auxOrig->getProxNo());
 
     if(auxOrig==NULL){
-        cout << "Erro: nó não está contido no grafo" << endl;
+        cout << "Erro: nï¿½ nï¿½o estï¿½ contido no grafo" << endl;
         return;
     }
 
-    //verifica se o nó dest está contido no grafo
+    //verifica se o nï¿½ dest estï¿½ contido no grafo
     for(auxDest = primeiro; auxDest->getId()!=dest && auxDest!=NULL; auxDest = auxDest->getProxNo());
 
     if(auxDest==NULL){
-        cout << "Erro: nó não está contido no grafo" << endl;
+        cout << "Erro: nï¿½ nï¿½o estï¿½ contido no grafo" << endl;
         return;
     }
 
     auxOrig->addArco(dest, p, ehPonderadoArco);
     if(!ehDigrafo){
-        //adiciona um arco saindo de dest e indo até orig em grafos não direcionados
+        //adiciona um arco saindo de dest e indo atï¿½ orig em grafos nï¿½o direcionados
         auxDest->addArco(orig, p, ehPonderadoArco);
     }
 }
@@ -132,7 +132,7 @@ void Grafo::removeArco(int idOrig, int idDest)
 
     if(auxOrig==NULL)
     {
-        cout << "Erro: o grafo não possui esse nó" << endl;
+        cout << "Erro: o grafo nï¿½o possui esse nï¿½" << endl;
         return;
     }
 
@@ -145,7 +145,7 @@ void Grafo::removeArco(int idOrig, int idDest)
 
     if(auxDest==NULL)
     {
-        cout << "Erro: o grafo não possui esse nó" << endl;
+        cout << "Erro: o grafo nï¿½o possui esse nï¿½" << endl;
         return;
     }
 
@@ -155,16 +155,16 @@ void Grafo::removeArco(int idOrig, int idDest)
 bool Grafo::ehMultigrafo()
 {
     if(n==0)
-        return false; //se grafo é vazio, não é multigrafo
+        return false; //se grafo ï¿½ vazio, nï¿½o ï¿½ multigrafo
 
     No* aux;
-    int* v = new int [n*2]; //vetor que contará o número de arcos incidentes em cada nó
+    int* v = new int [n*2]; //vetor que contarï¿½ o nï¿½mero de arcos incidentes em cada nï¿½
 
     for(int i=0; i<n*2; i++)
         v[i] = 0;
 
     for(aux = primeiro; aux!=NULL; aux=aux->getProxNo())
-        if(aux->temMultiarco(v, n*2))//verifica se o nó tem multiarco
+        if(aux->temMultiarco(v, n*2))//verifica se o nï¿½ tem multiarco
             return true;
 
     return false;
@@ -173,7 +173,7 @@ bool Grafo::ehMultigrafo()
 /*
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
 {
-    //não funciona se grafo não é GAD
+    //nï¿½o funciona se grafo nï¿½o ï¿½ GAD
     int* listaAdjacentes = no->getAdjacentes();
 
     if(listaAdjacentes==NULL)
@@ -199,7 +199,7 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
     if(ehMultigrafo())
         return;
 
-    //precisa de função que verifica se o grafo é GAD, pois esse algoritmo não funciona se há ciclos
+    //precisa de funï¿½ï¿½o que verifica se o grafo ï¿½ GAD, pois esse algoritmo nï¿½o funciona se hï¿½ ciclos
 
     No* aux;
     for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
@@ -210,3 +210,26 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
     auxFechoTransDir(aux, fTransDireto);
     return;
 }*/
+
+
+void Grafo::vizAberto(No* no,int nNos){
+
+    int* vetAberta = new int[nNos-1];
+    vetAberta = no->getAdjacentes(nNos);
+
+    cout << vetAberta << endl;
+}
+
+void Grafo::vizFechado(No* no, int nNos){
+
+    int* vetFechada = new int[nNos];
+    vetFechada = no->getAdjacentes(nNos);
+    int x = sizeof(vetFechada);
+    vetFechada[x+1] = no->getId();
+
+    cout << vetFechada << endl;
+}
+
+void Grafo::leituraArquivo(){
+
+}
