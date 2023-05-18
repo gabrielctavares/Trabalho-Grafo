@@ -230,6 +230,30 @@ void Grafo::vizFechado(No* no, int nNos){
     cout << vetFechada << endl;
 }
 
-void Grafo::leituraArquivo(){
+void Grafo::leituraArquivo(string database_name){
+    
+    this->arquivo_nome = database_name + ".txt";
+
+    int* leitura_id = new int[100];
+    int* leitura_adj = new int[100];
+    int* leitura_peso =  new int[100];
+    int x;
+
+    FILE *arq;
+    arq = fopen("arquivo_nome.txt","rt");
+
+    if(arq == nullptr){
+        cout << "problemas na abertura do arquivo" << endl;
+    }
+
+    fscanf(arq, "%d", &x);
+    this-> n = x;
+
+    while(!feof(arq)){
+        for(int i=0;i<100;i++){
+            fscanf(arq, "%d %d %d", &leitura_id[i], &leitura_adj[i], &leitura_peso[i]);
+        }
+    }
+
 
 }

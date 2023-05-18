@@ -6,33 +6,34 @@
 class Grafo
 {
     private:
-        No *primeiro; //ponteiro para o primeiro nó da lista de nós do grafo
-        int n; //armazena a quantidade de nós que tem no grafo
+        No *primeiro; //ponteiro para o primeiro nï¿½ da lista de nï¿½s do grafo
+        int n; //armazena a quantidade de nï¿½s que tem no grafo
         bool ehDigrafo;
         bool ehPonderadoNo;
         bool ehPonderadoArco;
+        string arquivo_nome;
 
-        //void auxFechoTransDir(No* no, list<int> &fTransDireto); //função auxiliar de fechoTransDir
+        //void auxFechoTransDir(No* no, list<int> &fTransDireto); //funï¿½ï¿½o auxiliar de fechoTransDir
 
     public:
         Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
         Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
         ~Grafo();
 
-        void addNo(int id, float peso); //adiciona nó com o id informado
-        void removeNo(int id); //remove o nó com o id informado
+        void addNo(int id, float peso); //adiciona nï¿½ com o id informado
+        void removeNo(int id); //remove o nï¿½ com o id informado
 
-        void addArco(int orig, int dest, float p); //adiciona um arco do nó com id orig indo no nó com id dest
-        void removeArco(int idOrig, int idDest); //remove um arco do nó com id idNo indo no nó com id idDest
+        void addArco(int orig, int dest, float p); //adiciona um arco do nï¿½ com id orig indo no nï¿½ com id dest
+        void removeArco(int idOrig, int idDest); //remove um arco do nï¿½ com id idNo indo no nï¿½ com id idDest
 
-        bool ehAdjacente(No* x, No* y); // TODO: verificar se é isso mesmo
-        //Gabi: acho melhor usar o id do nó, pois a main não deve ter acesso a endereço de nó
+        bool ehAdjacente(No* x, No* y); // TODO: verificar se ï¿½ isso mesmo
+        //Gabi: acho melhor usar o id do nï¿½, pois a main nï¿½o deve ter acesso a endereï¿½o de nï¿½
         //bool ehAdjacente(int id1, int id2);
 
-        void vizAberto(); //TODO: colocar os parametros/retorno da função
-        void vizFechado(); //TODO: colocar os parametros/retorno da função
+        void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
+        void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
         int grauNo(No* no);
-        void leituraArquivo(); //TODO: colocar os parametros/retorno da função
+        void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
         void kRegular();
         void ordemGrafo();
         bool ehTrivial();
@@ -43,8 +44,8 @@ class Grafo
         void caminhoMinimo();
         void grauGrafo();
 
-        //void fechoTransDir(int idNo, list <int> &fTransDireto); //nós que podem ser "alcançados" a partir do nó com id idNo(incompleto)
-        void fechoTransInd(int idNo); //retorna conjunto de nós que podem "alcançar" o nó com id idNo (a ser implementado)
+        //void fechoTransDir(int idNo, list <int> &fTransDireto); //nï¿½s que podem ser "alcanï¿½ados" a partir do nï¿½ com id idNo(incompleto)
+        void fechoTransInd(int idNo); //retorna conjunto de nï¿½s que podem "alcanï¿½ar" o nï¿½ com id idNo (a ser implementado)
         void seqGraus();
         void subgrafoInd();
         void complementGrafo();
@@ -53,7 +54,7 @@ class Grafo
         No* noArt();
         void arestaPonte();
         void infografo();
-        void AGM(); //muda o nome se necessário
+        void AGM(); //muda o nome se necessï¿½rio
 };
 
 #endif // GRAFO_H
