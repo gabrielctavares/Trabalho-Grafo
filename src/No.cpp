@@ -5,7 +5,7 @@ using namespace std;
 
 No::No(int n)
 {
-    //construtor de nó sem peso
+    //construtor de nï¿½ sem peso
     id = n;
     peso = 0;
     proxNo = NULL;
@@ -14,7 +14,7 @@ No::No(int n)
 
 No::No(int n, float p)
 {
-    //construtor de nó sem peso
+    //construtor de nï¿½ sem peso
     id = n;
     peso = p;
     proxNo = NULL;
@@ -30,7 +30,7 @@ No::~No()
         aux = adjacentes;
         adjacentes = aux->getProxArc();
         delete aux;
-        //deleta cada arco da lista de adjacência do nó
+        //deleta cada arco da lista de adjacï¿½ncia do nï¿½
     }
 }
 
@@ -53,18 +53,18 @@ void No::addArco(int idAdj, float p, bool ehPondArc)
 {
     Arco* novo;
 
-    //cria um novo arco que é ponderado ou não de acordo com o tipo de grafo
+    //cria um novo arco que ï¿½ ponderado ou nï¿½o de acordo com o tipo de grafo
     if(ehPondArc)
         novo = new Arco(idAdj, p);
     else
         novo = new Arco(idAdj);
 
-    if(adjacentes!=NULL){ //se o nó já possui arcos
+    if(adjacentes!=NULL){ //se o nï¿½ jï¿½ possui arcos
         Arco* aux;
-        for(aux = adjacentes; aux->getProxArc()!=NULL; aux = aux->getProxArc());//percorre a lista de adjacência até encontrar o último arco
+        for(aux = adjacentes; aux->getProxArc()!=NULL; aux = aux->getProxArc());//percorre a lista de adjacï¿½ncia atï¿½ encontrar o ï¿½ltimo arco
         aux->setProxArc(novo);
     }
-    else //se o nó não possui arcos
+    else //se o nï¿½ nï¿½o possui arcos
         adjacentes = novo;
 }
 
@@ -84,7 +84,7 @@ void No::removeArco(int idDest)
         anterior->setProxArc(aux->getProxArc());
     else
     {
-        cout << "Erro: o nó não possui esse arco" << endl;
+        cout << "Erro: o nï¿½ nï¿½o possui esse arco" << endl;
         return;
     }
 
@@ -93,7 +93,7 @@ void No::removeArco(int idDest)
 
 bool No::temMultiarco(int* v, int n)
 {
-    if(adjacentes==NULL)//se nó não possui arcos, não tem multiarco
+    if(adjacentes==NULL)//se nï¿½ nï¿½o possui arcos, nï¿½o tem multiarco
         return false;
 
     Arco* aux;
@@ -101,13 +101,13 @@ bool No::temMultiarco(int* v, int n)
 
     for(aux = adjacentes; aux!=NULL; aux = aux->getProxArc()){
         int arc = aux->getIdDest();
-        v[arc-1]++;//marca os nós que são destinos dos arcos que saem do nó atual
+        v[arc-1]++;//marca os nï¿½s que sï¿½o destinos dos arcos que saem do nï¿½ atual
     }
 
     for(int i=0; i<n; i++){
-        if(v[i]>1)//se há repetição de destino, há multiarco
+        if(v[i]>1)//se hï¿½ repetiï¿½ï¿½o de destino, hï¿½ multiarco
             resultado = true;
-        v[i]=0;//zera o vetor para não afetar a verificação no próximo nó do grafo
+        v[i]=0;//zera o vetor para nï¿½o afetar a verificaï¿½ï¿½o no prï¿½ximo nï¿½ do grafo
     }
     return resultado;
 }
@@ -126,4 +126,14 @@ int* No::getAdjacentes(int nNos)
         vet[i] = -1;
 
     return vet;
+}
+
+void No::setCor(int x){
+
+    cor = x;
+}
+
+int No::getCor(){
+
+    return cor;
 }
