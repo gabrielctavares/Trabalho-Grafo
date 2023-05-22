@@ -137,3 +137,36 @@ int No::getCor(){
 
     return cor;
 }
+
+int No::grauSaida(){
+
+    int numGrau = 0;
+    for (Arco* aux = adjacentes; aux != NULL; aux = aux -> getProxArc())
+    {
+        numGrau++;
+    }
+    return numGrau;
+}
+
+bool No::ehEntrada (int id){
+
+    for(Arco* aux = adjacentes; aux != NULL; aux = aux -> getProxArc())
+    {
+        if(aux -> getIdDest() == id) // Verifica se o no em questao tem arco direcionado para o no cujo id foi passado
+        return true;
+    }
+    return false;
+}
+
+int No::grauEntrada(){
+    
+    int grauEnt = 0;
+    for(No* auxEnt = primeiro; auxEnt != NULL; auxEnt = auxEnt -> getProxNo())
+    {
+        if (auxEnt -> getId() != this->getId()) // Nao verifica o proprio no pois nao tem self loop
+        {
+            grauEnt += auxEnt -> ehEntrada(this->getId()); //Sempre que eh entrada de algum no, incrementa em 1(pois n tem multiarco)
+        }
+    }
+    return grauEnt;
+}

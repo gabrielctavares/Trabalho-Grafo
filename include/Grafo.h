@@ -32,21 +32,21 @@ class Grafo
 
         void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
-        int grauNo(No* no);
+        int grauNo(int id); // Davi: implementado
         void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
-        void kRegular();
+        bool verificaK(); // Davi: implementado
         void ordemGrafo();
         bool ehTrivial();
         bool ehNulo();
         bool ehMultigrafo(); //Gabi: implementado
-        bool ehCompleto();
+        bool ehCompleto(); // Davi: implementado
         bool ehBipartido();
         void caminhoMinimo();
         void grauGrafo();
 
         //void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
         void fechoTransInd(int idNo); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
-        void seqGraus();
+        void seqGraus(); // Davi: implementado
         void subgrafoInd();
         void complementGrafo();
         void compFortConex();

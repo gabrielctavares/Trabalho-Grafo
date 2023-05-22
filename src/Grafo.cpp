@@ -292,3 +292,96 @@ bool Grafo::ehBipartido(int nNos, No* no){
 
     return ehBipartido;
 }
+
+int Grafo::grauNo(int id){
+
+    No* auxNo;
+    for(auxNo = primeiro; auxNo != NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(auxNo->getId() == id)
+        break;
+    }
+    
+    if(auxNo == NULL)
+    {
+        cout << "Erro! Id de no invalido"<<endl;
+        return -1;
+    }
+    
+    if(ehDigrafo) // Se e digrafo imprime o grau de entrada e de saida
+    {
+        cout << "Grau de entrada do no " << auxNo -> getId() << ": " << auxNo -> grauEntrada()<< endl;
+        cout << "Grau de saida do no ";
+    }
+    else
+        cout << "Grau do no ";
+        
+    cout << auxNo -> getId() << ": " auxNo -> grauSaida() << endl;
+    return auxNo -> grauSaida(); // Retorna o grau do no, e para digrafos retorna o grau de saida do no
+}
+
+bool Grafo::verificaK (int k){
+
+    if (n == 0)
+    {
+        cout << "Grafo nulo" <<endl;
+        return false;
+    }
+
+    for(No* aux = primeiro; aux != NULL; aux = aux -> getProxNo())
+    {
+        if(grauNo(aux->getId()) != k)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Grafo::ehCompleto()
+{
+    if (n == 0)
+    {
+        cout << "Grafo nulo" <<endl;
+        return false;
+    }
+    else
+        return verificaK(n-1);
+}
+
+void Grafo::seqGraus()
+{
+    if (n == 0)
+    {
+        cout << "Grafo nulo" <<endl;
+        return;
+    }
+        
+    int seq[n], t = 0, aux;
+        
+    for(No* auxNo = primeiro; auxNo!= NULL; auxNo = auxNo -> getProxNo())
+    {
+            seq[t] = grauNo(auxNo -> getId());
+            t++;
+    }
+    
+    cout << "<";
+    
+    for(int i=0; i<n; i++)
+    {
+        for (int j = i+1; j<n; j++)
+        {
+            if(seq[j] < seq[i])
+            {
+                aux = seq[i];
+                seq[i] = seq[j];
+                seq[j] = aux;
+            }
+        }
+        if(i != n-1)
+            cout << seq[i] << ", ";
+        else
+            cout << seq[i] << ">" << endl;
+    }
+}
+
