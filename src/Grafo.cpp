@@ -178,11 +178,10 @@ bool Grafo::ehMultigrafo()
     return false;
 }
 
-/*
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
 {
     //n�o funciona se grafo n�o � GAD
-    int* listaAdjacentes = no->getAdjacentes();
+    int* listaAdjacentes = no->getAdjacentes(n);
 
     if(listaAdjacentes==NULL)
         return;
@@ -191,7 +190,7 @@ void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
         fTransDireto.push_back(listaAdjacentes[i]);
         No* aux;
         for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
-        auxFechoTransDir(aux, list<int> &fTransDireto);
+        auxFechoTransDir(aux, fTransDireto);
     }
 
     fTransDireto.sort();
@@ -217,8 +216,7 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 
     auxFechoTransDir(aux, fTransDireto);
     return;
-}*/
-
+}
 
 void Grafo::vizAberto(No* no,int nNos){
 
@@ -264,8 +262,6 @@ void Grafo::leituraArquivo(string database_name){
         }
     }
 }
-
-
 
 bool Grafo::auxBipartido(int nNos,No* no){
 

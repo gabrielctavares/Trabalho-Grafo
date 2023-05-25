@@ -3,6 +3,8 @@
 
 #include "No.h"
 #include <string>
+#include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,7 +18,7 @@ class Grafo
         bool ehPonderadoArco;
         string arquivo_nome;
 
-        //void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
+        void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
         bool auxBipartido(int nNos,No* no);
 
     public:
@@ -48,7 +50,7 @@ class Grafo
         void caminhoMinimo();
         void grauGrafo();
 
-        //void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
+        void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
         void fechoTransInd(int idNo); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
