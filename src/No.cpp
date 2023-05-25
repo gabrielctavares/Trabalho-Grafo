@@ -1,5 +1,12 @@
 #include "No.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+#include <chrono>
+#include <bits/stdc++.h>
+#include <iterator>
+#include <list>
 
 using namespace std;
 
@@ -133,7 +140,7 @@ void No::setCor(int x){
     cor = x;
 }
 
-int No::getCor(){
+int No::getCor(No* n){
 
     return cor;
 }
@@ -158,8 +165,8 @@ bool No::ehEntrada (int id){
     return false;
 }
 
-int No::grauEntrada(){
-    
+int No::grauEntrada(No* primeiro){
+
     int grauEnt = 0;
     for(No* auxEnt = primeiro; auxEnt != NULL; auxEnt = auxEnt -> getProxNo())
     {

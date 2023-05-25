@@ -2,6 +2,8 @@
 #define GRAFO_H
 
 #include "No.h"
+#include <string>
+
 
 class Grafo
 {
@@ -11,9 +13,11 @@ class Grafo
         bool ehDigrafo;
         bool ehPonderadoNo;
         bool ehPonderadoArco;
-        string arquivo_nome;
+        //string arquivo_nome;
+        //ta tendo problema com essa linha e eu não sei pq
 
         //void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
+        bool auxBipartido(int nNos,No* no);
 
     public:
         Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
@@ -33,14 +37,15 @@ class Grafo
         void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         int grauNo(int id); // Davi: implementado
-        void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
-        bool verificaK(); // Davi: implementado
+        //void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
+        //Ta tendo problema com string e eu não sei pq
+        bool verificaK(int k); // Davi: implementado
         void ordemGrafo();
         bool ehTrivial();
         bool ehNulo();
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
-        bool ehBipartido();
+        bool ehBipartido(int nNos, No* no);
         void caminhoMinimo();
         void grauGrafo();
 

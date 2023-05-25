@@ -1,5 +1,13 @@
 #include "Grafo.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+#include <chrono>
+#include <bits/stdc++.h>
+#include <iterator>
+#include <list>
+#include <string>
 
 using namespace std;
 
@@ -230,8 +238,9 @@ void Grafo::vizFechado(No* no, int nNos){
     cout << vetFechada << endl;
 }
 
+/*
 void Grafo::leituraArquivo(string database_name){
-    
+
     this->arquivo_nome = database_name + ".txt";
 
     int* leitura_id = new int[100];
@@ -255,20 +264,22 @@ void Grafo::leituraArquivo(string database_name){
         }
     }
 }
+*/
 
+/*
 bool Grafo::auxBipartido(int nNos,No* no){
 
     no->setCor(1);
     int* adj = new int[nNos];
-    
+
     while(no->getProxNo()!=nullptr){
-        adj = no->getAdjacentes();
+        adj = no->getAdjacentes(n);
         for(int i=1;i<sizeof(adj);i++){
             if(no->getCor()==0)
-                
+
         }
         if(no.getCor()==0){
-            
+
         }else{
             for(int j=0;j<sizeof(adj);j++)
                 adj[i].setCor(0);
@@ -278,13 +289,15 @@ bool Grafo::auxBipartido(int nNos,No* no){
 
 
 }
+*/
 
+/*
 bool Grafo::ehBipartido(int nNos, No* no){
     /* associamos cada cor a uma coloração
     SEM COR = -1;
     AZUL = 0;
     VERMELHO = 1;*/
-    
+/*
     while(no->getProxNo()!=nullptr)
         no->setCor(-1);
 
@@ -292,6 +305,7 @@ bool Grafo::ehBipartido(int nNos, No* no){
 
     return ehBipartido;
 }
+*/
 
 int Grafo::grauNo(int id){
 
@@ -301,22 +315,22 @@ int Grafo::grauNo(int id){
         if(auxNo->getId() == id)
         break;
     }
-    
+
     if(auxNo == NULL)
     {
         cout << "Erro! Id de no invalido"<<endl;
         return -1;
     }
-    
+
     if(ehDigrafo) // Se e digrafo imprime o grau de entrada e de saida
     {
-        cout << "Grau de entrada do no " << auxNo -> getId() << ": " << auxNo -> grauEntrada()<< endl;
+        cout << "Grau de entrada do no " << auxNo -> getId() << ": " << auxNo -> grauEntrada(primeiro)<< endl;
         cout << "Grau de saida do no ";
     }
     else
         cout << "Grau do no ";
-        
-    cout << auxNo -> getId() << ": " auxNo -> grauSaida() << endl;
+
+    cout << auxNo -> getId() << ": " << auxNo -> grauSaida() << endl;
     return auxNo -> grauSaida(); // Retorna o grau do no, e para digrafos retorna o grau de saida do no
 }
 
@@ -356,17 +370,17 @@ void Grafo::seqGraus()
         cout << "Grafo nulo" <<endl;
         return;
     }
-        
+
     int seq[n], t = 0, aux;
-        
+
     for(No* auxNo = primeiro; auxNo!= NULL; auxNo = auxNo -> getProxNo())
     {
             seq[t] = grauNo(auxNo -> getId());
             t++;
     }
-    
+
     cout << "<";
-    
+
     for(int i=0; i<n; i++)
     {
         for (int j = i+1; j<n; j++)

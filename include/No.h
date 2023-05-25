@@ -23,10 +23,10 @@ class No
         void setCor(int x);
         int getCor(No* n);
         int grauSaida();
-        int grauEntrada();
+        int grauEntrada(No* primeiro);
 
 
-        bool ehEntrada (int id); // usado pela função grauEntrada 
+        bool ehEntrada (int id); // usado pela função grauEntrada
 
         bool temMultiarco(int* v, int n); //usado pela fun��o ehMultigrafo do TAD grafo
 
