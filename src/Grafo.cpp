@@ -238,7 +238,7 @@ void Grafo::vizFechado(No* no, int nNos){
     cout << vetFechada << endl;
 }
 
-/*
+
 void Grafo::leituraArquivo(string database_name){
 
     this->arquivo_nome = database_name + ".txt";
@@ -264,9 +264,9 @@ void Grafo::leituraArquivo(string database_name){
         }
     }
 }
-*/
 
-/*
+
+
 bool Grafo::auxBipartido(int nNos,No* no){
 
     no->setCor(1);
@@ -275,37 +275,34 @@ bool Grafo::auxBipartido(int nNos,No* no){
     while(no->getProxNo()!=nullptr){
         adj = no->getAdjacentes(n);
         for(int i=1;i<sizeof(adj);i++){
-            if(no->getCor()==0)
+            if(no->getCor()==0){
 
-        }
-        if(no.getCor()==0){
+            }
+            if(no->getCor()==0){
 
-        }else{
-            for(int j=0;j<sizeof(adj);j++)
-                adj[i].setCor(0);
+            }
+            else{
+                for(int j=0;j<sizeof(adj);j++);
+                //adj[i].setCor(0);
+            }
         }
     }
-
-
-
 }
-*/
 
-/*
+
 bool Grafo::ehBipartido(int nNos, No* no){
     /* associamos cada cor a uma coloração
     SEM COR = -1;
     AZUL = 0;
     VERMELHO = 1;*/
-/*
+
     while(no->getProxNo()!=nullptr)
         no->setCor(-1);
 
-    ehBipartido = auxBipartido(nNos,no);
+    bool ehBipart = auxBipartido(nNos,no);
 
-    return ehBipartido;
+    return ehBipart;
 }
-*/
 
 int Grafo::grauNo(int id){
 

@@ -21,7 +21,7 @@ class No
         void setProxNo(No* no);
         int getId();
         void setCor(int x);
-        int getCor(No* n);
+        int getCor();
         int grauSaida();
         int grauEntrada(No* primeiro);
 

@@ -4,6 +4,7 @@
 #include "No.h"
 #include <string>
 
+using namespace std;
 
 class Grafo
 {
@@ -13,8 +14,7 @@ class Grafo
         bool ehDigrafo;
         bool ehPonderadoNo;
         bool ehPonderadoArco;
-        //string arquivo_nome;
-        //ta tendo problema com essa linha e eu não sei pq
+        string arquivo_nome;
 
         //void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
         bool auxBipartido(int nNos,No* no);
@@ -37,8 +37,7 @@ class Grafo
         void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         int grauNo(int id); // Davi: implementado
-        //void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
-        //Ta tendo problema com string e eu não sei pq
+        void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
         bool verificaK(int k); // Davi: implementado
         void ordemGrafo();
         bool ehTrivial();

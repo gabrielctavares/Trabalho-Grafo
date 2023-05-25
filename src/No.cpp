@@ -140,7 +140,7 @@ void No::setCor(int x){
     cor = x;
 }
 
-int No::getCor(No* n){
+int No::getCor(){
 
     return cor;
 }
