@@ -19,11 +19,59 @@
 
 1682544391 d:\dsn\projetos\trabalhografos\include\aresta.h
 
-1584205420 source:d:\dsn\projetos\trabalho-grafo\main.cpp
+1685133423 source:d:\dsn\projetos\trabalho-grafo\main.cpp
 	<iostream>
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
 
-1682542368 source:d:\dsn\projetos\trabalho-grafo\src\grafo.cpp
+1685132291 source:d:\dsn\projetos\trabalho-grafo\src\grafo.cpp
 	"Grafo.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+	<string>
 
-1682544298 d:\dsn\projetos\trabalho-grafo\include\grafo.h
+1685132291 d:\dsn\projetos\trabalho-grafo\include\grafo.h
+	"No.h"
+	<string>
+	<list>
+	<algorithm>
+
+1685132291 source:d:\dsn\projetos\trabalho-grafo\src\arco.cpp
+	"Arco.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+
+1685132291 d:\dsn\projetos\trabalho-grafo\include\arco.h
+
+1685132291 d:\dsn\projetos\trabalho-grafo\include\no.h
+	"Arco.h"
+
+1685132291 source:d:\dsn\projetos\trabalho-grafo\src\no.cpp
+	"No.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
 

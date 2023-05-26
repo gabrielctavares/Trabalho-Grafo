@@ -10,8 +10,9 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-    cout << "Hello world!" << endl;
+    cout << argc << endl;
+    cout << "Hello world! " << argv[0] << " " << argv[1] << endl;
     return 0;
 }
