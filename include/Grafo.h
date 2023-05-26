@@ -16,7 +16,6 @@ class Grafo
         bool ehDigrafo;
         bool ehPonderadoNo;
         bool ehPonderadoArco;
-        string arquivo_nome;
 
         void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
         bool auxBipartido(int nNos,No* no);
@@ -39,11 +38,11 @@ class Grafo
         void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         int grauNo(int id); // Davi: implementado
-        void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da fun��o
+        void leituraArquivo(); //TODO: colocar os parametros/retorno da fun��o
         bool verificaK(int k); // Davi: implementado
-        void ordemGrafo();
-        bool ehTrivial();
-        bool ehNulo();
+        int ordemGrafo(); // Gabriel: implementado;
+        bool ehTrivial(); // Gabriel: implementado; 
+        bool ehNulo(); // Gabriel: implementado;
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
         bool ehBipartido(int nNos, No* no);

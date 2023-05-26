@@ -119,7 +119,12 @@ bool No::temMultiarco(int* v, int n)
     return resultado;
 }
 
-int* No::getAdjacentes(int nNos)
+Arco *No::getAdjacentes()
+{
+    return this->adjacentes;
+}
+
+int *No::getAdjacentes(int nNos)
 {
     if(adjacentes==NULL)
         return NULL;

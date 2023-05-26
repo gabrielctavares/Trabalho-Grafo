@@ -237,9 +237,8 @@ void Grafo::vizFechado(No* no, int nNos){
 }
 
 
-void Grafo::leituraArquivo(string database_name){
-
-    this->arquivo_nome = database_name + ".txt";
+void Grafo::leituraArquivo(){
+    char* arquivo_nome = __argv[1] + '.txt';
 
     int* leitura_id = new int[100];
     int* leitura_adj = new int[100];
@@ -247,7 +246,7 @@ void Grafo::leituraArquivo(string database_name){
     int x;
 
     FILE *arq;
-    arq = fopen("arquivo_nome.txt","rt");
+    arq = fopen(arquivo_nome,"rt");
 
     if(arq == nullptr){
         cout << "problemas na abertura do arquivo" << endl;
@@ -342,6 +341,32 @@ bool Grafo::verificaK (int k){
             return false;
         }
     }
+    return true;
+}
+
+int Grafo::ordemGrafo()
+{
+    return this->n;
+}
+
+bool Grafo::ehTrivial()
+{
+    return (this->n == 1);// && (primeiro->getAdjacentes(1) == NULL);
+}
+
+bool Grafo::ehNulo()
+{
+    if(n == 0)
+        return true;
+
+    No* atual = primeiro;
+    while(atual != NULL){
+        if(atual->getAdjacentes() != NULL)
+            return false;
+        
+        atual = atual->getProxNo();
+    }
+    
     return true;
 }
 

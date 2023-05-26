@@ -19,7 +19,7 @@
 
 1682544391 d:\dsn\projetos\trabalhografos\include\aresta.h
 
-1685133513 source:d:\dsn\projetos\trabalho-grafo\main.cpp
+1685135175 source:d:\dsn\projetos\trabalho-grafo\main.cpp
 	<iostream>
 	<iostream>
 	<fstream>
@@ -48,7 +48,7 @@
 	<list>
 	<algorithm>
 
-1685132291 source:d:\dsn\projetos\trabalho-grafo\src\arco.cpp
+1685134703 source:d:\dsn\projetos\trabalho-grafo\src\arco.cpp
 	"Arco.h"
 	<iostream>
 	<fstream>
