@@ -12,7 +12,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    cout << argc << endl;
-    cout << "Hello world! " << argv[0] << " " << argv[1] << endl;
+    cout << "Hello world! " << endl;
     return 0;
 }
