@@ -1,39 +1,58 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#import <No.h>
-#import <Aresta.h>
+#include "No.h"
+#include <string>
+#include <list>
+#include <algorithm>
+
+using namespace std;
+
 class Grafo
 {
+    private:
+        No *primeiro; //ponteiro para o primeiro nï¿½ da lista de nï¿½s do grafo
+        int n; //armazena a quantidade de nï¿½s que tem no grafo
+        bool ehDigrafo;
+        bool ehPonderadoNo;
+        bool ehPonderadoArco;
+        string arquivo_nome;
+
+        void auxFechoTransDir(No* no, list<int> &fTransDireto); //funï¿½ï¿½o auxiliar de fechoTransDir
+        bool auxBipartido(int nNos,No* no);
+
     public:
-        Grafo();
+        Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
+        Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
         ~Grafo();
 
-        void addNo(No* no);
-        void removeNo(No* no);
-        //aqui ainda precisa da função de get e set do nó
-        void addArco(Aresta* aresta);
-        void removeArco(Aresta* aresta);
-        //aqui ainda precisa da função de get e set da aresta
+        void addNo(int id, float peso); //adiciona nï¿½ com o id informado
+        void removeNo(int id); //remove o nï¿½ com o id informado
 
-        bool ehAdjacente(No* x, No* y); // TODO: verificar se é isso mesmo
+        void addArco(int orig, int dest, float p); //adiciona um arco do nï¿½ com id orig indo no nï¿½ com id dest
+        void removeArco(int idOrig, int idDest); //remove um arco do nï¿½ com id idNo indo no nï¿½ com id idDest
 
-        void vizAberto(); //TODO: colocar os parametros/retorno da função
-        void vizFechado(); //TODO: colocar os parametros/retorno da função
-        int grauNo(No* no);
-        void leituraArquivo(); //TODO: colocar os parametros/retorno da função
-        void kRegular();
+        bool ehAdjacente(No* x, No* y); // TODO: verificar se ï¿½ isso mesmo
+        //Gabi: acho melhor usar o id do nï¿½, pois a main nï¿½o deve ter acesso a endereï¿½o de nï¿½
+        //bool ehAdjacente(int id1, int id2);
+
+        void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
+        void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
+        int grauNo(int id); // Davi: implementado
+        void leituraArquivo(string database_name); //TODO: colocar os parametros/retorno da funï¿½ï¿½o
+        bool verificaK(int k); // Davi: implementado
         void ordemGrafo();
         bool ehTrivial();
         bool ehNulo();
-        bool ehMultigrafo();
-        bool ehCompleto();
-        bool ehBipartido();
+        bool ehMultigrafo(); //Gabi: implementado
+        bool ehCompleto(); // Davi: implementado
+        bool ehBipartido(int nNos, No* no);
         void caminhoMinimo();
         void grauGrafo();
-        void fechoTransDir();
-        void fechoTransInd();
-        void seqGraus();
+
+        void fechoTransDir(int idNo, list <int> &fTransDireto); //nï¿½s que podem ser "alcanï¿½ados" a partir do nï¿½ com id idNo(incompleto)
+        void fechoTransInd(int idNo); //retorna conjunto de nï¿½s que podem "alcanï¿½ar" o nï¿½ com id idNo (a ser implementado)
+        void seqGraus(); // Davi: implementado
         void subgrafoInd();
         void complementGrafo();
         void compFortConex();
@@ -41,8 +60,7 @@ class Grafo
         No* noArt();
         void arestaPonte();
         void infografo();
-        void AGM(); //muda o nome se necessário
-    private:
+        void AGM(); //muda o nome se necessï¿½rio
 };
 
 #endif // GRAFO_H
