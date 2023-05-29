@@ -32,6 +32,8 @@ class No
 
         Arco * getAdjacentes(); //retorna os adjacentes ao n� atual
         int* getAdjacentes(int nNos); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
+
+        void imprimeNo();
 };
 
 #endif // NO_H

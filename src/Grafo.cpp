@@ -29,12 +29,8 @@ Grafo::Grafo(int num, bool ehDigraf, bool ehPondNo, bool ehPondArco)
     ehDigrafo = ehDigraf;
     ehPonderadoNo = ehPondNo;
     ehPonderadoArco = ehPondArco;
-
-    if(!ehPondNo)
-    {
-        for(int i=0; i<num; i++){
-            addNo(i+1, 0);
-        }
+    for(int i=0; i<num; i++){
+        addNo(i+1, 0);
     }
 }
 
@@ -104,7 +100,6 @@ void Grafo::addArco(int orig, int dest, float p)
     No* auxOrig;
     No* auxDest;
 
-    //verifica se o n� orig est� contido no grafo
     for(auxOrig = primeiro; auxOrig->getId()!=orig && auxOrig!=NULL; auxOrig = auxOrig->getProxNo());
 
     if(auxOrig==NULL){
@@ -363,10 +358,10 @@ bool Grafo::ehNulo()
     while(atual != NULL){
         if(atual->getAdjacentes() != NULL)
             return false;
-        
+
         atual = atual->getProxNo();
     }
-    
+
     return true;
 }
 
@@ -414,6 +409,16 @@ void Grafo::seqGraus()
             cout << seq[i] << ", ";
         else
             cout << seq[i] << ">" << endl;
+    }
+}
+
+void Grafo::imprimeGrafo()
+{
+    No* aux;
+    for(aux=primeiro; aux!=NULL; aux = aux->getProxNo()){
+        cout << aux->getId() << " - ";
+        aux->imprimeNo();
+        cout << endl;
     }
 }
 

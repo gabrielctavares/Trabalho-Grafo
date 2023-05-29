@@ -41,7 +41,7 @@ class Grafo
         void leituraArquivo(); //TODO: colocar os parametros/retorno da fun��o
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;
-        bool ehTrivial(); // Gabriel: implementado; 
+        bool ehTrivial(); // Gabriel: implementado;
         bool ehNulo(); // Gabriel: implementado;
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
@@ -60,6 +60,8 @@ class Grafo
         void arestaPonte();
         void infografo();
         void AGM(); //muda o nome se necess�rio
+
+        void imprimeGrafo();
 };
 
 #endif // GRAFO_H

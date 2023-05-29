@@ -26,9 +26,17 @@ int main(int argc, const char* argv[]){
     bool pondAresta = (strcmp(argv[4], "1") == 0);
     bool pondVertice = (strcmp(argv[5], "1") == 0);
 
-    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
+    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondVertice, pondAresta);
 
-    cout << "Hello world! " << endl;
+    grafo->imprimeGrafo();
+
+    cout << "Ordem do grafo: " << grafo->ordemGrafo() << endl;
+    for(int i=0; i<grafo->ordemGrafo(); i++){
+        grafo->grauNo(i+1);
+    }
+
+    cout << "Eh 4-regular? " << grafo->verificaK(4) << endl;
+    delete grafo;
     return 0;
 }
 

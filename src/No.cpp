@@ -182,3 +182,10 @@ int No::grauEntrada(No* primeiro){
     }
     return grauEnt;
 }
+
+void No::imprimeNo(){
+    Arco* aux;
+    for(aux=adjacentes; aux!=NULL; aux = aux->getProxArc()){
+        cout << "(" << id << ", " << aux->getIdDest() << ", " << aux->getPesoArco() << ") ";
+    }
+}
