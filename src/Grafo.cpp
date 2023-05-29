@@ -44,6 +44,7 @@ Grafo::~Grafo()
         delete aux;
         //deleta cada n� da lista de n�s do grafo
     }
+    primeiro = NULL;
 }
 
 void Grafo::addNo(int id, float peso)
@@ -294,9 +295,10 @@ bool Grafo::ehBipartido(int nNos, No* no){
     return ehBipart;
 }
 
-int Grafo::grauNo(int id){
+int* Grafo::grauNo(int id){
 
     No* auxNo;
+    int grau;
     for(auxNo = primeiro; auxNo != NULL; auxNo = auxNo -> getProxNo())
     {
         if(auxNo->getId() == id)
@@ -306,19 +308,22 @@ int Grafo::grauNo(int id){
     if(auxNo == NULL)
     {
         cout << "Erro! Id de no invalido"<<endl;
-        return -1;
+        return NULL;
     }
+
+    grau = auxNo->grauSaida();
 
     if(ehDigrafo) // Se e digrafo imprime o grau de entrada e de saida
     {
-        cout << "Grau de entrada do no " << auxNo -> getId() << ": " << auxNo -> grauEntrada(primeiro)<< endl;
-        cout << "Grau de saida do no ";
+        int *vet = new int[2];
+        vet[0] = grau;
+        vet[1] = auxNo -> grauEntrada(primeiro);
+        return vet;
     }
-    else
-        cout << "Grau do no ";
-
-    cout << auxNo -> getId() << ": " << auxNo -> grauSaida() << endl;
-    return auxNo -> grauSaida(); // Retorna o grau do no, e para digrafos retorna o grau de saida do no
+    int *vet = new int[1];
+    vet[0] = grau;
+    return vet;
+    //return auxNo -> grauSaida(); // Retorna o grau do no, e para digrafos retorna o grau de saida do no
 }
 
 bool Grafo::verificaK (int k){
@@ -331,7 +336,7 @@ bool Grafo::verificaK (int k){
 
     for(No* aux = primeiro; aux != NULL; aux = aux -> getProxNo())
     {
-        if(grauNo(aux->getId()) != k)
+        if(grauNo(aux->getId())[0] != k)
         {
             return false;
         }
@@ -388,7 +393,7 @@ void Grafo::seqGraus()
 
     for(No* auxNo = primeiro; auxNo!= NULL; auxNo = auxNo -> getProxNo())
     {
-            seq[t] = grauNo(auxNo -> getId());
+            seq[t] = grauNo(auxNo -> getId())[0];
             t++;
     }
 
@@ -414,11 +419,19 @@ void Grafo::seqGraus()
 
 void Grafo::imprimeGrafo()
 {
-    No* aux;
-    for(aux=primeiro; aux!=NULL; aux = aux->getProxNo()){
-        cout << aux->getId() << " - ";
-        aux->imprimeNo();
-        cout << endl;
+    if(primeiro==NULL)
+        return;
+    else
+    {
+        No* aux;
+        for(aux=primeiro; aux!=NULL; aux = aux->getProxNo()){
+            cout << aux->getId();
+            if(ehPonderadoNo)
+                cout << " (" << aux->getPeso() << ")";
+            cout << " - ";
+            aux->imprimeNo(ehPonderadoArco);
+            cout << endl;
+        }
     }
 }
 

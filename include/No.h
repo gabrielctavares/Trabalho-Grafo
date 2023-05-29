@@ -20,6 +20,7 @@ class No
         No* getProxNo();
         void setProxNo(No* no);
         int getId();
+        float getPeso();
         void setCor(int x);
         int getCor();
         int grauSaida();
@@ -33,7 +34,7 @@ class No
         Arco * getAdjacentes(); //retorna os adjacentes ao n� atual
         int* getAdjacentes(int nNos); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
 
-        void imprimeNo();
+        void imprimeNo(bool ehPondArc);
 };
 
 #endif // NO_H

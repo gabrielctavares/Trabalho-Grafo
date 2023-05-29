@@ -56,6 +56,10 @@ int No::getId()
     return id;
 }
 
+float No::getPeso(){
+    return peso;
+}
+
 void No::addArco(int idAdj, float p, bool ehPondArc)
 {
     Arco* novo;
@@ -183,9 +187,12 @@ int No::grauEntrada(No* primeiro){
     return grauEnt;
 }
 
-void No::imprimeNo(){
+void No::imprimeNo(bool ehPondArc){
     Arco* aux;
     for(aux=adjacentes; aux!=NULL; aux = aux->getProxArc()){
-        cout << "(" << id << ", " << aux->getIdDest() << ", " << aux->getPesoArco() << ") ";
+        cout << "(" << id << ", " << aux->getIdDest();
+        if(ehPondArc)
+            cout << ", " << aux->getPesoArco();
+        cout << ") ";
     }
 }

@@ -32,7 +32,7 @@ int main(int argc, const char* argv[]){
 
     cout << "Ordem do grafo: " << grafo->ordemGrafo() << endl;
     for(int i=0; i<grafo->ordemGrafo(); i++){
-        grafo->grauNo(i+1);
+        cout << "Grau do no " << i+1 << ": " << grafo->grauNo(i+1)[0] << endl;
     }
 
     cout << "Eh 4-regular? " << grafo->verificaK(4) << endl;
