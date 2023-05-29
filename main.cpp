@@ -7,11 +7,59 @@
 #include <bits/stdc++.h>
 #include <iterator>
 #include <list>
+#include "Grafo.h"
 
 using namespace std;
 
-int main(int argc, char* argv[])
-{
+Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool pondVertice);
+
+int main(int argc, const char* argv[]){
+    if(argc != 6){
+        cout << "ERRO: Entrada Invalida" << endl;
+        cout << "Esperado: arquivo_entrada arquivo_saida direc[0,1] pondAresta[0,1] pondVertice[0,1]" << endl;
+        return 1;
+    }
+
+    string arquivoEntrada(argv[1]);
+    string arquivoSaida(argv[2]);
+    bool direcionado = (strcmp(argv[3], "1") == 0);
+    bool pondAresta = (strcmp(argv[4], "1") == 0);
+    bool pondVertice = (strcmp(argv[5], "1") == 0);
+
+    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
+
     cout << "Hello world! " << endl;
     return 0;
+}
+
+Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool pondVertice)
+{
+    ifstream arquivo;
+    arquivo.open(caminhoArquivo);
+    if (!arquivo)
+    {
+        cout << "ERROR - FILE NOT FOUND";
+        exit(-1);
+    }
+
+    int tempNo1, tempNo2, tempPeso, numeroNo = 0;
+    std::string buffer = "";
+
+    getline(arquivo, buffer); // Primeira linha
+    numeroNo = std::stoi(buffer);
+
+    Grafo *g = new Grafo(numeroNo, direcionado, pondVertice, pondAresta);
+    int i = 0;
+    while (arquivo >> tempNo1 >> tempNo2 >> tempPeso)
+    {
+        i++;
+        std::cout << i << " Line Read: " << tempNo1 << " " << tempNo2 << " " << tempPeso << std::endl;
+
+        g->addArco(tempNo1, tempNo2, tempPeso);
+        tempPeso = 0;
+        tempNo1 = 0;
+        tempNo2 = 0;
+    }
+    arquivo.close();
+    return g;
 }
