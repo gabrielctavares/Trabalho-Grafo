@@ -231,33 +231,6 @@ void Grafo::vizFechado(No* no, int nNos){
 
     cout << vetFechada << endl;
 }
-
-
-void Grafo::leituraArquivo(){
-    char* arquivo_nome = __argv[1] + '.txt';
-
-    int* leitura_id = new int[100];
-    int* leitura_adj = new int[100];
-    int* leitura_peso =  new int[100];
-    int x;
-
-    FILE *arq;
-    arq = fopen(arquivo_nome,"rt");
-
-    if(arq == nullptr){
-        cout << "problemas na abertura do arquivo" << endl;
-    }
-
-    fscanf(arq, "%d", &x);
-    this-> n = x;
-
-    while(!feof(arq)){
-        for(int i=0;i<100;i++){
-            fscanf(arq, "%d %d %d", &leitura_id[i], &leitura_adj[i], &leitura_peso[i]);
-        }
-    }
-}
-
 bool Grafo::auxBipartido(int nNos,No* no){
 
     no->setCor(1);
@@ -415,6 +388,37 @@ void Grafo::seqGraus()
         else
             cout << seq[i] << ">" << endl;
     }
+}
+
+Grafo* Grafo::complementarGrafo()
+{
+    Grafo* complementar = new Grafo(this->n, this->ehDigrafo, this->ehPonderadoNo, this->ehPonderadoArco);
+
+    for (No* origem = primeiro; origem != NULL; origem = origem->getProxNo())
+    {
+        if(ehDigrafo){
+            for (No* destino = primeiro; destino != NULL; destino = destino->getProxNo())
+            {
+                if(origem->getId() == destino->getId())
+                    continue;
+
+                if(!origem->ehEntrada(destino->getId())){
+                    complementar->addArco(origem->getId(), destino->getId(), 0);
+                }
+            } 
+        }
+        else{
+            for (No* destino = origem->getProxNo(); destino != NULL; destino = destino->getProxNo())
+            {
+                if(!origem->ehEntrada(destino->getId())){
+                    complementar->addArco(origem->getId(), destino->getId(), 0);
+                }
+            }
+        }
+        
+    }   
+
+    return complementar;
 }
 
 void Grafo::imprimeGrafo()

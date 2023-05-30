@@ -19,7 +19,7 @@
 
 1682544391 d:\dsn\projetos\trabalhografos\include\aresta.h
 
-1685364585 source:d:\dsn\projetos\trabalho-grafo\main.cpp
+1685485150 source:d:\dsn\projetos\trabalho-grafo\main.cpp
 	<iostream>
 	<iostream>
 	<fstream>
@@ -29,9 +29,9 @@
 	<bits/stdc++.h>
 	<iterator>
 	<list>
-	"Grafo.h"
+	<Grafo.h>
 
-1685137132 source:d:\dsn\projetos\trabalho-grafo\src\grafo.cpp
+1685484887 source:d:\dsn\projetos\trabalho-grafo\src\grafo.cpp
 	"Grafo.h"
 	<iostream>
 	<fstream>
@@ -43,7 +43,7 @@
 	<list>
 	<string>
 
-1685137099 d:\dsn\projetos\trabalho-grafo\include\grafo.h
+1685483655 d:\dsn\projetos\trabalho-grafo\include\grafo.h
 	"No.h"
 	<string>
 	<list>
@@ -62,10 +62,10 @@
 
 1685132291 d:\dsn\projetos\trabalho-grafo\include\arco.h
 
-1685136860 d:\dsn\projetos\trabalho-grafo\include\no.h
+1685482687 d:\dsn\projetos\trabalho-grafo\include\no.h
 	"Arco.h"
 
-1685136880 source:d:\dsn\projetos\trabalho-grafo\src\no.cpp
+1685482687 source:d:\dsn\projetos\trabalho-grafo\src\no.cpp
 	"No.h"
 	<iostream>
 	<fstream>

@@ -38,7 +38,6 @@ class Grafo
         void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
         int* grauNo(int id); // Davi: implementado
-        void leituraArquivo(); //TODO: colocar os parametros/retorno da fun��o
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;
         bool ehTrivial(); // Gabriel: implementado;
@@ -53,7 +52,7 @@ class Grafo
         void fechoTransInd(int idNo); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
-        void complementGrafo();
+        Grafo* complementarGrafo();
         void compFortConex();
         bool ehEuleriano();
         No* noArt();
