@@ -50,6 +50,8 @@ int main(int argc, const char* argv[]){
 
     list<int> fechoDireto;
     grafo->fechoTransDir(1, fechoDireto);
+    list<int> fechoIndireto;
+    grafo->fechoTransInd(1, fechoIndireto);
 
     delete grafo;
     return 0;

@@ -178,6 +178,7 @@ bool Grafo::ehMultigrafo()
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado)
 {
     lVisitado.push_back(no->getId());
+    fTransDireto.push_back(no->getId());
 
     list<int> adj;
     no->getAdjacentes(adj);
@@ -212,8 +213,6 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
         return;
     }
 
-    //precisa de fun��o que verifica se o grafo � GAD, pois esse algoritmo n�o funciona se h� ciclos
-
     No* aux;
     for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
 
@@ -222,8 +221,54 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 
     list<int> visitado;
     auxFechoTransDir(aux, fTransDireto, visitado);
+
+    list<int>::iterator it;
+    for(it = fTransDireto.begin(); it!=fTransDireto.end(); ++it){
+        cout << *it << ", ";
+    }
+    cout << endl;
     return;
 }
+
+/*
+void Grafo::auxFechoTransInd(int idNo, list<int> &fTransIndir)
+{
+    for(No *aux2 = primeiro; aux2!=NULL; aux2 = aux2->getProxNo()){
+        if(aux2->ehAdjacente(idNo) && aux2->getId()!=idNo){
+            fTransIndir.push_back(aux2->getId());
+        }
+    }
+    fTransIndir.unique();
+}
+
+void Grafo::fechoTransInd(int idNo, list <int> &fTransIndireto)
+{
+    if(n==0)
+        return;
+    if(!ehDigrafo){
+        cout << "Erro: grafo nao eh direcionado!" << endl;
+        return;
+    }
+
+    No* aux;
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
+
+    if(aux==NULL)
+        return;
+
+    fTransIndireto.push_back(idNo);
+
+    list<int>::iterator i;
+    for(i = fTransIndireto.begin(); i!=fTransIndireto.end(); ++i){
+        auxFechoTransInd(*i, fTransIndireto);
+    }
+
+    list<int>::iterator it;
+    for(it = fTransIndireto.begin(); it!=fTransIndireto.end(); ++it){
+        cout << *it << ", ";
+    }
+    cout << endl;
+}*/
 
 void Grafo::vizAberto(int idNo, list <int> &lista){
 

@@ -18,6 +18,7 @@ class Grafo
         bool ehPonderadoArco;
 
         void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
+        void auxFechoTransInd(int idNo, list<int> &fTransIndir); //funcao auxiliar de fechoTransInd
         bool auxBipartido(int nNos,No* no);
 
     public:
@@ -49,7 +50,7 @@ class Grafo
         void grauGrafo();
 
         void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
-        void fechoTransInd(int idNo); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
+        void fechoTransInd(int idNo, list <int> &fTransIndireto); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
         Grafo* complementarGrafo();

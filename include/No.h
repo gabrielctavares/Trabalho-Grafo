@@ -34,6 +34,7 @@ class No
 
         bool temArestas(); //retorna os adjacentes ao n� atual
         void getAdjacentes(std::list<int> &adj); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
+        bool ehAdjacente(int idNo);
 
         void imprimeNo(bool ehPondArc);
 };

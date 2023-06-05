@@ -140,6 +140,15 @@ void No::getAdjacentes(list<int> &adj)
     adj.unique();
 }
 
+bool No::ehAdjacente(int idNo)
+{
+    for(Arco* aux=adjacentes; aux!=NULL; aux = aux->getProxArc())
+        if(aux->getIdDest()==idNo)
+            return true;
+
+    return false;
+}
+
 void No::setCor(int x){
 
     cor = x;
