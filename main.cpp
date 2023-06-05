@@ -35,11 +35,11 @@ int main(int argc, const char* argv[]){
     for(int i=0; i<grafo->ordemGrafo(); i++){
         cout << "Grau do no " << i+1 << ": " << grafo->grauNo(i+1)[0] << endl;
     }
-    
+
     */
     cout << "Eh 4-regular? " << grafo->verificaK(4) << endl;
 
-    
+
     cout << "Imprimindo grafo oficial --------" << endl;
     grafo->imprimeGrafo();
     cout << "----------------------" << endl;
@@ -47,6 +47,9 @@ int main(int argc, const char* argv[]){
     cout << "Imprimindo grafo complementar --------" << endl;
     grafo->complementarGrafo()->imprimeGrafo();
     cout << "----------------------" << endl;
+
+    list<int> fechoDireto;
+    grafo->fechoTransDir(1, fechoDireto);
 
     delete grafo;
     return 0;

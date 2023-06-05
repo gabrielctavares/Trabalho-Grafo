@@ -17,7 +17,7 @@ class Grafo
         bool ehPonderadoNo;
         bool ehPonderadoArco;
 
-        void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
+        void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
         bool auxBipartido(int nNos,No* no);
 
     public:
@@ -35,8 +35,8 @@ class Grafo
         //Gabi: acho melhor usar o id do n�, pois a main n�o deve ter acesso a endere�o de n�
         //bool ehAdjacente(int id1, int id2);
 
-        void vizAberto(int id, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
-        void vizFechado(int id, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
+        void vizAberto(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
+        void vizFechado(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
         int* grauNo(int id); // Davi: implementado
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;

@@ -76,3 +76,62 @@
 	<iterator>
 	<list>
 
+1685967267 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\main.cpp
+	<iostream>
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+	<Grafo.h>
+
+1685967040 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\include\grafo.h
+	"No.h"
+	<string>
+	<list>
+	<algorithm>
+
+1685966964 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\include\no.h
+	"Arco.h"
+	<list>
+
+1685963995 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\include\arco.h
+
+1685963995 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\src\arco.cpp
+	"Arco.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+
+1685967101 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\src\no.cpp
+	"No.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+
+1685967256 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\src\grafo.cpp
+	"Grafo.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+	<string>
+	<algorithm>
+

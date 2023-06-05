@@ -175,38 +175,42 @@ bool Grafo::ehMultigrafo()
     return false;
 }
 
-void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
+void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado)
 {
-    //n�o funciona se grafo n�o � GAD
+    lVisitado.push_back(no->getId());
 
     list<int> adj;
     no->getAdjacentes(adj);
 
-    if(listaAdjacentes==NULL)
+    if(adj.empty())
         return;
 
-    for(int i=0; listaAdjacentes[i]!=-1; i++){
-        bool visitado = (find(fTransDireto.begin(), fTransDireto.end(), listaAdjacentes[i]) != fTransDireto.end());
+    list<int>::iterator it;
+
+    for(it = adj.begin(); it!=adj.end(); ++it)
+    {
+        bool visitado = (find(lVisitado.begin(), lVisitado.end(), *it) != lVisitado.end());
         if(!visitado){
-            fTransDireto.push_back(listaAdjacentes[i]);
+            fTransDireto.push_back(*it);
+            lVisitado.push_back(*it);
             No* aux;
-            for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
-            auxFechoTransDir(aux, fTransDireto);
+            for(aux = primeiro; aux!=NULL && aux->getId()!=*it; aux = aux->getProxNo());
+            auxFechoTransDir(aux, fTransDireto, lVisitado);
         }
     }
 
     fTransDireto.sort();
     fTransDireto.unique();
-
-    delete listaAdjacentes;
 }
 
 void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 {
     if(n==0)
         return;
-    if(ehMultigrafo())
+    if(!ehDigrafo){
+        cout << "Erro: grafo nao eh direcionado!" << endl;
         return;
+    }
 
     //precisa de fun��o que verifica se o grafo � GAD, pois esse algoritmo n�o funciona se h� ciclos
 
@@ -215,11 +219,13 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 
     if(aux==NULL)
         return;
-    auxFechoTransDir(aux, fTransDireto);
+
+    list<int> visitado;
+    auxFechoTransDir(aux, fTransDireto, visitado);
     return;
 }
 
-void Grafo::vizAberto(int id, list <int> &lista){
+void Grafo::vizAberto(int idNo, list <int> &lista){
 
     No* aux;
 
@@ -229,10 +235,10 @@ void Grafo::vizAberto(int id, list <int> &lista){
         return;
 
     list<int> adj;
-    no->getAdjacentes(adj);
+    aux->getAdjacentes(adj);
 }
 
-void Grafo::vizFechado(int id, list <int> &lista){
+void Grafo::vizFechado(int idNo, list <int> &lista){
 
     No* aux;
 
@@ -242,8 +248,8 @@ void Grafo::vizFechado(int id, list <int> &lista){
         return;
 
     list<int> adj;
-    adj.insert(0, id);
-    no->getAdjacentes(adj);
+    adj.push_back(idNo);
+    aux->getAdjacentes(adj);
 }
 bool Grafo::auxBipartido(int nNos,No* no){
 
@@ -252,7 +258,7 @@ bool Grafo::auxBipartido(int nNos,No* no){
 
     while(no->getProxNo()!=nullptr){
         no->getAdjacentes(adj);
-        for(int i=1;i<list::size(adj);i++){
+        for(int i=1;i<adj.list::size();i++){
             if(no->getCor()==0){
 
             }
@@ -260,7 +266,7 @@ bool Grafo::auxBipartido(int nNos,No* no){
 
             }
             else{
-                for(int j=0;j<list::size(adj);j++);
+                for(int j=0;j<adj.list::size();j++);
                 //adj[i].setCor(0);
             }
         }

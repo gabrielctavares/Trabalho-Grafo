@@ -134,12 +134,10 @@ void No::getAdjacentes(list<int> &adj)
         return;
 
     for(Arco* aux=adjacentes; aux!=NULL; aux = aux->getProxArc())
-        adj.insert(0,aux->getIdDest());
+        adj.push_back(aux->getIdDest());
 
     adj.sort();
     adj.unique();
-
-    return vet;
 }
 
 void No::setCor(int x){
