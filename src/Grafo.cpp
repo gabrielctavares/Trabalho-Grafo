@@ -504,6 +504,19 @@ Grafo* Grafo::complementarGrafo()
     return complementar;
 }
 
+bool Grafo::ehEuleriano()
+{
+    if(ehDigrafo)
+        return false;
+
+    No* aux;
+    for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
+        if(aux->grauSaida()%2!=0)
+            return false;
+    }
+    return true;
+}
+
 void Grafo::imprimeGrafo()
 {
     if(primeiro==NULL)

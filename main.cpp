@@ -57,6 +57,8 @@ int main(int argc, const char* argv[]){
 
     cout << "O no 1 é adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
 
+    cout << "O grafo é euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
+
     delete grafo;
     return 0;
 }
