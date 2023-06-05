@@ -8,6 +8,7 @@
 #include <iterator>
 #include <list>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -177,16 +178,21 @@ bool Grafo::ehMultigrafo()
 void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
 {
     //n�o funciona se grafo n�o � GAD
-    int* listaAdjacentes = no->getAdjacentes(n);
+
+    list<int> adj;
+    no->getAdjacentes(adj);
 
     if(listaAdjacentes==NULL)
         return;
 
     for(int i=0; listaAdjacentes[i]!=-1; i++){
-        fTransDireto.push_back(listaAdjacentes[i]);
-        No* aux;
-        for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
-        auxFechoTransDir(aux, fTransDireto);
+        bool visitado = (find(fTransDireto.begin(), fTransDireto.end(), listaAdjacentes[i]) != fTransDireto.end());
+        if(!visitado){
+            fTransDireto.push_back(listaAdjacentes[i]);
+            No* aux;
+            for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
+            auxFechoTransDir(aux, fTransDireto);
+        }
     }
 
     fTransDireto.sort();
@@ -209,36 +215,44 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 
     if(aux==NULL)
         return;
-
     auxFechoTransDir(aux, fTransDireto);
     return;
 }
 
-void Grafo::vizAberto(No* no,int nNos){
+void Grafo::vizAberto(int id, list <int> &lista){
 
-    int* vetAberta = new int[nNos-1];
-    vetAberta = no->getAdjacentes(nNos);
+    No* aux;
 
-    cout << vetAberta << endl;
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
+
+    if(aux==NULL)
+        return;
+
+    list<int> adj;
+    no->getAdjacentes(adj);
 }
 
-void Grafo::vizFechado(No* no, int nNos){
+void Grafo::vizFechado(int id, list <int> &lista){
 
-    int* vetFechada = new int[nNos];
-    vetFechada = no->getAdjacentes(nNos);
-    int x = sizeof(vetFechada);
-    vetFechada[x+1] = no->getId();
+    No* aux;
 
-    cout << vetFechada << endl;
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
+
+    if(aux==NULL)
+        return;
+
+    list<int> adj;
+    adj.insert(0, id);
+    no->getAdjacentes(adj);
 }
 bool Grafo::auxBipartido(int nNos,No* no){
 
     no->setCor(1);
-    int* adj = new int[nNos];
+    list<int> adj;
 
     while(no->getProxNo()!=nullptr){
-        adj = no->getAdjacentes(n);
-        for(int i=1;i<sizeof(adj);i++){
+        no->getAdjacentes(adj);
+        for(int i=1;i<list::size(adj);i++){
             if(no->getCor()==0){
 
             }
@@ -246,7 +260,7 @@ bool Grafo::auxBipartido(int nNos,No* no){
 
             }
             else{
-                for(int j=0;j<sizeof(adj);j++);
+                for(int j=0;j<list::size(adj);j++);
                 //adj[i].setCor(0);
             }
         }
@@ -334,7 +348,7 @@ bool Grafo::ehNulo()
 
     No* atual = primeiro;
     while(atual != NULL){
-        if(atual->getAdjacentes() != NULL)
+        if(atual->temArestas())
             return false;
 
         atual = atual->getProxNo();
@@ -405,7 +419,7 @@ Grafo* Grafo::complementarGrafo()
                 if(!origem->ehEntrada(destino->getId())){
                     complementar->addArco(origem->getId(), destino->getId(), 0);
                 }
-            } 
+            }
         }
         else{
             for (No* destino = origem->getProxNo(); destino != NULL; destino = destino->getProxNo())
@@ -415,8 +429,8 @@ Grafo* Grafo::complementarGrafo()
                 }
             }
         }
-        
-    }   
+
+    }
 
     return complementar;
 }

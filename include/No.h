@@ -31,8 +31,8 @@ class No
 
         bool temMultiarco(int* v, int n); //usado pela fun��o ehMultigrafo do TAD grafo
 
-        Arco * getAdjacentes(); //retorna os adjacentes ao n� atual
-        int* getAdjacentes(int nNos); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
+        bool temArestas(); //retorna os adjacentes ao n� atual
+        void getAdjacentes(list<int> &adj); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
 
         void imprimeNo(bool ehPondArc);
 };

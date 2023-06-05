@@ -35,8 +35,8 @@ class Grafo
         //Gabi: acho melhor usar o id do n�, pois a main n�o deve ter acesso a endere�o de n�
         //bool ehAdjacente(int id1, int id2);
 
-        void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
-        void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
+        void vizAberto(int id, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
+        void vizFechado(int id, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
         int* grauNo(int id); // Davi: implementado
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;

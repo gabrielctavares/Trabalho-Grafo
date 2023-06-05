@@ -123,23 +123,21 @@ bool No::temMultiarco(int* v, int n)
     return resultado;
 }
 
-Arco *No::getAdjacentes()
+bool No::temArestas()
 {
-    return this->adjacentes;
+    return adjacentes!=NULL;
 }
 
-int *No::getAdjacentes(int nNos)
+void No::getAdjacentes(list<int> &adj)
 {
     if(adjacentes==NULL)
-        return NULL;
-    int* vet = new int [nNos-1];
-    int i=0;
+        return;
 
-    for(Arco* aux=adjacentes; aux!=NULL && i<nNos-1; aux = aux->getProxArc(), i++)
-        vet[i] = aux->getIdDest();
+    for(Arco* aux=adjacentes; aux!=NULL; aux = aux->getProxArc())
+        adj.insert(0,aux->getIdDest());
 
-    for(; i<nNos-1; i++)
-        vet[i] = -1;
+    adj.sort();
+    adj.unique();
 
     return vet;
 }
