@@ -48,10 +48,14 @@ int main(int argc, const char* argv[]){
     grafo->complementarGrafo()->imprimeGrafo();
     cout << "----------------------" << endl;
 
+    cout << "Fecho transitivo direto do no 1: ";
     list<int> fechoDireto;
     grafo->fechoTransDir(1, fechoDireto);
-    list<int> fechoIndireto;
-    grafo->fechoTransInd(1, fechoIndireto);
+
+    //list<int> fechoIndireto;
+    //grafo->fechoTransInd(1, fechoIndireto);
+
+    cout << "O no 1 é adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
 
     delete grafo;
     return 0;

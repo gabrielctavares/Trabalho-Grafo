@@ -157,6 +157,24 @@ void Grafo::removeArco(int idOrig, int idDest)
     auxDest->removeArco(idOrig);
 }
 
+bool Grafo::ehAdjacente(int id1, int id2)
+{
+    No* no1;
+    for(no1 = primeiro; no1!=NULL && no1->getId()!= id1; no1 = no1->getProxNo());
+    if(no1 == NULL)
+        return false;
+
+    No* no2;
+    for(no2 = primeiro; no2!=NULL && no2->getId()!= id2; no2 = no2->getProxNo());
+    if(no2 == NULL)
+        return false;
+
+    if(!ehDigrafo)
+        return no1->ehAdjacente(id2);
+
+    return (no1->ehAdjacente(id2) || no2->ehAdjacente(id1));
+}
+
 bool Grafo::ehMultigrafo()
 {
     if(n==0)

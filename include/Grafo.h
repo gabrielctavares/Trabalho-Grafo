@@ -32,9 +32,7 @@ class Grafo
         void addArco(int orig, int dest, float p); //adiciona um arco do n� com id orig indo no n� com id dest
         void removeArco(int idOrig, int idDest); //remove um arco do n� com id idNo indo no n� com id idDest
 
-        bool ehAdjacente(No* x, No* y); // TODO: verificar se � isso mesmo
-        //Gabi: acho melhor usar o id do n�, pois a main n�o deve ter acesso a endere�o de n�
-        //bool ehAdjacente(int id1, int id2);
+        bool ehAdjacente(int id1, int id2);
 
         void vizAberto(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
         void vizFechado(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
