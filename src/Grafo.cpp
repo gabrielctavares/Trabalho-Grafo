@@ -248,45 +248,27 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
     return;
 }
 
-/*
-void Grafo::auxFechoTransInd(int idNo, list<int> &fTransIndir)
+
+Grafo* Grafo::auxFechoTransInd()
 {
-    for(No *aux2 = primeiro; aux2!=NULL; aux2 = aux2->getProxNo()){
-        if(aux2->ehAdjacente(idNo) && aux2->getId()!=idNo){
-            fTransIndir.push_back(aux2->getId());
-        }
+    Grafo* invertido = new Grafo(n, ehDigrafo, ehPonderadoNo, ehPonderadoArco);
+    No* aux;
+    for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
+        list<int> adjacentes;
+        aux->getAdjacentes(adjacentes);
+        list<int>::iterator i;
+        for(i=adjacentes.begin(); i!=adjacentes.end(); ++i)
+            invertido->addArco(*i, aux->getId(), 0);
     }
-    fTransIndir.unique();
+    return invertido;
 }
 
 void Grafo::fechoTransInd(int idNo, list <int> &fTransIndireto)
 {
-    if(n==0)
-        return;
-    if(!ehDigrafo){
-        cout << "Erro: grafo nao eh direcionado!" << endl;
-        return;
-    }
-
-    No* aux;
-    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
-
-    if(aux==NULL)
-        return;
-
-    fTransIndireto.push_back(idNo);
-
-    list<int>::iterator i;
-    for(i = fTransIndireto.begin(); i!=fTransIndireto.end(); ++i){
-        auxFechoTransInd(*i, fTransIndireto);
-    }
-
-    list<int>::iterator it;
-    for(it = fTransIndireto.begin(); it!=fTransIndireto.end(); ++it){
-        cout << *it << ", ";
-    }
-    cout << endl;
-}*/
+    Grafo* invertido = auxFechoTransInd();
+    invertido->fechoTransDir(idNo, fTransIndireto);
+    delete invertido;
+}
 
 void Grafo::vizAberto(int idNo, list <int> &lista){
 

@@ -18,7 +18,7 @@ class Grafo
         bool ehPonderadoArco;
 
         void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
-        void auxFechoTransInd(int idNo, list<int> &fTransIndir); //funcao auxiliar de fechoTransInd
+        Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
         bool auxBipartido(int nNos,No* no);
 
     public:

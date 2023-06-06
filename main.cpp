@@ -52,8 +52,9 @@ int main(int argc, const char* argv[]){
     list<int> fechoDireto;
     grafo->fechoTransDir(1, fechoDireto);
 
-    //list<int> fechoIndireto;
-    //grafo->fechoTransInd(1, fechoIndireto);
+    cout << "Fecho transitivo indireto do no 1: ";
+    list<int> fechoIndireto;
+    grafo->fechoTransInd(1, fechoIndireto);
 
     cout << "O no 1 é adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
 
