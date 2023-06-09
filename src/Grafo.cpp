@@ -296,37 +296,36 @@ void Grafo::vizFechado(int idNo, list <int> &lista){
     adj.push_back(idNo);
     aux->getAdjacentes(adj);
 }
-bool Grafo::auxBipartido(int nNos,No* no){
+bool Grafo::auxBipartido(int n_passo, No* no){
+    bool coloriuCerto = false;
+    Coloracao corPreenchida = Coloracao::SEMCOR;
 
-    no->setCor(1);
-    list<int> adj;
+    if(n_passo%2 == 0)
+        corPreenchida = Coloracao::AZUL;
+        else 
+            corPreenchida = Coloracao::VERDE;
 
-    while(no->getProxNo()!=nullptr){
-        no->getAdjacentes(adj);
-        for(int i=1;i<adj.list::size();i++){
-            if(no->getCor()==0){
+    if(no->getCor() == Coloracao::SEMCOR){
+        no->setCor(corPreenchida);
 
-            }
-            if(no->getCor()==0){
-
-            }
-            else{
-                for(int j=0;j<adj.list::size();j++);
-                //adj[i].setCor(0);
+        for(list<int> x : no->getAdjacentes(x)){
+            coloriuCerto = auxBipartido(n_passo+1, no->getProx());
+            if(!coloriuCerto){
+                break;
             }
         }
+    } else{
+        if(no->getCor() != corPreenchida){
+            return false;
+        }
     }
+    return true;
 }
 
 
-bool Grafo::ehBipartido(int nNos, No* no){
-    /* associamos cada cor a uma coloração
-    SEM COR = -1;
-    AZUL = 0;
-    VERMELHO = 1;*/
-
+bool Grafo::ehBipartido(No* no){
     while(no->getProxNo()!=nullptr)
-        no->setCor(-1);
+        no->setCor(Coloracao::SEMCOR);
 
     bool ehBipart = auxBipartido(nNos,no);
 
@@ -515,5 +514,13 @@ void Grafo::imprimeGrafo()
             cout << endl;
         }
     }
+}
+
+void Grafo::subgrafoInd(){
+
+}
+
+void Grafo::arestaPonte(){
+
 }
 
