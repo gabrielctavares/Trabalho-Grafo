@@ -2,6 +2,7 @@
 #define NO_H
 
 #include "Arco.h"
+#include "Coloracao.h"
 #include <list>
 class No
 {
@@ -10,7 +11,7 @@ class No
         float peso; //armazena o peso do n�
         No *proxNo; //ponteiro para o pr�ximo n� na lista de n�s do grafo
         Arco *adjacentes; //ponteiro para o primeiro arco da lista de adjac�ncia
-        int cor;
+        Coloracao cor;
 
     public:
         No(int n);
@@ -22,8 +23,6 @@ class No
         void setProxNo(No* no);
         int getId();
         float getPeso();
-        void setCor(int x);
-        int getCor();
         int grauSaida();
         int grauEntrada(No* primeiro);
 
@@ -37,6 +36,9 @@ class No
         bool ehAdjacente(int idNo);
 
         void imprimeNo(bool ehPondArc);
+
+        Coloracao getCor();
+        void setCor(Coloracao x);
 };
 
 #endif // NO_H

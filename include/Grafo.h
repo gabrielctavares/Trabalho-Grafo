@@ -19,7 +19,7 @@ class Grafo
 
         void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
         Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
-        bool auxBipartido(int nNos,No* no);
+        bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
 
     public:
         Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
@@ -34,8 +34,8 @@ class Grafo
 
         bool ehAdjacente(int id1, int id2);
 
-        void vizAberto(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
-        void vizFechado(int idNo, list <int> &lista); //TODO: colocar os parametros/retorno da fun��o
+        void vizAberto(int idNo, list <int> &lista); //implementado
+        void vizFechado(int idNo, list <int> &lista); //implementado
         int* grauNo(int id); // Davi: implementado
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;
@@ -43,7 +43,7 @@ class Grafo
         bool ehNulo(); // Gabriel: implementado;
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
-        bool ehBipartido(int nNos, No* no);
+        bool ehBipartido(No* no); //Lana: implementado
         void caminhoMinimo();
         void grauGrafo();
 

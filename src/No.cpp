@@ -149,15 +149,6 @@ bool No::ehAdjacente(int idNo)
     return false;
 }
 
-void No::setCor(int x){
-
-    cor = x;
-}
-
-int No::getCor(){
-
-    return cor;
-}
 
 int No::grauSaida(){
 
@@ -199,5 +190,13 @@ void No::imprimeNo(bool ehPondArc){
         if(ehPondArc)
             cout << ", " << aux->getPesoArco();
         cout << ") ";
+    }
+
+Coloracao No::getCor(){
+    return corVisita;
+    }
+
+void No::setCor(Coloracao x) {
+    cor = x;
     }
 }
