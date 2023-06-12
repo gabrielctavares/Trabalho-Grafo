@@ -191,12 +191,12 @@ void No::imprimeNo(bool ehPondArc){
             cout << ", " << aux->getPesoArco();
         cout << ") ";
     }
+}
 
 Coloracao No::getCor(){
-    return corVisita;
-    }
+    return cor;
+}
 
 void No::setCor(Coloracao x) {
     cor = x;
-    }
 }
