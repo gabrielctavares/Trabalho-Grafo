@@ -9,3 +9,5 @@ enum class Coloracao{
     AMARELO = 2,
     VERMELHO = 3
 };
+
+#endif // COLORACAO_H

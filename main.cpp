@@ -26,7 +26,7 @@ int main(int argc, const char* argv[]){
     bool pondAresta = (strcmp(argv[4], "1") == 0);
     bool pondVertice = (strcmp(argv[5], "1") == 0);
 
-    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondVertice, pondAresta);
+    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
 
     grafo->imprimeGrafo();
 
@@ -80,7 +80,7 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     getline(arquivo, buffer); // Primeira linha
     numeroNo = std::stoi(buffer);
 
-    Grafo *g = new Grafo(numeroNo, direcionado, pondVertice, pondAresta);
+    Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice);
     int i = 0;
     while (arquivo >> tempNo1 >> tempNo2 >> tempPeso)
     {

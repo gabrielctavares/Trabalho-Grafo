@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
+Grafo::Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
     //constr�i grafo vazio
     n = 0;
@@ -22,7 +22,7 @@ Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
     ehPonderadoArco = ehPondArco;
 }
 
-Grafo::Grafo(int num, bool ehDigraf, bool ehPondNo, bool ehPondArco)
+Grafo::Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
     //constr�i grafo com o n�mero de n�s informado
     n = 0;
@@ -296,13 +296,15 @@ void Grafo::vizFechado(int idNo, list <int> &lista){
     adj.push_back(idNo);
     aux->getAdjacentes(adj);
 }
+
+/*
 bool Grafo::auxBipartido(int n_passo, No* no){
     bool coloriuCerto = false;
     Coloracao corPreenchida = Coloracao::SEMCOR;
 
     if(n_passo%2 == 0)
         corPreenchida = Coloracao::AZUL;
-        else 
+        else
             corPreenchida = Coloracao::VERDE;
 
     if(no->getCor() == Coloracao::SEMCOR){
@@ -331,6 +333,7 @@ bool Grafo::ehBipartido(No* no){
 
     return ehBipart;
 }
+*/
 
 int* Grafo::grauNo(int id){
 

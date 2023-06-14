@@ -22,8 +22,8 @@ class Grafo
         bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
         void auxConexo(No *n);
     public:
-        Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
-        Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
+        Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
+        Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
         ~Grafo();
 
         void addNo(int id, float peso); //adiciona n� com o id informado
