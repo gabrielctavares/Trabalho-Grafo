@@ -309,7 +309,7 @@ bool Grafo::auxBipartido(int n_passo, No* no){
         no->setCor(corPreenchida);
 
         for(list<int> x : no->getAdjacentes(x)){
-            coloriuCerto = auxBipartido(n_passo+1, no->getProx());
+            coloriuCerto = auxBipartido(n_passo+1, no->getProxNo());
             if(!coloriuCerto){
                 break;
             }
@@ -516,11 +516,48 @@ void Grafo::imprimeGrafo()
     }
 }
 
-void Grafo::subgrafoInd(){
+void Grafo::auxConexo(No* n){
+    if(n->getCor() != Coloracao::AZUL){
+        n->setCor(Coloracao::AZUL);
 
+        lista<int> no_adj;
+        n->getAdjacentes(no_adj);
+
+        for(){
+            if()
+        }
+    }
+
+    /*for (auto it : verticesAdjacentes) {
+            //verifica se o vértice ainda não foi corVisita
+            if (getVertice(it.getIdVertice())->getVisitado() == Coloracao::SEMCOR) {
+                auxIsConexo(it.getIdVertice());
+            }
+        }*/
+}
+
+bool Grafo::ehConexo(No* no){
+
+    while(no->getProxNo()!=nullptr)
+        no->setCor(Coloracao::SEMCOR);
+    
+    auxConexo(no);
+
+    while(no->getProxNo()!=nullptr){
+        if(no->getCor() == Coloracao::SEMCOR)
+            return false
+    }
+
+    return true;
 }
 
 void Grafo::arestaPonte(){
+    //selecionar dois nos que tem uma aresta entre si, ou seja que tem adjacencia,
+    //e remover a adjacencia dos mesmos, em seguida verificar se o grafo permance
+    //conexo, se não, achamos uma ponte. 
 
+    //ideia: criar aux recursivo e ir armazenando em um vetor onde
+    // a cada 2 indices temos uma dupla de nós que tem uma ponte entre
+    //si, ou imprimir os nós.   
 }
 

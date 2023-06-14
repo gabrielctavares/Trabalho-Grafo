@@ -20,7 +20,7 @@ class Grafo
         void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
         Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
         bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
-
+        void auxConexo(No *n);
     public:
         Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
         Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
@@ -56,6 +56,7 @@ class Grafo
         bool ehEuleriano();
         No* noArt();
         void arestaPonte();
+        bool ehConexo();
         void infografo();
         void AGM(); //muda o nome se necess�rio
 
