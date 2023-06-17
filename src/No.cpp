@@ -138,6 +138,7 @@ void No::getAdjacentes(list<int> &adj)
 
     adj.sort();
     adj.unique();
+    
 }
 
 bool No::ehAdjacente(int idNo)

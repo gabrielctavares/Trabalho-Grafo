@@ -298,7 +298,7 @@ void Grafo::vizFechado(int idNo, list <int> &lista){
 }
 
 /*
-bool Grafo::auxBipartido(int n_passo, No* no){
+bool Grafo::auxBipartido(long n_passo, No* no){
     bool coloriuCerto = false;
     Coloracao corPreenchida = Coloracao::SEMCOR;
 
@@ -324,14 +324,47 @@ bool Grafo::auxBipartido(int n_passo, No* no){
     return true;
 }
 
+*
+bool Grafo::auxBipartido(long n_passo, No* no){
+    bool coloriuCerto = false;
+    int corPreenchida = -1;
+
+    if(n_passo%2 == 0)
+        corPreenchida = 0;
+        else
+            corPreenchida = 1;
+
+    if(no->getCor() == -1){
+        no->setCor(corPreenchida);
+
+        for(list<int> x : no->getAdjacentes(x)){
+            coloriuCerto = auxBipartido(n_passo+1, no->getProxNo());
+            if(!coloriuCerto){
+                break;
+            }
+        }
+
+    } else{
+        if(no->getCor() != corPreenchida){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 bool Grafo::ehBipartido(No* no){
+
+    //SEM COR = -1,    //vértice não visitado
+    //AZUL = 0,
+    //VERDE = 1,
+    //AMARELO = 2,
+    //VERMELHO = 3
+
     while(no->getProxNo()!=nullptr)
-        no->setCor(Coloracao::SEMCOR);
+        no->setCor(-1);
 
-    bool ehBipart = auxBipartido(nNos,no);
-
-    return ehBipart;
+    return auxBipartido(nNos,no);
 }
 */
 
@@ -520,34 +553,36 @@ void Grafo::imprimeGrafo()
 }
 
 void Grafo::auxConexo(No* n){
-    if(n->getCor() != Coloracao::AZUL){
-        n->setCor(Coloracao::AZUL);
+    if(n->getCor() != 0){
+        n->setCor(0);
 
         lista<int> no_adj;
         n->getAdjacentes(no_adj);
 
-        for(){
-            if()
-        }
-    }
 
-    /*for (auto it : verticesAdjacentes) {
+    for(int i=0; i<no_adj.size();i++){
+        if (getVertice(it.getIdVertice())->getVisitado() == -1) {
+                auxConexo(it.getIdVertice());
+            }
+    }
+    
+    for (auto it : no_adj) 
             //verifica se o vértice ainda não foi corVisita
-            if (getVertice(it.getIdVertice())->getVisitado() == Coloracao::SEMCOR) {
+            if (getVertice(it.getIdVertice())->getVisitado() == -1) {
                 auxIsConexo(it.getIdVertice());
             }
-        }*/
+    }
 }
 
 bool Grafo::ehConexo(No* no){
 
     while(no->getProxNo()!=nullptr)
-        no->setCor(Coloracao::SEMCOR);
+        no->setCor(-1);
     
     auxConexo(no);
 
     while(no->getProxNo()!=nullptr){
-        if(no->getCor() == Coloracao::SEMCOR)
+        if(no->getCor() == -1)
             return false
     }
 
