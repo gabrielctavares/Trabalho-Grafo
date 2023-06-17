@@ -599,3 +599,125 @@ void Grafo::arestaPonte(){
     //si, ou imprimir os nós.   
 }
 
+int Grafo::compCon ()
+{
+    int visit[n] = {};
+    int comp = 0;
+    int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-1, o ultimo
+    
+    for(i=0; i<n; i++)
+    {
+        if(visit[i]==0)
+        {
+            comp++;
+            prof(visit,i,comp);
+        }
+    }
+    return comp;
+}
+
+void Grafo::prof(int visitados[], int no, int marca)
+{
+    visitados[no] = marca;
+    int i = 0;
+    No* auxNo;
+    for(auxNo = primeiro; auxNo!=NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(i == no)
+            break;
+        i++;
+    }
+    int j = 0;
+    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    {
+        if(auxNo -> ehAdjacente(auxNo2->getId()))
+        {
+            if(visitados[j] == 0)
+            {
+                prof(visitados,j,marca);
+            }
+        }
+        j++;
+    }
+}
+
+
+
+
+int Grafo::compConSemNo(int id) //calcula quantas componentes conexas o grafo teria sem o no passado
+{
+    int visit[n-1] = {};
+    int comp = 0;
+    int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-2, o ultimo
+    
+    No* auxNo;
+    
+    for(i=0; i<n-1; i++)
+    {
+        if(visit[i]==0)
+        {
+            comp++;
+            prof(visit,i,comp,id);
+        }
+    }
+    return comp;
+}
+
+void Grafo::profSemNo(int visitados[], int no, int marca, int id)
+{
+    visitados[no] = marca;
+    int i = 0;
+    No* auxNo;
+    for(auxNo = primeiro; auxNo!=NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(auxNo -> getId() == id)
+            continue;
+        if(i == no)
+            break;
+        i++;
+    }
+    
+    int j = 0;
+    
+    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    {
+        if (auxNo2 -> getId() == id)
+            continue;
+        if(auxNo -> ehAdjacente(auxNo2->getId()))
+            if(visitados[j] == 0)
+                profSemNo(visitados,j,marca,id);
+        j++;
+    }
+}
+
+bool Grafo::ehNoArt (int id)
+{
+    if(compCon() < compConSemNo(id))
+    {
+        return true;
+    }
+    return false;
+}
+
+void Grafo::imprimeIdNoArt()
+{
+    int i = 0; // vai indicar quantos nos de articulacao tem
+    for(No* auxNo = primeiro; auxNo != NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(ehNoArt(auxNo -> getId()))
+        {
+            if(i == 0)
+            {
+                cout << "Id dos nos de articulacao: ";
+                cout << auxNo -> getId();
+            }
+            else
+                cout << ", " << auxNo -> getId();
+            i++;
+        }
+    }
+    if(i == 0)
+        cout << "O grafo nao possui nos de articulacao";
+    cout << "."<<endl;
+   
+}

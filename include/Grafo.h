@@ -46,6 +46,12 @@ class Grafo
         bool ehBipartido(No* no); //Lana: implementado
         void caminhoMinimo();
         void grauGrafo();
+        int compCon (); //calcula quantas componentes conexas possui o grafo
+        void prof(int visitados[], int no, int marca); //percorrendo por profundidade, auxilia a calcular as componentes conexas
+        int compConSemNo(int id); // calcula quantas comp con sem o no passado
+        void profSemNo(int visitados[], int no, int marca, int id);
+        bool ehNoArt (int id); // verifica se determinado no e de articulacao
+        void imprimeIdNoArt(); //imprime o id de todos os nos de articulacao
 
         void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
         void fechoTransInd(int idNo, list <int> &fTransIndireto); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
@@ -54,7 +60,6 @@ class Grafo
         Grafo* complementarGrafo();
         void compFortConex();
         bool ehEuleriano();
-        No* noArt();
         void arestaPonte();
         bool ehConexo();
         void infografo();
