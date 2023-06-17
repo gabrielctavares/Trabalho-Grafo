@@ -53,6 +53,7 @@ class Grafo
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
         Grafo* complementarGrafo();
+        Grafo* transpostoGrafo();
         void compFortConex();
         bool ehEuleriano();
         No* noArt();

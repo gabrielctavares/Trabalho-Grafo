@@ -421,6 +421,29 @@ Grafo* Grafo::complementarGrafo()
     return complementar;
 }
 
+void Grafo::compFortConex()
+{
+    if(!this->ehDigrafo)
+        return;
+
+
+}
+
+Grafo* Grafo::transpostoGrafo(){    
+    if(!this->ehDigrafo)
+        return NULL;
+
+    Grafo*  transposto = new Grafo(this->n, this->ehDigrafo, this->ehPonderadoNo, this->ehPonderadoArco);
+
+    for (No* no = primeiro; no != NULL; no = no->getProxNo())
+    {
+        for(Arco* arco = no->getAdjacentes(); arco != NULL; arco = arco->getProxArc())
+        {
+            transposto->addArco(arco->getIdDest(), no->getId(), 0);
+        }
+    } 
+    return transposto;
+}
 void Grafo::imprimeGrafo()
 {
     if(primeiro==NULL)
