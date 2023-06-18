@@ -64,6 +64,7 @@ class Grafo
         void auxCompFortConex(No *u, int low[], stack<No *> *st, bool stackMember[], vector<vector<No *>> &result);
         Grafo *transpostoGrafo();
         bool ehEuleriano();
+        No* getVertice(Arco x, No* n);
         bool ehConexo(No *no);
         void arestaPonte();
         void infografo();

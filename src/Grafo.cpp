@@ -637,47 +637,35 @@ void Grafo::imprimeGrafo()
     }
 }
 
-bool Grafo::ehConexo(No* no){
-
-    while(no->getProxNo()!= NULL)
-        no->setCor(Coloracao::SEMCOR);
-
-    auxConexo(no);
-
-    while(no->getProxNo()!= NULL){
-        if(no->getCor() == Coloracao::SEMCOR)
-            return false;
-    }
-
-    return true;
-}
-
 void Grafo::auxConexo(No* n){
-    if(n->getCor() != Coloracao::AZUL){
-        n->setCor(Coloracao::AZUL);
+    if(n->getCor() != 0){
+        n->setCor(0);
     }
 
     Arco* adj = n->getAdjacentes();
     while(adj != NULL){
-        // oi laninha, vê se desse jeito aqui fica melhor pra você
-
+        x = adj->getIdDest();
+        if(GetNo(x)->getVisitado() == -1){
+            auxConexo(GetNo(x)->getId());
+        }
         adj = adj->getProxArc();
     }
-
-    // for(int i=0; i<no_adj.size();i++){
-    //     if (getVertice(it.getIdVertice())->getVisitado() == -1) {
-    //             auxConexo(it.getIdVertice());
-    //         }
-    // }
-
-    // for (auto it : no_adj)
-    //         //verifica se o vértice ainda não foi corVisita
-    //         if (getVertice(it.getIdVertice())->getVisitado() == -1) {
-    //             auxIsConexo(it.getIdVertice());
-    //         }
-    // }
-
 }
+
+bool Grafo::ehConexo(No* primeiro){
+
+    while(no->getProxNo()!= NULL)
+        no->setCor(-1);
+
+    auxConexo(primeiro);
+
+    while(no->getProxNo()!= NULL){
+        if(no->getCor() == -1)
+            return false;
+    }
+    return true;
+}
+
 
 No *Grafo::GetNo(int id)
 {
@@ -698,6 +686,32 @@ void Grafo::arestaPonte(){
     //ideia: criar aux recursivo e ir armazenando em um vetor onde
     // a cada 2 indices temos uma dupla de nós que tem uma ponte entre
     //si, ou imprimir os nós.
+
+    No* n = primeiro; 
+    //No* pontes;
+    //int* pontes[] = new int;
+    //int i = 0;
+    Arco* adj;
+    float p;
+
+    while(n->getProxNo() != NULL){
+
+        adj = n->getAdjacentes();
+
+        while(adj != NULL){
+            p = adj->getPesoArco();
+            n->removeArco(adj);
+            if(ehConexo()){
+                pontes[i] = n->getId();
+                pontes[i+1] = GetNo(adj->getIdDest())->getId();
+            } 
+
+            n->addArco(GetNo(adj->getIdDest())->getId(), p, true);
+            adj = adj->getProxArc();
+        }
+
+        n = n->getProxNo();
+    }
 }
 
 int Grafo::compCon ()
