@@ -61,8 +61,8 @@ class Grafo
         Grafo* transpostoGrafo();
         void compFortConex();
         bool ehEuleriano();
+        bool ehConexo(No *no);
         void arestaPonte();
-        bool ehConexo();
         void infografo();
         void AGM(); //muda o nome se necess�rio
 
