@@ -575,42 +575,49 @@ void Grafo::imprimeGrafo()
     }
 }
 
-void Grafo::auxConexo(No* n){
-    if(n->getCor() != 0){
-        n->setCor(0);
-
-        lista<int> no_adj;
-        n->getAdjacentes(no_adj);
-
-
-    for(int i=0; i<no_adj.size();i++){
-        if (getVertice(it.getIdVertice())->getVisitado() == -1) {
-                auxConexo(it.getIdVertice());
-            }
-    }
-    
-    for (auto it : no_adj) 
-            //verifica se o vértice ainda não foi corVisita
-            if (getVertice(it.getIdVertice())->getVisitado() == -1) {
-                auxIsConexo(it.getIdVertice());
-            }
-    }
-}
-
 bool Grafo::ehConexo(No* no){
 
-    while(no->getProxNo()!=nullptr)
-        no->setCor(-1);
+    while(no->getProxNo()!= NULL)
+        no->setCor(Coloracao::SEMCOR);
     
     auxConexo(no);
 
-    while(no->getProxNo()!=nullptr){
-        if(no->getCor() == -1)
-            return false
+    while(no->getProxNo()!= NULL){
+        if(no->getCor() == Coloracao::SEMCOR)
+            return false;
     }
 
     return true;
 }
+
+void Grafo::auxConexo(No* n){
+    if(n->getCor() != Coloracao::AZUL){
+        n->setCor(Coloracao::AZUL);
+    }
+
+    Arco* adj = n->getAdjacentes();
+    while(adj != NULL){
+        // oi laninha, vê se desse jeito aqui fica melhor pra você
+
+        adj = adj->getProxArc();
+    }
+
+    // for(int i=0; i<no_adj.size();i++){
+    //     if (getVertice(it.getIdVertice())->getVisitado() == -1) {
+    //             auxConexo(it.getIdVertice());
+    //         }
+    // }
+    
+    // for (auto it : no_adj) 
+    //         //verifica se o vértice ainda não foi corVisita
+    //         if (getVertice(it.getIdVertice())->getVisitado() == -1) {
+    //             auxIsConexo(it.getIdVertice());
+    //         }
+    // }
+    
+}
+
+
 
 void Grafo::arestaPonte(){
     //selecionar dois nos que tem uma aresta entre si, ou seja que tem adjacencia,
@@ -651,7 +658,7 @@ void Grafo::prof(int visitados[], int no, int marca)
         i++;
     }
     int j = 0;
-    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    for(No* auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProxNo())
     {
         if(auxNo -> ehAdjacente(auxNo2->getId()))
         {
@@ -680,7 +687,7 @@ int Grafo::compConSemNo(int id) //calcula quantas componentes conexas o grafo te
         if(visit[i]==0)
         {
             comp++;
-            prof(visit,i,comp,id);
+            prof(visit,i,comp);
         }
     }
     return comp;
@@ -702,7 +709,7 @@ void Grafo::profSemNo(int visitados[], int no, int marca, int id)
     
     int j = 0;
     
-    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    for(No* auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2->getProxNo())
     {
         if (auxNo2 -> getId() == id)
             continue;

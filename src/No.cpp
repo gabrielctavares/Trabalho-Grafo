@@ -128,6 +128,10 @@ bool No::temArestas()
     return adjacentes!=NULL;
 }
 
+Arco* No::getAdjacentes()
+{
+    return adjacentes;
+}
 void No::getAdjacentes(list<int> &adj)
 {
     if(adjacentes==NULL)

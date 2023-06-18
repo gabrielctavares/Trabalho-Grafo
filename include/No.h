@@ -11,7 +11,7 @@ class No
         float peso; //armazena o peso do n�
         No *proxNo; //ponteiro para o pr�ximo n� na lista de n�s do grafo
         Arco *adjacentes; //ponteiro para o primeiro arco da lista de adjac�ncia
-        int cor;
+        Coloracao cor;
 
     public:
         No(int n);
@@ -31,14 +31,16 @@ class No
 
         bool temMultiarco(int* v, int n); //usado pela fun��o ehMultigrafo do TAD grafo
 
-        bool temArestas(); //retorna os adjacentes ao n� atual
+        bool temArestas();
+        Arco *getAdjacentes();
+        // retorna os adjacentes ao n� atual
         void getAdjacentes(std::list<int> &adj); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
         bool ehAdjacente(int idNo);
 
         void imprimeNo(bool ehPondArc);
 
-        int getCor();
-        void setCor(int x);
+        Coloracao getCor();
+        void setCor(Coloracao x);
 };
 
 #endif // NO_H
