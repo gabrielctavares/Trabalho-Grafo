@@ -12,7 +12,7 @@ class No
         No *proxNo; //ponteiro para o pr�ximo n� na lista de n�s do grafo
         Arco *adjacentes; //ponteiro para o primeiro arco da lista de adjac�ncia
         Coloracao cor;
-
+        int componente;
     public:
         No(int n);
         No(int n, float p);
@@ -41,6 +41,9 @@ class No
 
         Coloracao getCor();
         void setCor(Coloracao x);
+        
+        int getComponente();
+        void setComponente(int x);
 };
 
 #endif // NO_H

@@ -492,7 +492,7 @@ void Grafo::seqGraus()
 
 Grafo* Grafo::complementarGrafo()
 {
-    Grafo* complementar = new Grafo(this->n, this->ehDigrafo, this->ehPonderadoNo, this->ehPonderadoArco);
+    Grafo* complementar = new Grafo(this->n, this->ehDigrafo, this->ehPonderadoArco, this->ehPonderadoNo);
 
     for (No* origem = primeiro; origem != NULL; origem = origem->getProxNo())
     {
@@ -534,15 +534,77 @@ bool Grafo::ehEuleriano()
     return true;
 }
 
-void Grafo::compFortConex()
-{
-    if(!this->ehDigrafo)
-        return;
 
 
+vector<vector<No*>> Grafo::compFortConex() {
+    vector<vector<No*>> result;
+    //if(!this->ehDigrafo)
+    //    return result;
+
+    int *low = new int[n];
+    bool *stackMember = new bool[n];
+    stack<No*> *st = new stack<No*>();
+
+    for (int i = 0; i < n; i++) {
+        low[i] = -1;
+        stackMember[i] = false;
+    }
+
+    for(No* aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
+        if (aux->getComponente() == -1)
+            auxCompFortConex(aux, low, st, stackMember, result);
+    }
+
+    delete[] low;
+    delete[] stackMember;
+    delete st;
+
+    return result;
 }
 
-Grafo* Grafo::transpostoGrafo(){    
+void Grafo::auxCompFortConex(No* u, int low[], stack<No*> *st, bool stackMember[], vector<vector<No*>>& result) {
+    int idxOrig = u->getId() - 1;
+    static int component = 0; // estático para não ficar criando como 0 dnv, considera a criação anterior e soma na linha de baixo
+    low[idxOrig] = ++component;
+    u->setComponente(low[idxOrig]);
+
+    st->push(u);
+    stackMember[idxOrig] = true;
+
+
+    // para cada adjacencia de u
+    for(Arco * aux = u->getAdjacentes(); aux != NULL; aux = aux->getProxArc()){
+        int idxDest = aux->getIdDest() - 1;
+        No* NoDest = GetNo(aux->getIdDest());
+
+        if (NoDest->getComponente() == -1) {
+            auxCompFortConex(NoDest, low, st, stackMember, result);
+            low[idxOrig] = min(low[idxOrig], low[idxDest]);
+        }
+        else if (stackMember[idxDest] == true)
+            low[idxOrig] = min(low[idxOrig], NoDest->getComponente());
+    }
+
+
+    if (low[idxOrig] == u->getComponente()) {
+        No* aux;
+        vector<No*> component;
+        while (st->top() != u) {
+            aux = st->top();
+            component.push_back(aux);
+            stackMember[aux->getId() - 1] = false;
+            st->pop();
+        }
+        aux = st->top();
+        component.push_back(aux);
+        stackMember[aux->getId() - 1] = false;
+        st->pop();
+        result.push_back(component);
+    }
+}
+
+
+Grafo* Grafo::transpostoGrafo(){
     if(!this->ehDigrafo)
         return NULL;
 
@@ -554,7 +616,7 @@ Grafo* Grafo::transpostoGrafo(){
         {
             transposto->addArco(arco->getIdDest(), no->getId(), 0);
         }
-    } 
+    }
     return transposto;
 }
 void Grafo::imprimeGrafo()
@@ -579,7 +641,7 @@ bool Grafo::ehConexo(No* no){
 
     while(no->getProxNo()!= NULL)
         no->setCor(Coloracao::SEMCOR);
-    
+
     auxConexo(no);
 
     while(no->getProxNo()!= NULL){
@@ -607,26 +669,35 @@ void Grafo::auxConexo(No* n){
     //             auxConexo(it.getIdVertice());
     //         }
     // }
-    
-    // for (auto it : no_adj) 
+
+    // for (auto it : no_adj)
     //         //verifica se o vértice ainda não foi corVisita
     //         if (getVertice(it.getIdVertice())->getVisitado() == -1) {
     //             auxIsConexo(it.getIdVertice());
     //         }
     // }
-    
+
 }
 
+No *Grafo::GetNo(int id)
+{
+    if((id > n + 1) || id < 0)
+        return NULL;
 
+    for(No* aux = primeiro; aux != NULL; aux = aux->getProxNo()){
+        if(aux->getId() == id)
+            return aux;
+    }
+}
 
 void Grafo::arestaPonte(){
     //selecionar dois nos que tem uma aresta entre si, ou seja que tem adjacencia,
     //e remover a adjacencia dos mesmos, em seguida verificar se o grafo permance
-    //conexo, se não, achamos uma ponte. 
+    //conexo, se não, achamos uma ponte.
 
     //ideia: criar aux recursivo e ir armazenando em um vetor onde
     // a cada 2 indices temos uma dupla de nós que tem uma ponte entre
-    //si, ou imprimir os nós.   
+    //si, ou imprimir os nós.
 }
 
 int Grafo::compCon ()
@@ -634,7 +705,7 @@ int Grafo::compCon ()
     int visit[n] = {};
     int comp = 0;
     int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-1, o ultimo
-    
+
     for(i=0; i<n; i++)
     {
         if(visit[i]==0)
@@ -701,9 +772,9 @@ void Grafo::profSemNo(int visitados[], int no, int marca, int id)
             break;
         i++;
     }
-    
+
     int j = 0;
-    
+
     for(No* auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2->getProxNo())
     {
         if (auxNo2 -> getId() == id)
@@ -744,5 +815,5 @@ void Grafo::imprimeIdNoArt()
     if(i == 0)
         cout << "O grafo nao possui nos de articulacao";
     cout << "."<<endl;
-   
+
 }

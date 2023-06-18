@@ -17,6 +17,7 @@ No::No(int n)
     peso = 0;
     proxNo = NULL;
     adjacentes = NULL;
+    componente = -1;
 }
 
 No::No(int n, float p)
@@ -26,6 +27,7 @@ No::No(int n, float p)
     peso = p;
     proxNo = NULL;
     adjacentes = NULL;
+    componente = -1;
 }
 
 No::~No()
@@ -204,4 +206,14 @@ int No::getCor(){
 
 void No::setCor(int x) {
     cor = x;
+}
+
+int No::getComponente()
+{
+    return this->componente;
+}
+
+void No::setComponente(int x)
+{
+    this->componente = x;
 }

@@ -5,7 +5,8 @@
 #include <string>
 #include <list>
 #include <algorithm>
-
+#include <vector>
+#include <stack>
 using namespace std;
 
 class Grafo
@@ -21,6 +22,7 @@ class Grafo
         Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
         bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
         void auxConexo(No *n);
+        No* GetNo(int id);
     public:
         Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
         Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
@@ -58,8 +60,9 @@ class Grafo
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
         Grafo* complementarGrafo();
-        Grafo* transpostoGrafo();
-        void compFortConex();
+        vector<vector<No*>> compFortConex();
+        void auxCompFortConex(No *u, int low[], stack<No *> *st, bool stackMember[], vector<vector<No *>> &result);
+        Grafo *transpostoGrafo();
         bool ehEuleriano();
         bool ehConexo(No *no);
         void arestaPonte();
