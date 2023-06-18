@@ -26,7 +26,7 @@ int main(int argc, const char* argv[]){
     bool pondAresta = (strcmp(argv[4], "1") == 0);
     bool pondVertice = (strcmp(argv[5], "1") == 0);
 
-    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondVertice, pondAresta);
+    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
 
     grafo->imprimeGrafo();
 
@@ -35,11 +35,11 @@ int main(int argc, const char* argv[]){
     for(int i=0; i<grafo->ordemGrafo(); i++){
         cout << "Grau do no " << i+1 << ": " << grafo->grauNo(i+1)[0] << endl;
     }
-    
+
     */
     cout << "Eh 4-regular? " << grafo->verificaK(4) << endl;
 
-    
+
     cout << "Imprimindo grafo oficial --------" << endl;
     grafo->imprimeGrafo();
     cout << "----------------------" << endl;
@@ -47,6 +47,18 @@ int main(int argc, const char* argv[]){
     cout << "Imprimindo grafo complementar --------" << endl;
     grafo->complementarGrafo()->imprimeGrafo();
     cout << "----------------------" << endl;
+
+    cout << "Fecho transitivo direto do no 1: ";
+    list<int> fechoDireto;
+    grafo->fechoTransDir(1, fechoDireto);
+
+    cout << "Fecho transitivo indireto do no 1: ";
+    list<int> fechoIndireto;
+    grafo->fechoTransInd(1, fechoIndireto);
+
+    cout << "O no 1 é adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
+
+    cout << "O grafo é euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
 
     delete grafo;
     return 0;
@@ -68,7 +80,7 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     getline(arquivo, buffer); // Primeira linha
     numeroNo = std::stoi(buffer);
 
-    Grafo *g = new Grafo(numeroNo, direcionado, pondVertice, pondAresta);
+    Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice);
     int i = 0;
     while (arquivo >> tempNo1 >> tempNo2 >> tempPeso)
     {

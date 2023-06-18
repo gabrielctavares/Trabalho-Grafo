@@ -17,12 +17,13 @@ class Grafo
         bool ehPonderadoNo;
         bool ehPonderadoArco;
 
-        void auxFechoTransDir(No* no, list<int> &fTransDireto); //fun��o auxiliar de fechoTransDir
-        bool auxBipartido(int nNos,No* no);
-
+        void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
+        Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
+        bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
+        void auxConexo(No *n);
     public:
-        Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco);
-        Grafo(int num, bool ehDigrafo, bool ehPondNo, bool ehPondArco);
+        Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
+        Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
         ~Grafo();
 
         void addNo(int id, float peso); //adiciona n� com o id informado
@@ -31,12 +32,10 @@ class Grafo
         void addArco(int orig, int dest, float p); //adiciona um arco do n� com id orig indo no n� com id dest
         void removeArco(int idOrig, int idDest); //remove um arco do n� com id idNo indo no n� com id idDest
 
-        bool ehAdjacente(No* x, No* y); // TODO: verificar se � isso mesmo
-        //Gabi: acho melhor usar o id do n�, pois a main n�o deve ter acesso a endere�o de n�
-        //bool ehAdjacente(int id1, int id2);
+        bool ehAdjacente(int id1, int id2);
 
-        void vizAberto(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
-        void vizFechado(No* no, int nNos); //TODO: colocar os parametros/retorno da fun��o
+        void vizAberto(int idNo, list <int> &lista); //implementado
+        void vizFechado(int idNo, list <int> &lista); //implementado
         int* grauNo(int id); // Davi: implementado
         bool verificaK(int k); // Davi: implementado
         int ordemGrafo(); // Gabriel: implementado;
@@ -44,20 +43,26 @@ class Grafo
         bool ehNulo(); // Gabriel: implementado;
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
-        bool ehBipartido(int nNos, No* no);
+        bool ehBipartido(No* no); //Lana: implementado
         void caminhoMinimo();
         void grauGrafo();
+        int compCon (); //calcula quantas componentes conexas possui o grafo
+        void prof(int visitados[], int no, int marca); //percorrendo por profundidade, auxilia a calcular as componentes conexas
+        int compConSemNo(int id); // calcula quantas comp con sem o no passado
+        void profSemNo(int visitados[], int no, int marca, int id);
+        bool ehNoArt (int id); // verifica se determinado no e de articulacao
+        void imprimeIdNoArt(); //imprime o id de todos os nos de articulacao
 
         void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
-        void fechoTransInd(int idNo); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
+        void fechoTransInd(int idNo, list <int> &fTransIndireto); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
         void seqGraus(); // Davi: implementado
         void subgrafoInd();
         Grafo* complementarGrafo();
         Grafo* transpostoGrafo();
         void compFortConex();
         bool ehEuleriano();
-        No* noArt();
         void arestaPonte();
+        bool ehConexo();
         void infografo();
         void AGM(); //muda o nome se necess�rio
 

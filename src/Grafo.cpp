@@ -8,10 +8,11 @@
 #include <iterator>
 #include <list>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
-Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
+Grafo::Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
     //constr�i grafo vazio
     n = 0;
@@ -21,7 +22,7 @@ Grafo::Grafo(bool ehDigraf, bool ehPondNo, bool ehPondArco)
     ehPonderadoArco = ehPondArco;
 }
 
-Grafo::Grafo(int num, bool ehDigraf, bool ehPondNo, bool ehPondArco)
+Grafo::Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
     //constr�i grafo com o n�mero de n�s informado
     n = 0;
@@ -156,6 +157,24 @@ void Grafo::removeArco(int idOrig, int idDest)
     auxDest->removeArco(idOrig);
 }
 
+bool Grafo::ehAdjacente(int id1, int id2)
+{
+    No* no1;
+    for(no1 = primeiro; no1!=NULL && no1->getId()!= id1; no1 = no1->getProxNo());
+    if(no1 == NULL)
+        return false;
+
+    No* no2;
+    for(no2 = primeiro; no2!=NULL && no2->getId()!= id2; no2 = no2->getProxNo());
+    if(no2 == NULL)
+        return false;
+
+    if(!ehDigrafo)
+        return no1->ehAdjacente(id2);
+
+    return (no1->ehAdjacente(id2) || no2->ehAdjacente(id1));
+}
+
 bool Grafo::ehMultigrafo()
 {
     if(n==0)
@@ -174,35 +193,43 @@ bool Grafo::ehMultigrafo()
     return false;
 }
 
-void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto)
+void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado)
 {
-    //n�o funciona se grafo n�o � GAD
-    int* listaAdjacentes = no->getAdjacentes(n);
+    lVisitado.push_back(no->getId());
+    fTransDireto.push_back(no->getId());
 
-    if(listaAdjacentes==NULL)
+    list<int> adj;
+    no->getAdjacentes(adj);
+
+    if(adj.empty())
         return;
 
-    for(int i=0; listaAdjacentes[i]!=-1; i++){
-        fTransDireto.push_back(listaAdjacentes[i]);
-        No* aux;
-        for(aux = primeiro; aux!=NULL && aux->getId()!=listaAdjacentes[i]; aux = aux->getProxNo());
-        auxFechoTransDir(aux, fTransDireto);
+    list<int>::iterator it;
+
+    for(it = adj.begin(); it!=adj.end(); ++it)
+    {
+        bool visitado = (find(lVisitado.begin(), lVisitado.end(), *it) != lVisitado.end());
+        if(!visitado){
+            fTransDireto.push_back(*it);
+            lVisitado.push_back(*it);
+            No* aux;
+            for(aux = primeiro; aux!=NULL && aux->getId()!=*it; aux = aux->getProxNo());
+            auxFechoTransDir(aux, fTransDireto, lVisitado);
+        }
     }
 
     fTransDireto.sort();
     fTransDireto.unique();
-
-    delete listaAdjacentes;
 }
 
 void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 {
     if(n==0)
         return;
-    if(ehMultigrafo())
+    if(!ehDigrafo){
+        cout << "Erro: grafo nao eh direcionado!" << endl;
         return;
-
-    //precisa de fun��o que verifica se o grafo � GAD, pois esse algoritmo n�o funciona se h� ciclos
+    }
 
     No* aux;
     for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
@@ -210,63 +237,103 @@ void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
     if(aux==NULL)
         return;
 
-    auxFechoTransDir(aux, fTransDireto);
+    list<int> visitado;
+    auxFechoTransDir(aux, fTransDireto, visitado);
+
+    list<int>::iterator it;
+    for(it = fTransDireto.begin(); it!=fTransDireto.end(); ++it){
+        cout << *it << ", ";
+    }
+    cout << endl;
     return;
 }
 
-void Grafo::vizAberto(No* no,int nNos){
 
-    int* vetAberta = new int[nNos-1];
-    vetAberta = no->getAdjacentes(nNos);
-
-    cout << vetAberta << endl;
+Grafo* Grafo::auxFechoTransInd()
+{
+    Grafo* invertido = new Grafo(n, ehDigrafo, ehPonderadoNo, ehPonderadoArco);
+    No* aux;
+    for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
+        list<int> adjacentes;
+        aux->getAdjacentes(adjacentes);
+        list<int>::iterator i;
+        for(i=adjacentes.begin(); i!=adjacentes.end(); ++i)
+            invertido->addArco(*i, aux->getId(), 0);
+    }
+    return invertido;
 }
 
-void Grafo::vizFechado(No* no, int nNos){
-
-    int* vetFechada = new int[nNos];
-    vetFechada = no->getAdjacentes(nNos);
-    int x = sizeof(vetFechada);
-    vetFechada[x+1] = no->getId();
-
-    cout << vetFechada << endl;
+void Grafo::fechoTransInd(int idNo, list <int> &fTransIndireto)
+{
+    Grafo* invertido = auxFechoTransInd();
+    invertido->fechoTransDir(idNo, fTransIndireto);
+    delete invertido;
 }
-bool Grafo::auxBipartido(int nNos,No* no){
 
-    no->setCor(1);
-    int* adj = new int[nNos];
+void Grafo::vizAberto(int idNo, list <int> &lista){
 
-    while(no->getProxNo()!=nullptr){
-        adj = no->getAdjacentes(n);
-        for(int i=1;i<sizeof(adj);i++){
-            if(no->getCor()==0){
+    No* aux;
 
-            }
-            if(no->getCor()==0){
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
 
-            }
-            else{
-                for(int j=0;j<sizeof(adj);j++);
-                //adj[i].setCor(0);
+    if(aux==NULL)
+        return;
+
+    list<int> adj;
+    aux->getAdjacentes(adj);
+}
+
+void Grafo::vizFechado(int idNo, list <int> &lista){
+
+    No* aux;
+
+    for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
+
+    if(aux==NULL)
+        return;
+
+    list<int> adj;
+    adj.push_back(idNo);
+    aux->getAdjacentes(adj);
+}
+
+/*
+bool Grafo::auxBipartido(int n_passo, No* no){
+    bool coloriuCerto = false;
+    Coloracao corPreenchida = Coloracao::SEMCOR;
+
+    if(n_passo%2 == 0)
+        corPreenchida = Coloracao::AZUL;
+        else
+            corPreenchida = Coloracao::VERDE;
+
+    if(no->getCor() == Coloracao::SEMCOR){
+        no->setCor(corPreenchida);
+
+        for(list<int> x : no->getAdjacentes(x)){
+            coloriuCerto = auxBipartido(n_passo+1, no->getProxNo());
+            if(!coloriuCerto){
+                break;
             }
         }
+    } else{
+        if(no->getCor() != corPreenchida){
+            return false;
+        }
     }
+    return true;
 }
 
 
-bool Grafo::ehBipartido(int nNos, No* no){
-    /* associamos cada cor a uma coloração
-    SEM COR = -1;
-    AZUL = 0;
-    VERMELHO = 1;*/
-
+bool Grafo::ehBipartido(No* no){
     while(no->getProxNo()!=nullptr)
-        no->setCor(-1);
+        no->setCor(Coloracao::SEMCOR);
 
     bool ehBipart = auxBipartido(nNos,no);
 
     return ehBipart;
 }
+*/
 
 int* Grafo::grauNo(int id){
 
@@ -334,7 +401,7 @@ bool Grafo::ehNulo()
 
     No* atual = primeiro;
     while(atual != NULL){
-        if(atual->getAdjacentes() != NULL)
+        if(atual->temArestas())
             return false;
 
         atual = atual->getProxNo();
@@ -405,7 +472,7 @@ Grafo* Grafo::complementarGrafo()
                 if(!origem->ehEntrada(destino->getId())){
                     complementar->addArco(origem->getId(), destino->getId(), 0);
                 }
-            } 
+            }
         }
         else{
             for (No* destino = origem->getProxNo(); destino != NULL; destino = destino->getProxNo())
@@ -415,10 +482,23 @@ Grafo* Grafo::complementarGrafo()
                 }
             }
         }
-        
-    }   
+
+    }
 
     return complementar;
+}
+
+bool Grafo::ehEuleriano()
+{
+    if(ehDigrafo)
+        return false;
+
+    No* aux;
+    for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
+        if(aux->grauSaida()%2!=0)
+            return false;
+    }
+    return true;
 }
 
 void Grafo::compFortConex()
@@ -462,3 +542,170 @@ void Grafo::imprimeGrafo()
     }
 }
 
+void Grafo::auxConexo(No* n){
+    if(n->getCor() != Coloracao::AZUL){
+        n->setCor(Coloracao::AZUL);
+
+        lista<int> no_adj;
+        n->getAdjacentes(no_adj);
+
+        for(){
+            if()
+        }
+    }
+
+    /*for (auto it : verticesAdjacentes) {
+            //verifica se o vértice ainda não foi corVisita
+            if (getVertice(it.getIdVertice())->getVisitado() == Coloracao::SEMCOR) {
+                auxIsConexo(it.getIdVertice());
+            }
+        }*/
+}
+
+bool Grafo::ehConexo(No* no){
+
+    while(no->getProxNo()!=nullptr)
+        no->setCor(Coloracao::SEMCOR);
+    
+    auxConexo(no);
+
+    while(no->getProxNo()!=nullptr){
+        if(no->getCor() == Coloracao::SEMCOR)
+            return false
+    }
+
+    return true;
+}
+
+void Grafo::arestaPonte(){
+    //selecionar dois nos que tem uma aresta entre si, ou seja que tem adjacencia,
+    //e remover a adjacencia dos mesmos, em seguida verificar se o grafo permance
+    //conexo, se não, achamos uma ponte. 
+
+    //ideia: criar aux recursivo e ir armazenando em um vetor onde
+    // a cada 2 indices temos uma dupla de nós que tem uma ponte entre
+    //si, ou imprimir os nós.   
+}
+
+int Grafo::compCon ()
+{
+    int visit[n] = {};
+    int comp = 0;
+    int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-1, o ultimo
+    
+    for(i=0; i<n; i++)
+    {
+        if(visit[i]==0)
+        {
+            comp++;
+            prof(visit,i,comp);
+        }
+    }
+    return comp;
+}
+
+void Grafo::prof(int visitados[], int no, int marca)
+{
+    visitados[no] = marca;
+    int i = 0;
+    No* auxNo;
+    for(auxNo = primeiro; auxNo!=NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(i == no)
+            break;
+        i++;
+    }
+    int j = 0;
+    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    {
+        if(auxNo -> ehAdjacente(auxNo2->getId()))
+        {
+            if(visitados[j] == 0)
+            {
+                prof(visitados,j,marca);
+            }
+        }
+        j++;
+    }
+}
+
+
+
+
+int Grafo::compConSemNo(int id) //calcula quantas componentes conexas o grafo teria sem o no passado
+{
+    int visit[n-1] = {};
+    int comp = 0;
+    int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-2, o ultimo
+    
+    No* auxNo;
+    
+    for(i=0; i<n-1; i++)
+    {
+        if(visit[i]==0)
+        {
+            comp++;
+            prof(visit,i,comp,id);
+        }
+    }
+    return comp;
+}
+
+void Grafo::profSemNo(int visitados[], int no, int marca, int id)
+{
+    visitados[no] = marca;
+    int i = 0;
+    No* auxNo;
+    for(auxNo = primeiro; auxNo!=NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(auxNo -> getId() == id)
+            continue;
+        if(i == no)
+            break;
+        i++;
+    }
+    
+    int j = 0;
+    
+    for(auxNo2 = primeiro; auxNo2 != NULL; auxNo2 = auxNo2 -> getProx())
+    {
+        if (auxNo2 -> getId() == id)
+            continue;
+        if(auxNo -> ehAdjacente(auxNo2->getId()))
+            if(visitados[j] == 0)
+                profSemNo(visitados,j,marca,id);
+        j++;
+    }
+}
+
+bool Grafo::ehNoArt (int id)
+{
+    if(compCon() < compConSemNo(id))
+    {
+        return true;
+    }
+    return false;
+}
+
+void Grafo::imprimeIdNoArt()
+{
+    int i = 0; // vai indicar quantos nos de articulacao tem
+    for(No* auxNo = primeiro; auxNo != NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(ehNoArt(auxNo -> getId()))
+        {
+            if(i == 0)
+            {
+                cout << "Id dos nos de articulacao: ";
+                cout << auxNo -> getId();
+            }
+            else
+                cout << ", " << auxNo -> getId();
+            i++;
+        }
+    }
+    if(i == 0)
+        cout << "O grafo nao possui nos de articulacao";
+    cout << "."<<endl;
+   
+}

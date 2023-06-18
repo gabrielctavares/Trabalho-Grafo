@@ -2,6 +2,8 @@
 #define NO_H
 
 #include "Arco.h"
+#include "Coloracao.h"
+#include <list>
 class No
 {
     private:
@@ -9,20 +11,18 @@ class No
         float peso; //armazena o peso do n�
         No *proxNo; //ponteiro para o pr�ximo n� na lista de n�s do grafo
         Arco *adjacentes; //ponteiro para o primeiro arco da lista de adjac�ncia
-        int cor;
+        Coloracao cor;
 
     public:
         No(int n);
         No(int n, float p);
         ~No();
         void addArco(int idAdj, float p, bool ehPondArc);
-        void removeArco(int idDest);//ainda n�o implementado
+        void removeArco(int idDest);
         No* getProxNo();
         void setProxNo(No* no);
         int getId();
         float getPeso();
-        void setCor(int x);
-        int getCor();
         int grauSaida();
         int grauEntrada(No* primeiro);
 
@@ -31,10 +31,14 @@ class No
 
         bool temMultiarco(int* v, int n); //usado pela fun��o ehMultigrafo do TAD grafo
 
-        Arco * getAdjacentes(); //retorna os adjacentes ao n� atual
-        int* getAdjacentes(int nNos); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
+        bool temArestas(); //retorna os adjacentes ao n� atual
+        void getAdjacentes(std::list<int> &adj); //retorna um vetor com os id's dos n�s adjacentes ao n� atual
+        bool ehAdjacente(int idNo);
 
         void imprimeNo(bool ehPondArc);
+
+        Coloracao getCor();
+        void setCor(Coloracao x);
 };
 
 #endif // NO_H
