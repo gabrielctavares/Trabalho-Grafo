@@ -198,10 +198,10 @@ void No::imprimeNo(bool ehPondArc){
     }
 }
 
-Coloracao No::getCor(){
+int No::getCor(){
     return cor;
 }
 
-void No::setCor(Coloracao x) {
+void No::setCor(int x) {
     cor = x;
 }
