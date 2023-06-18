@@ -68,9 +68,9 @@ void No::addArco(int idAdj, float p, bool ehPondArc)
 
     //cria um novo arco que � ponderado ou n�o de acordo com o tipo de grafo
     if(ehPondArc)
-        novo = new Arco(idAdj, p);
+        novo = new Arco(this->id, idAdj, p);
     else
-        novo = new Arco(idAdj);
+        novo = new Arco(this->id, idAdj);
 
     if(adjacentes!=NULL){ //se o n� j� possui arcos
         Arco* aux;

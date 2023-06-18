@@ -5,17 +5,19 @@
 class Arco
 {
     private:
-        int idDestino; //armazena o id do nó destino
+        int idOrigem;
+        int idDestino; //armazena o id do nï¿½ destino
         float pesoArco; //armazena o peso do arco
-        Arco *proxArco; //ponteiro para o próximo arco na lista de adjacência
+        Arco *proxArco; //ponteiro para o prï¿½ximo arco na lista de adjacï¿½ncia
 
     public:
-        Arco(int dest);
-        Arco(int dest, float p);
+        Arco(int origemId, int destinoId);
+        Arco(int origemId, int destinoId, float peso);
         ~Arco();
-        Arco* getProxArc(); //get do próximo arco da lista de adjacência
-        void setProxArc(Arco* arco); //set do próximo arco da lista de adjacência
-        int getIdDest(); //get do id do nó destino do arco
+        Arco* getProxArc(); //get do prï¿½ximo arco da lista de adjacï¿½ncia
+        void setProxArc(Arco* arco); //set do prï¿½ximo arco da lista de adjacï¿½ncia
+        int getIdDest(); //get do id do nï¿½ destino do arco
+        int getIdOrigem(); //get do id do nï¿½ destino do arco
         float getPesoArco(); //get do peso do arco
 };
 

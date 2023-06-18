@@ -10,19 +10,21 @@
 
 using namespace std;
 
-Arco::Arco(int dest)
+Arco::Arco(int origemId, int destinoId)
 {
     //construtor de arco n�o ponderado nas arestas
-    idDestino = dest;
+    idOrigem = origemId;
+    idDestino = destinoId;
     pesoArco = 0;
     proxArco = NULL;
 }
 
-Arco::Arco(int dest, float p)
+Arco::Arco(int origemId, int destinoId, float peso)
 {
     //construtor
-    idDestino = dest;
-    pesoArco = p;
+    idOrigem = origemId;
+    idDestino = destinoId;
+    pesoArco = peso;
     proxArco = NULL;
 }
 
@@ -45,6 +47,11 @@ void Arco::setProxArc(Arco* arco)
 int Arco::getIdDest()
 {
     return idDestino;
+}
+
+int Arco::getIdOrigem()
+{
+    return idOrigem;
 }
 
 float Arco::getPesoArco()
