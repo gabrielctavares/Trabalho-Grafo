@@ -28,6 +28,7 @@ int main(int argc, const char* argv[]){
 
     Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
 
+    //imprimeOpcoes();
     grafo->imprimeGrafo();
 
     cout << "Componentes fortemente conexas:\n";
@@ -104,3 +105,34 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     arquivo.close();
     return g;
 }
+
+int exibeMenu(){
+    int opMenu;
+
+    cout << " 1- Verificar o Grau de um vértice" << endl;
+    cout << " 2- Verificar o Grau de G" << endl;
+    cout << " 3- Verificar adjacência entre vértices" << endl;
+    cout << " 4- Listar os adjacentes de um vértice" << endl;
+    cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
+    cout << " 6- Verificar se o Grafo é K-Regular" << endl;
+    cout << " 7- Retornar o Grafo Complementar G" << endl;
+    cout << " 8- Verificar se o Grafo é Completo" << endl;
+    cout << " 9- Verificar se o Grafo é Bipartido" << endl;
+    cout << "10- Verificar se o Grafo é conexo" << endl;
+    cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
+    cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
+    cout << "13- Remover Vértice" << endl;
+    cout << "14- Remover Aresta" << endl;
+    cout << "15- Fecho Transitivo" << endl;
+    cout << "16- Fecho Intransitivo" << endl;
+    cout << "17- Cobertura de Vértices Guloso" << endl;
+    cout << "18- Cobertura de Vértices Guloso Randomizado" << endl;
+    cout << "19- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
+    cout << " 0- Sair" << endl;
+    cout << "\nOpção: ";
+    cin >> opMenu;
+    return opMenu;
+}
+ void imprimeOpcoes(){
+
+ }
