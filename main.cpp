@@ -30,6 +30,15 @@ int main(int argc, const char* argv[]){
 
     grafo->imprimeGrafo();
 
+    cout << "Componentes fortemente conexas:\n";
+    vector<vector<No*>> result = grafo->compFortConex();
+    for (vector<No*> component : result) {
+        for (No* no : component) {
+            cout << no->getId() << " ";
+        }
+        cout << ""<< endl;
+    }
+
     /*
     cout << "Ordem do grafo: " << grafo->ordemGrafo() << endl;
     for(int i=0; i<grafo->ordemGrafo(); i++){
@@ -56,9 +65,9 @@ int main(int argc, const char* argv[]){
     list<int> fechoIndireto;
     grafo->fechoTransInd(1, fechoIndireto);
 
-    cout << "O no 1 é adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
+    cout << "O no 1 ï¿½ adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
 
-    cout << "O grafo é euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
+    cout << "O grafo ï¿½ euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
 
     delete grafo;
     return 0;
