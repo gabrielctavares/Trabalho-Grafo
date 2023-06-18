@@ -742,23 +742,18 @@ void Grafo::prof(int visitados[], int no, int marca)
     }
 }
 
-
-
-
 int Grafo::compConSemNo(int id) //calcula quantas componentes conexas o grafo teria sem o no passado
 {
     int visit[n-1] = {};
     int comp = 0;
     int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-2, o ultimo
-
-    No* auxNo;
-
+        
     for(i=0; i<n-1; i++)
     {
         if(visit[i]==0)
         {
             comp++;
-            prof(visit,i,comp);
+            profSemNo(visit,i,comp,id);
         }
     }
     return comp;
