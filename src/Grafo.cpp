@@ -297,8 +297,8 @@ void Grafo::vizFechado(int idNo, list <int> &lista){
     aux->getAdjacentes(adj);
 }
 
-/*
-bool Grafo::auxBipartido(long n_passo, No* no){
+
+bool Grafo::auxBipartido(int n_passo, No* no){
     bool coloriuCerto = false;
     int corPreenchida = -1;
     Arco* adj;
@@ -345,7 +345,7 @@ bool Grafo::ehBipartido(){
 
     return auxBipartido(0,no);
 }
-*/
+
 
 int* Grafo::grauNo(int id){
 
