@@ -666,7 +666,7 @@ No *Grafo::GetNo(int id)
 }
 
 Arco* Grafo::arestaPonte(){
-    No* n = primeiro; 
+    No* n = primeiro;
     Arco* aux; //armazena temporariamente um arco para adicionar na lista de pontes
     Arco* pontes; //retorna a lista de arcos pontes encontrados
     Arco* adj; //lista de arcos para obter os adjacentes do no
@@ -685,7 +685,7 @@ Arco* Grafo::arestaPonte(){
                 x = GetNo(adj->getIdDest());
                 aux->Arco(n->getId(),x->getId(),p);
                 pontes->setProxArc(aux);
-            } 
+            }
 
             n->addArco(GetNo(adj->getIdDest())->getId(), p, true);
             adj = adj->getProxArc();
@@ -744,7 +744,7 @@ int Grafo::compConSemNo(int id) //calcula quantas componentes conexas o grafo te
     int visit[n-1] = {};
     int comp = 0;
     int i; //indica sobre qual nó estamos: i=0 é o primeiro no da lista i=n-2, o ultimo
-        
+
     for(i=0; i<n-1; i++)
     {
         if(visit[i]==0)
@@ -813,4 +813,80 @@ void Grafo::imprimeIdNoArt()
         cout << "O grafo nao possui nos de articulacao";
     cout << "."<<endl;
 
+}
+
+void Grafo::ordenaCandidatos(list<int> &candidatos)
+{
+    for(No* aux=primeiro; aux!=NULL; aux = aux->getProxNo())
+        candidatos.push_back(aux->getId());
+    list<int>::iterator i;
+    list<int>::iterator j;
+    for(i=candidatos.begin(); i!=--candidatos.end(); ++i){
+        for(j=--candidatos.end(); j!=i; ){
+            list<int>::iterator it = j;
+            No* aux1 = GetNo(*j);
+            No* aux2 = GetNo(*(--j));
+            float heur1 = aux1->getPeso()/aux1->grauSaida();
+            float heur2 = aux2->getPeso()/aux2->grauSaida();
+            if(heur1<heur2){
+                swap(*(--it), *it);
+            }
+        }
+    }
+}
+
+void Grafo::cobertVertPondG(list<int> &solucao)
+{
+    /*
+    solucao<-vazio;
+    candidatos<-ordenaCandidatos();
+    while(candidatos!=vazio)
+        no<-candidatos[0];
+        if(no cobre nó que ainda não foi coberto)
+            solucao<-no;
+        candidatos<- candidatos-no;
+    fim-while
+    */
+}
+
+void Grafo::cobertVertPondGR(list<int> &best)
+{
+    /*
+    best<-vazio;
+    for(int i=0; i<nInteracoes; i++)
+        solucao<-vazio;
+        candidatos<-ordenaCandidatos();
+        while(candidatos!=vazio)
+            no<-candidatos[rand(0, alpha*candidatos.size())];
+            if(no cobre nó que ainda não foi coberto)
+                solucao<-no;
+            candidatos<- candidatos-no;
+        fim-while
+        if(solucao melhor que best)
+            best<-solucao;
+    fim-for
+    */
+}
+
+void Grafo::cobertVertPondGRR(list<int> &best)
+{
+    /*
+    best<-vazio;
+    prob[MAX];
+    for(int i=0; i<nInteracoes; i++)
+        solucao<-vazio;
+        candidatos<-ordenaCandidatos();
+        while(candidatos!=vazio)
+            alpha = prob[getRand()];
+            no<-candidatos[rand(0, alpha*candidatos.size())];
+            if(no cobre nó que ainda não foi coberto)
+                solucao<-no;
+            candidatos<- candidatos-no;
+        fim-while
+        if(solucao melhor que best)
+            best<-solucao;
+            setProbabilidades(prob, best);
+        fim-if
+    fim-for
+    */
 }
