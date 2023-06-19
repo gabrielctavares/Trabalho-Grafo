@@ -297,37 +297,11 @@ void Grafo::vizFechado(int idNo, list <int> &lista){
     aux->getAdjacentes(adj);
 }
 
-/*
-bool Grafo::auxBipartido(long n_passo, No* no){
-    bool coloriuCerto = false;
-    Coloracao corPreenchida = Coloracao::SEMCOR;
 
-    if(n_passo%2 == 0)
-        corPreenchida = Coloracao::AZUL;
-        else
-            corPreenchida = Coloracao::VERDE;
-
-    if(no->getCor() == Coloracao::SEMCOR){
-        no->setCor(corPreenchida);
-
-        for(list<int> x : no->getAdjacentes(x)){
-            coloriuCerto = auxBipartido(n_passo+1, no->getProxNo());
-            if(!coloriuCerto){
-                break;
-            }
-        }
-    } else{
-        if(no->getCor() != corPreenchida){
-            return false;
-        }
-    }
-    return true;
-}
-
-*
-bool Grafo::auxBipartido(long n_passo, No* no){
+bool Grafo::auxBipartido(int n_passo, No* no){
     bool coloriuCerto = false;
     int corPreenchida = -1;
+    Arco* adj;
 
     if(n_passo%2 == 0)
         corPreenchida = 0;
@@ -337,13 +311,15 @@ bool Grafo::auxBipartido(long n_passo, No* no){
     if(no->getCor() == -1){
         no->setCor(corPreenchida);
 
-        for(list<int> x : no->getAdjacentes(x)){
-            coloriuCerto = auxBipartido(n_passo+1, no->getProxNo());
+        adj = no->getAdjacentes();
+
+        while(adj != NULL){
+            coloriuCerto = auxBipartido(n_passo+1, GetNo(adj->getIdDest())->getProxNo());
             if(!coloriuCerto){
                 break;
             }
+            adj = adj->getProxArc();
         }
-
     } else{
         if(no->getCor() != corPreenchida){
             return false;
@@ -352,8 +328,7 @@ bool Grafo::auxBipartido(long n_passo, No* no){
     return true;
 }
 
-
-bool Grafo::ehBipartido(No* no){
+bool Grafo::ehBipartido(){
 
     //SEM COR = -1,    //vértice não visitado
     //AZUL = 0,
@@ -361,12 +336,16 @@ bool Grafo::ehBipartido(No* no){
     //AMARELO = 2,
     //VERMELHO = 3
 
-    while(no->getProxNo()!=nullptr)
-        no->setCor(-1);
+    No* no = primeiro;
 
-    return auxBipartido(nNos,no);
+    while(no->getProxNo() != NULL){
+        no->setCor(-1);
+        no = no->getProxNo();
+    }
+
+    return auxBipartido(0,primeiro);
 }
-*/
+
 
 int* Grafo::grauNo(int id){
 
@@ -638,6 +617,8 @@ void Grafo::imprimeGrafo()
 }
 
 void Grafo::auxConexo(No* n){
+    int x;
+
     if(n->getCor() != 0){
         n->setCor(0);
     }
@@ -652,16 +633,22 @@ void Grafo::auxConexo(No* n){
     }
 }
 
-bool Grafo::ehConexo(No* primeiro){
+bool Grafo::ehConexo(){
 
-    while(no->getProxNo()!= NULL)
+    No* no = primeiro;
+
+    while(no->getProxNo()!= NULL){
         no->setCor(-1);
+        no = no->getProxNo();
+    }
 
     auxConexo(primeiro);
 
     while(no->getProxNo()!= NULL){
         if(no->getCor() == -1)
             return false;
+
+        no = no->getProxNo();
     }
     return true;
 }
@@ -678,32 +665,26 @@ No *Grafo::GetNo(int id)
     }
 }
 
-void Grafo::arestaPonte(){
-    //selecionar dois nos que tem uma aresta entre si, ou seja que tem adjacencia,
-    //e remover a adjacencia dos mesmos, em seguida verificar se o grafo permance
-    //conexo, se não, achamos uma ponte.
-
-    //ideia: criar aux recursivo e ir armazenando em um vetor onde
-    // a cada 2 indices temos uma dupla de nós que tem uma ponte entre
-    //si, ou imprimir os nós.
-
+Arco* Grafo::arestaPonte(){
     No* n = primeiro; 
-    //No* pontes;
-    //int* pontes[] = new int;
-    //int i = 0;
-    Arco* adj;
-    float p;
+    Arco* aux; //armazena temporariamente um arco para adicionar na lista de pontes
+    Arco* pontes; //retorna a lista de arcos pontes encontrados
+    Arco* adj; //lista de arcos para obter os adjacentes do no
+    float p; //peso da aresta
 
     while(n->getProxNo() != NULL){
 
         adj = n->getAdjacentes();
 
         while(adj != NULL){
+
             p = adj->getPesoArco();
             n->removeArco(adj);
+
             if(ehConexo()){
-                pontes[i] = n->getId();
-                pontes[i+1] = GetNo(adj->getIdDest())->getId();
+                x = GetNo(adj->getIdDest());
+                aux->Arco(n->getId(),x->getId(),p);
+                pontes->setProxArc(aux);
             } 
 
             n->addArco(GetNo(adj->getIdDest())->getId(), p, true);
@@ -712,6 +693,8 @@ void Grafo::arestaPonte(){
 
         n = n->getProxNo();
     }
+
+    return pontes;
 }
 
 int Grafo::compCon ()

@@ -67,8 +67,8 @@ class Grafo
         Grafo *transpostoGrafo();
         bool ehEuleriano();
         No* getVertice(Arco x, No* n);
-        bool ehConexo(No *no);
-        void arestaPonte();
+        bool ehConexo();
+        Arco* arestaPonte();
         void infografo();
         void AGM(); //muda o nome se necess�rio
 
