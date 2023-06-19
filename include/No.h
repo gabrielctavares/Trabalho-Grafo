@@ -39,8 +39,8 @@ class No
 
         void imprimeNo(bool ehPondArc);
 
-        Coloracao getCor();
-        void setCor(Coloracao x);
+        int getCor();
+        void setCor(int x);
         
         int getComponente();
         void setComponente(int x);

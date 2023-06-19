@@ -665,14 +665,11 @@ No *Grafo::GetNo(int id)
     }
 }
 
-void Grafo::arestaPonte(){
+Arco* Grafo::arestaPonte(){
     No* n = primeiro; 
-    No* x;
-    //No* pontes;
-    //int* pontes[] = new int;
-    //int i = 0;
-    //Arco* pontes;
-    Arco* adj;
+    Arco* aux; //armazena temporariamente um arco para adicionar na lista de pontes
+    Arco* pontes; //retorna a lista de arcos pontes encontrados
+    Arco* adj; //lista de arcos para obter os adjacentes do no
     float p; //peso da aresta
 
     while(n->getProxNo() != NULL){
@@ -686,21 +683,18 @@ void Grafo::arestaPonte(){
 
             if(ehConexo()){
                 x = GetNo(adj->getIdDest());
-                //pontes[i] = n->getId();
-                //pontes[i+1] = x->getId;
-
-                //aux->Arco(n->getId(),x->getId,p);
-                //pontes->setProxArc(aux);
+                aux->Arco(n->getId(),x->getId(),p);
+                pontes->setProxArc(aux);
             } 
 
-            n->addArco(GetNo(x->getId(), p, true);
+            n->addArco(GetNo(adj->getIdDest())->getId(), p, true);
             adj = adj->getProxArc();
         }
 
         n = n->getProxNo();
     }
 
-    return ;
+    return pontes;
 }
 
 int Grafo::compCon ()
