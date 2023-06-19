@@ -338,7 +338,7 @@ bool Grafo::ehBipartido(){
 
     No* no = primeiro;
 
-    while(no->getProxNo()!=nullptr){
+    while(no->getProxNo() != NULL){
         no->setCor(-1);
         no = no->getProxNo();
     }
@@ -617,6 +617,8 @@ void Grafo::imprimeGrafo()
 }
 
 void Grafo::auxConexo(No* n){
+    int x;
+
     if(n->getCor() != 0){
         n->setCor(0);
     }
@@ -633,14 +635,18 @@ void Grafo::auxConexo(No* n){
 
 bool Grafo::ehConexo(No* primeiro){
 
-    while(no->getProxNo()!= NULL)
+    while(no->getProxNo()!= NULL){
         no->setCor(-1);
+        no = no->getProxNo();
+    }
 
     auxConexo(primeiro);
 
     while(no->getProxNo()!= NULL){
         if(no->getCor() == -1)
             return false;
+
+        no = no->getProxNo();
     }
     return true;
 }
