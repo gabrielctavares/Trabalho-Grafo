@@ -23,6 +23,8 @@ class Grafo
         bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
         void auxConexo(No *n);
         No* GetNo(int id);
+
+        void ordenaCandidatos(list<int> &candidatos); //função auxiliar que ordena os nós baseado na heurística
     public:
         Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
         Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
@@ -71,6 +73,10 @@ class Grafo
         void AGM(); //muda o nome se necess�rio
 
         void imprimeGrafo();
+
+        void cobertVertPondG(list<int> &solucao);
+        void cobertVertPondGR(list<int> &best);
+        void cobertVertPondGRR(list<int> &best);
 };
 
 #endif // GRAFO_H
