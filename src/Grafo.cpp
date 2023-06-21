@@ -683,8 +683,14 @@ Arco* Grafo::arestaPonte(){
 
             if(ehConexo()){
                 x = GetNo(adj->getIdDest());
-                aux->Arco(n->getId(),x->getId(),p);
-                pontes->setProxArc(aux);
+                
+                if(ehPonderadoArco){
+                    aux->Arco(n->getId(),x->getId(),p);
+                    pontes->setProxArc(aux);
+                }else{
+                    aux->Arco(n->getId(),x->getId());
+                    pontes->setProxArc(aux);
+                }
             }
 
             n->addArco(GetNo(adj->getIdDest())->getId(), p, true);
@@ -890,3 +896,48 @@ void Grafo::cobertVertPondGRR(list<int> &best)
     fim-for
     */
 }
+
+/*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)
+{
+    if(id_n[i]==aux->getId()){
+        adj = aux->getAdjacentes();
+        n->No(id_n[i]);
+        i++;
+            while(adj != NULL){
+              if(GetNo(adj->getIdDest())->getId() == id_n[i_aux]){
+                  n->addArco(adj->getIdDest())->getId(), , true);
+              } 
+              adj = adj->getProxArc();    
+            }
+            aux = aux->getProxNo();
+
+    }
+}
+
+No* Grafo::subgrafoInd(int *id_n)
+{
+    int i = 0, i_aux = 1;
+
+    No* n;
+    No* aux = primeiro;
+    Arco* adj;
+
+    while(aux != NULL){
+        if(id_n[i]==aux->getId()){
+            adj = aux->getAdjacentes();
+            n->No(id_n[i]);
+            i++;
+            while(adj != NULL){
+              if(GetNo(adj->getIdDest())->getId() == id_n[i_aux]){
+                  n->addArco(adj->getIdDest())->getId(), , true);
+              } 
+              adj = adj->getProxArc();    
+            }
+            aux = aux->getProxNo();
+            i_aux++;
+        }
+    }
+
+    return n;
+
+}*/

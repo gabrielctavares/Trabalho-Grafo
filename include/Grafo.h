@@ -25,7 +25,9 @@ class Grafo
         No* GetNo(int id);
 
         void ordenaCandidatos(list<int> &candidatos); //função auxiliar que ordena os nós baseado na heurística
+
     public:
+
         Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
         Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
         ~Grafo();
@@ -60,7 +62,7 @@ class Grafo
         void fechoTransDir(int idNo, list <int> &fTransDireto); //n�s que podem ser "alcan�ados" a partir do n� com id idNo(incompleto)
         void fechoTransInd(int idNo, list <int> &fTransIndireto); //retorna conjunto de n�s que podem "alcan�ar" o n� com id idNo (a ser implementado)
         void seqGraus(); // Davi: implementado
-        void subgrafoInd();
+        No* subgrafoInd(int *id_n);
         Grafo* complementarGrafo();
         vector<vector<No*>> compFortConex();
         void auxCompFortConex(No *u, int low[], stack<No *> *st, bool stackMember[], vector<vector<No *>> &result);
