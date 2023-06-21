@@ -679,7 +679,7 @@ Arco* Grafo::arestaPonte(){
         while(adj != NULL){
 
             p = adj->getPesoArco();
-            n->removeArco(adj);
+            n->removeArco(adj->getIdDest());;
 
             if(ehConexo()){
                 x = GetNo(adj->getIdDest());
