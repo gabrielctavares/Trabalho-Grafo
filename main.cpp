@@ -40,14 +40,12 @@ int main(int argc, const char* argv[]){
         cout << ""<< endl;
     }
 
-    /*
+
     cout << "Ordem do grafo: " << grafo->ordemGrafo() << endl;
     for(int i=0; i<grafo->ordemGrafo(); i++){
         cout << "Grau do no " << i+1 << ": " << grafo->grauNo(i+1)[0] << endl;
     }
-
-    */
-    cout << "Eh 4-regular? " << grafo->verificaK(4) << endl;
+    cout << "Eh 4-regular?(0 - falso / 1 - verdadeiro): " << grafo->verificaK(4) << endl;
 
 
     cout << "Imprimindo grafo oficial --------" << endl;
@@ -66,9 +64,12 @@ int main(int argc, const char* argv[]){
     list<int> fechoIndireto;
     grafo->fechoTransInd(1, fechoIndireto);
 
-    cout << "O no 1 � adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
+    cout << "O no 1 eh adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
 
-    cout << "O grafo � euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
+    cout << "O grafo eh euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
+
+    for(int i=0; i<5; i++)
+        cout << "O no " << i << " eh no de articulacao?(0 - falso / 1 - verdadeiro): " << grafo->ehNoArt(i) << endl;
 
     delete grafo;
     return 0;

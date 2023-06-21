@@ -11,7 +11,7 @@ class No
         float peso; //armazena o peso do n�
         No *proxNo; //ponteiro para o pr�ximo n� na lista de n�s do grafo
         Arco *adjacentes; //ponteiro para o primeiro arco da lista de adjac�ncia
-        Coloracao cor;
+        int cor;
         int componente;
     public:
         No(int n);
@@ -41,7 +41,7 @@ class No
 
         int getCor();
         void setCor(int x);
-        
+
         int getComponente();
         void setComponente(int x);
 };
