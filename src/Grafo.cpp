@@ -31,7 +31,7 @@ Grafo::Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo)
     ehPonderadoNo = ehPondNo;
     ehPonderadoArco = ehPondArco;
     for(int i=0; i<num; i++){
-        addNo(i+1, 0);
+        addNo(i+1);
     }
 }
 
@@ -48,7 +48,7 @@ Grafo::~Grafo()
     primeiro = NULL;
 }
 
-void Grafo::addNo(int id, float peso)
+void Grafo::addNo(int id)
 {
     //confere se o id j� est� sendo usado por algum n� do grafo
     for(No* aux = primeiro; aux!=NULL; aux = aux->getProxNo())
@@ -60,7 +60,7 @@ void Grafo::addNo(int id, float peso)
 
     No* no;
     if(ehPonderadoNo)
-        no = new No(id, peso); //inicializa um objeto do tipo n� para grafos ponderados no n�
+        no = new No(id, (id%200)+1); //inicializa um objeto do tipo n� para grafos ponderados no n�
     else
         no = new No(id); //inicializa um objeto do tipo n� para grafos n�o ponderados no n�
     if(n==0)//se o grafo � vazio, o n� adicionado ser� o primeiro n� da lista
@@ -683,7 +683,7 @@ Arco* Grafo::arestaPonte(){
 
             if(ehConexo()){
                 x = GetNo(adj->getIdDest());
-                
+
                 if(ehPonderadoArco){
                     aux->Arco(n->getId(),x->getId(),p);
                     pontes->setProxArc(aux);
@@ -906,8 +906,8 @@ void Grafo::cobertVertPondGRR(list<int> &best)
             while(adj != NULL){
               if(GetNo(adj->getIdDest())->getId() == id_n[i_aux]){
                   n->addArco(adj->getIdDest())->getId(), , true);
-              } 
-              adj = adj->getProxArc();    
+              }
+              adj = adj->getProxArc();
             }
             aux = aux->getProxNo();
 
@@ -930,8 +930,8 @@ No* Grafo::subgrafoInd(int *id_n)
             while(adj != NULL){
               if(GetNo(adj->getIdDest())->getId() == id_n[i_aux]){
                   n->addArco(adj->getIdDest())->getId(), , true);
-              } 
-              adj = adj->getProxArc();    
+              }
+              adj = adj->getProxArc();
             }
             aux = aux->getProxNo();
             i_aux++;

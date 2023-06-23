@@ -32,7 +32,7 @@ class Grafo
         Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
         ~Grafo();
 
-        void addNo(int id, float peso); //adiciona n� com o id informado
+        void addNo(int id); //adiciona n� com o id informado
         void removeNo(int id); //remove o n� com o id informado
 
         void addArco(int orig, int dest, float p); //adiciona um arco do n� com id orig indo no n� com id dest
