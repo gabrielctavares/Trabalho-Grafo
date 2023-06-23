@@ -85,7 +85,7 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
         exit(-1);
     }
 
-    int tempNo1, tempNo2, tempPeso, numeroNo = 0;
+    int numeroNo = 0;
     std::string buffer = "";
 
     getline(arquivo, buffer); // Primeira linha
@@ -93,16 +93,33 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
 
     Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice);
     int i = 0;
-    while (arquivo >> tempNo1 >> tempNo2 >> tempPeso)
-    {
-        i++;
-        std::cout << i << " Line Read: " << tempNo1 << " " << tempNo2 << " " << tempPeso << std::endl;
 
-        g->addArco(tempNo1, tempNo2, tempPeso);
-        tempPeso = 0;
-        tempNo1 = 0;
-        tempNo2 = 0;
+    if(pondAresta){
+        int tempNo1, tempNo2, tempPeso;
+        while (arquivo >> tempNo1 >> tempNo2 >> tempPeso)
+        {
+            i++;
+            std::cout << i << " Line Read: " << tempNo1 << " " << tempNo2 << " " << tempPeso << std::endl;
+
+            g->addArco(tempNo1, tempNo2, tempPeso);
+            tempPeso = 0;
+            tempNo1 = 0;
+            tempNo2 = 0;
+        }
     }
+    else{
+        char aux;
+        int tempNo1, tempNo2;
+        while(arquivo >> aux >> tempNo1 >> tempNo2){
+            i++;
+            std::cout << i << " Line Read: " << aux << " " << tempNo1 << " " << tempNo2 << std::endl;
+
+            g->addArco(tempNo1, tempNo2, 0);
+            tempNo1 = 0;
+            tempNo2 = 0;
+        }
+    }
+
     arquivo.close();
     return g;
 }
