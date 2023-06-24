@@ -839,13 +839,18 @@ void Grafo::ordenaCandidatos(list<int> &candidatos)
     }
 }
 
-void Grafo::auxCobertVertPond(list<Arco> &lista){
+Arco* Grafo::auxCobertVertPond(){
     No* aux;
+    Arco* arco_aux;
+    Arco* lista_arcos;
     for(aux= primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
-            lista.push_back(*arcos);
+            arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
+            arco_aux->setProxArc(lista_arcos);
+            lista_arcos = arco_aux;
         }
     }
+    return lista_arcos;
 }
 
 void Grafo::cobertVertPondG(list<int> &solucao)
@@ -871,13 +876,13 @@ void Grafo::cobertVertPondG(list<int> &solucao)
 //    int *visitado = new int [n];
 
     //lista que marca os nós que ainda não foram cobertos
-    list<Arco> arcosNCobertos;
-    auxCobertVertPond(arcosNCobertos);
+    Arco* arcosNCobertos;
+    arcosNCobertos = auxCobertVertPond();
 
 //    for(int i = 0; i<n; i++)
 //        visitado[i] = 0;
 
-    while(!candidatos.empty() && !arcosNCobertos.empty()){
+    while(!candidatos.empty() && arcosNCobertos!=NULL){
         //pega o melhor nó
         no = GetNo(*(candidatos.begin()));
         candidatos.pop_front();
@@ -886,9 +891,21 @@ void Grafo::cobertVertPondG(list<int> &solucao)
 //        visitado[no->getId()-1] = 1;
 
         bool ehSolucao = false;
-        for(Arco arco: arcosNCobertos){
-            if(arco.getIdOrigem()==no->getId() && no->ehAdjacente(arco.getIdDest())){
-                arcosNCobertos.remove(arco);
+        Arco* arco;
+        Arco* aux;
+        arco = arcosNCobertos;
+        for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
+            if(arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())){
+                if(aux==NULL){
+                    arcosNCobertos = arco->getProxArc();
+                    delete arco;
+                    arco = arcosNCobertos;
+                }
+                else{
+                    aux->setProxArc(arco->getProxArc());
+                    delete arco;
+                    arco = aux;
+                }
                 ehSolucao = true;
             }
         }
