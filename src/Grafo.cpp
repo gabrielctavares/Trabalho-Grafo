@@ -845,9 +845,11 @@ Arco* Grafo::auxCobertVertPond(){
     Arco* lista_arcos;
     for(aux= primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
+            if(arcos->getIdOrigem()>arcos->getIdDest()){
             arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
             arco_aux->setProxArc(lista_arcos);
             lista_arcos = arco_aux;
+            }
         }
     }
     return lista_arcos;
@@ -895,7 +897,7 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         Arco* aux;
         arco = arcosNCobertos;
         for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
-            if(arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())){
+            if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
                 if(aux==NULL){
                     arcosNCobertos = arco->getProxArc();
                     delete arco;

@@ -49,7 +49,7 @@ int main(int argc, const char* argv[]){
 
 
     cout << "Imprimindo grafo oficial --------" << endl;
-    //grafo->imprimeGrafo();
+    grafo->imprimeGrafo();
     cout << "----------------------" << endl;
 
     cout << "Imprimindo grafo complementar --------" << endl;
@@ -74,6 +74,14 @@ int main(int argc, const char* argv[]){
     //cout << "Eh conexo? " << grafo->ehConexo() << endl;
     //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
     cout << "N de componentes conexas: " << grafo->compCon() << endl;
+
+    list<int> solucao;
+    grafo->cobertVertPondG(solucao);
+    cout << "Solucao: ";
+    for(int i:solucao){
+        cout << i << " ";
+    }
+    cout << endl;
 
     delete grafo;
     return 0;
