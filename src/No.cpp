@@ -144,7 +144,7 @@ void No::getAdjacentes(list<int> &adj)
 
     adj.sort();
     adj.unique();
-    
+
 }
 
 bool No::ehAdjacente(int idNo)
@@ -217,3 +217,4 @@ void No::setComponente(int x)
 {
     this->componente = x;
 }
+

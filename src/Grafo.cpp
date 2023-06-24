@@ -320,10 +320,8 @@ bool Grafo::auxBipartido(int n_passo, No* no){
             }
             adj = adj->getProxArc();
         }
-    } else{
-        if(no->getCor() != corPreenchida){
+    } else if(no->getCor() != corPreenchida){
             return false;
-        }
     }
     return true;
 }
@@ -626,8 +624,8 @@ void Grafo::auxConexo(No* n){
     Arco* adj = n->getAdjacentes();
     while(adj != NULL){
         x = adj->getIdDest();
-        if(GetNo(x)->getVisitado() == -1){
-            auxConexo(GetNo(x)->getId());
+        if(GetNo(x)->getCor() == -1){
+            auxConexo(GetNo(x));
         }
         adj = adj->getProxArc();
     }
@@ -682,13 +680,13 @@ Arco* Grafo::arestaPonte(){
             n->removeArco(adj->getIdDest());;
 
             if(ehConexo()){
-                x = GetNo(adj->getIdDest());
+                No* x = GetNo(adj->getIdDest());
 
                 if(ehPonderadoArco){
-                    aux->Arco(n->getId(),x->getId(),p);
+                    aux = new Arco(n->getId(),x->getId(),p);
                     pontes->setProxArc(aux);
                 }else{
-                    aux->Arco(n->getId(),x->getId());
+                    aux = new Arco(n->getId(),x->getId());
                     pontes->setProxArc(aux);
                 }
             }
@@ -841,6 +839,15 @@ void Grafo::ordenaCandidatos(list<int> &candidatos)
     }
 }
 
+void Grafo::auxCobertVertPond(list<Arco> &lista){
+    No* aux;
+    for(aux= primeiro; aux!=NULL; aux = aux->getProxNo()){
+        for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
+            lista.push_back(arcos);
+        }
+    }
+}
+
 void Grafo::cobertVertPondG(list<int> &solucao)
 {
     /*
@@ -853,6 +860,35 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         candidatos<- candidatos-no;
     fim-while
     */
+
+    No* no;
+    solucao->clear();
+    //lista de nós candidatos
+    list<int> candidatos;
+    ordenaCandidatos(candidatos);
+
+    //lista que marca quais nós foram visitados
+    int *visitado = new int [n];
+
+    //lista que marca os nós que ainda não foram cobertos
+    list<Arco> arcosNCobertos;
+
+    for(int i = 0; i<n; i++)
+        visitado[i] = 0;
+
+    while(!candidatos.empty()){
+
+        no = GetNo(candidatos.get(0));
+
+        //marca o nó como coberto
+        visitado[no->getId()-1] = 1;
+        candidatos.remove(0);
+
+        for(list<int> iterator i = adj.begin(); i!=adj.end(); ++i){
+
+        }
+    }
+
 }
 
 void Grafo::cobertVertPondGR(list<int> &best)

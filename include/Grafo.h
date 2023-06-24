@@ -49,7 +49,7 @@ class Grafo
         bool ehNulo(); // Gabriel: implementado;
         bool ehMultigrafo(); //Gabi: implementado
         bool ehCompleto(); // Davi: implementado
-        bool ehBipartido(No* no); //Lana: implementado
+        bool ehBipartido(); //Lana: implementado
         void caminhoMinimo();
         void grauGrafo();
         int compCon (); //calcula quantas componentes conexas possui o grafo

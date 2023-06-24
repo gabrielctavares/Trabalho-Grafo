@@ -29,7 +29,7 @@ int main(int argc, const char* argv[]){
     Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
 
     //imprimeOpcoes();
-    grafo->imprimeGrafo();
+    //grafo->imprimeGrafo();
 
     cout << "Componentes fortemente conexas:\n";
     vector<vector<No*>> result = grafo->compFortConex();
@@ -49,11 +49,11 @@ int main(int argc, const char* argv[]){
 
 
     cout << "Imprimindo grafo oficial --------" << endl;
-    grafo->imprimeGrafo();
+    //grafo->imprimeGrafo();
     cout << "----------------------" << endl;
 
     cout << "Imprimindo grafo complementar --------" << endl;
-    grafo->complementarGrafo()->imprimeGrafo();
+    //grafo->complementarGrafo()->imprimeGrafo();
     cout << "----------------------" << endl;
 
     cout << "Fecho transitivo direto do no 1: ";
@@ -68,8 +68,12 @@ int main(int argc, const char* argv[]){
 
     cout << "O grafo eh euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
 
-    for(int i=0; i<5; i++)
+    for(int i=1; i<=grafo->ordemGrafo(); i++)
         cout << "O no " << i << " eh no de articulacao?(0 - falso / 1 - verdadeiro): " << grafo->ehNoArt(i) << endl;
+
+    //cout << "Eh conexo? " << grafo->ehConexo() << endl;
+    //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
+    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 
     delete grafo;
     return 0;
