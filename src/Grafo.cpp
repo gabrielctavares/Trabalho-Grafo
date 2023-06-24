@@ -843,7 +843,7 @@ void Grafo::auxCobertVertPond(list<Arco> &lista){
     No* aux;
     for(aux= primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
-            lista.push_back(arcos);
+            lista.push_back(*arcos);
         }
     }
 }
@@ -862,33 +862,40 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     */
 
     No* no;
-    solucao->clear();
+    solucao.clear();
     //lista de nós candidatos
     list<int> candidatos;
     ordenaCandidatos(candidatos);
 
     //lista que marca quais nós foram visitados
-    int *visitado = new int [n];
+//    int *visitado = new int [n];
 
     //lista que marca os nós que ainda não foram cobertos
     list<Arco> arcosNCobertos;
+    auxCobertVertPond(arcosNCobertos);
 
-    for(int i = 0; i<n; i++)
-        visitado[i] = 0;
+//    for(int i = 0; i<n; i++)
+//        visitado[i] = 0;
 
-    while(!candidatos.empty()){
-
-        no = GetNo(candidatos.get(0));
+    while(!candidatos.empty() && !arcosNCobertos.empty()){
+        //pega o melhor nó
+        no = GetNo(*(candidatos.begin()));
+        candidatos.pop_front();
 
         //marca o nó como coberto
-        visitado[no->getId()-1] = 1;
-        candidatos.remove(0);
+//        visitado[no->getId()-1] = 1;
 
-        for(list<int> iterator i = adj.begin(); i!=adj.end(); ++i){
-
+        bool ehSolucao = false;
+        for(Arco arco: arcosNCobertos){
+            if(arco.getIdOrigem()==no->getId() && no->ehAdjacente(arco.getIdDest())){
+                arcosNCobertos.remove(arco);
+                ehSolucao = true;
+            }
+        }
+        if(ehSolucao){
+            solucao.push_back(no->getId());
         }
     }
-
 }
 
 void Grafo::cobertVertPondGR(list<int> &best)

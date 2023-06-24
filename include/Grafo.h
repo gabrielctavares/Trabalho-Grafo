@@ -25,6 +25,7 @@ class Grafo
         No* GetNo(int id);
 
         void ordenaCandidatos(list<int> &candidatos); //função auxiliar que ordena os nós baseado na heurística
+        void auxCobertVertPond(list<Arco> &lista);
 
     public:
 
