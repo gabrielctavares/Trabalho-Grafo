@@ -874,23 +874,15 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     list<int> candidatos;
     ordenaCandidatos(candidatos);
 
-    //lista que marca quais nós foram visitados
-//    int *visitado = new int [n];
-
-    //lista que marca os nós que ainda não foram cobertos
     Arco* arcosNCobertos;
     arcosNCobertos = auxCobertVertPond();
+    int custo = 0;
 
-//    for(int i = 0; i<n; i++)
-//        visitado[i] = 0;
 
     while(!candidatos.empty() && arcosNCobertos!=NULL){
         //pega o melhor nó
         no = GetNo(*(candidatos.begin()));
         candidatos.pop_front();
-
-        //marca o nó como coberto
-//        visitado[no->getId()-1] = 1;
 
         bool ehSolucao = false;
         Arco* arco;
@@ -913,8 +905,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         }
         if(ehSolucao){
             solucao.push_back(no->getId());
+            custo = custo+no->getPeso();
         }
     }
+    cout << "Custo da solução: " << custo << endl;
 }
 
 void Grafo::cobertVertPondGR(list<int> &best)
