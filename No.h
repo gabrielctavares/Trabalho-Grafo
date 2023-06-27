@@ -2,7 +2,6 @@
 #define NO_H
 
 #include "Arco.h"
-#include "Coloracao.h"
 #include <list>
 class No
 {
