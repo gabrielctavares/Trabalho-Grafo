@@ -17,6 +17,7 @@ No::No(int n)
     peso = 0;
     proxNo = NULL;
     adjacentes = NULL;
+    ultimo = NULL;
     componente = -1;
 }
 
@@ -73,12 +74,13 @@ void No::addArco(int idAdj, float p, bool ehPondArc)
         novo = new Arco(this->id, idAdj);
 
     if(adjacentes!=NULL){ //se o n� j� possui arcos
-        Arco* aux;
-        for(aux = adjacentes; aux->getProxArc()!=NULL; aux = aux->getProxArc());//percorre a lista de adjac�ncia at� encontrar o �ltimo arco
-        aux->setProxArc(novo);
+        ultimo->setProxArc(novo);
+        ultimo = novo;
     }
-    else //se o n� n�o possui arcos
+    else{ //se o n� n�o possui arcos
         adjacentes = novo;
+        ultimo = adjacentes;
+    }
 }
 
 void No::removeArco(int idDest)
@@ -93,11 +95,15 @@ void No::removeArco(int idDest)
 
     if(anterior==NULL)
         adjacentes = aux->getProxArc();
-    else if(aux!=NULL)
+    else if(aux!=NULL){
         anterior->setProxArc(aux->getProxArc());
+        if(anterior->getProxArc()==NULL){
+            ultimo = anterior;
+        }
+    }
     else
     {
-        cout << "Erro: o n� n�o possui esse arco" << endl;
+        cout << "Erro: o no nao possui esse arco" << endl;
         return;
     }
 

@@ -181,11 +181,11 @@
 	<vector>
 	<stack>
 
-1687862487 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.h
+1687883544 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.h
 	"Arco.h"
 	<list>
 
-1687628335 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.cpp
+1687883846 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.cpp
 	"No.h"
 	<iostream>
 	<fstream>
