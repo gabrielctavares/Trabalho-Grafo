@@ -9,6 +9,7 @@
 #include <list>
 #include <string>
 #include <algorithm>
+#include <ctime>
 
 using namespace std;
 
@@ -857,17 +858,6 @@ Arco* Grafo::auxCobertVertPond(){
 
 void Grafo::cobertVertPondG(list<int> &solucao)
 {
-    /*
-    solucao<-vazio;
-    candidatos<-ordenaCandidatos();
-    while(candidatos!=vazio)
-        no<-candidatos[0];
-        if(no cobre nó que ainda não foi coberto)
-            solucao<-no;
-        candidatos<- candidatos-no;
-    fim-while
-    */
-
     No* no;
     solucao.clear();
     //lista de nós candidatos
@@ -911,7 +901,16 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     cout << "Custo da solução: " << custo << endl;
 }
 
-void Grafo::cobertVertPondGR(list<int> &best)
+int Grafo::getRandIndex(float alpha, int tam){
+    unsigned seed = time(0);
+    srand(seed);
+    if((int)(alpha*tam) != 0)
+        return rand()%(int)(alpha*tam);
+    else
+        return 0;
+}
+
+void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 {
     /*
     best<-vazio;
@@ -928,6 +927,64 @@ void Grafo::cobertVertPondGR(list<int> &best)
             best<-solucao;
     fim-for
     */
+    list<int> solucao;
+    int cont = 0;
+    int custoBest = 0;
+
+    while(cont<nIteracoes){
+        No* no;
+        solucao.clear();
+        //lista de nós candidatos
+        list<int> candidatos;
+        ordenaCandidatos(candidatos);
+
+        Arco* arcosNCobertos;
+        arcosNCobertos = auxCobertVertPond();
+        int custo = 0;
+
+
+        while(!candidatos.empty() && arcosNCobertos!=NULL){
+
+            int index = getRandIndex(alpha, candidatos.size());
+            list<int>::iterator i = candidatos.begin();
+            advance(i, index);
+            no = GetNo(*i);
+            candidatos.remove(*i);
+
+            bool ehSolucao = false;
+            Arco* arco;
+            Arco* aux;
+            arco = arcosNCobertos;
+            for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
+                if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
+                    if(aux==NULL){
+                        arcosNCobertos = arco->getProxArc();
+                        delete arco;
+                        arco = arcosNCobertos;
+                    }
+                    else{
+                        aux->setProxArc(arco->getProxArc());
+                        delete arco;
+                        arco = aux;
+                    }
+                    ehSolucao = true;
+                }
+            }
+            if(ehSolucao){
+                solucao.push_back(no->getId());
+                custo = custo+no->getPeso();
+            }
+        }
+
+        if(custoBest==0 || custo<custoBest){
+            best.assign(solucao.begin(), solucao.end());
+            custoBest = custo;
+        }
+
+        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
+        cont++;
+    }
+    cout << "Custo da melhor solução: " << custoBest << endl;
 }
 
 void Grafo::cobertVertPondGRR(list<int> &best)

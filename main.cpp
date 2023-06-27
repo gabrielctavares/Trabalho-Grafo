@@ -75,15 +75,23 @@ int main(int argc, const char* argv[]){
 //    //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
 //    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 //
-    list<int> solucao;
-    grafo->cobertVertPondG(solucao);
+    cout << "--------Guloso--------" << endl;
+    list<int> solucaoGuloso;
+    grafo->cobertVertPondG(solucaoGuloso);
 //    cout << "Solucao: ";
 //    for(int i:solucao){
 //        cout << i << " ";
 //    }
     cout << endl;
 
-    cout << "Tamanho: " << solucao.size() << endl;
+    cout << "Tamanho: " << solucaoGuloso.size() << endl;
+
+    cout << "--------Randomizado--------" << endl;
+    list<int> solucaoRando;
+    grafo->cobertVertPondGR(solucaoRando, 10, 0.05);
+    cout << endl;
+
+    cout << "Tamanho: " << solucaoRando.size() << endl;
 
     delete grafo;
     return 0;

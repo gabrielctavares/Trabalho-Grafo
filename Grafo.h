@@ -26,6 +26,7 @@ class Grafo
 
         void ordenaCandidatos(list<int> &candidatos); //função auxiliar que ordena os nós baseado na heurística
         Arco* auxCobertVertPond();
+        int getRandIndex(float alpha, int tam);
 
     public:
 
@@ -78,7 +79,7 @@ class Grafo
         void imprimeGrafo();
 
         void cobertVertPondG(list<int> &solucao);
-        void cobertVertPondGR(list<int> &best);
+        void cobertVertPondGR(list<int> &best, int nIteracoes, float alpha);
         void cobertVertPondGRR(list<int> &best);
 };
 
