@@ -28,6 +28,10 @@ class Grafo
         Arco* auxCobertVertPond();
         int getRandIndex(float alpha, int tam);
 
+        void recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam);
+        float escolheAlpha(float* alphas, float* p, int tam);
+        void atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha);
+
     public:
 
         Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
@@ -80,7 +84,7 @@ class Grafo
 
         void cobertVertPondG(list<int> &solucao);
         void cobertVertPondGR(list<int> &best, int nIteracoes, float alpha);
-        void cobertVertPondGRR(list<int> &best);
+        void cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas);
 };
 
 #endif // GRAFO_H

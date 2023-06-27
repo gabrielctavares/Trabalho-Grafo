@@ -912,21 +912,6 @@ int Grafo::getRandIndex(float alpha, int tam){
 
 void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 {
-    /*
-    best<-vazio;
-    for(int i=0; i<nInteracoes; i++)
-        solucao<-vazio;
-        candidatos<-ordenaCandidatos();
-        while(candidatos!=vazio)
-            no<-candidatos[rand(0, alpha*candidatos.size())];
-            if(no cobre nó que ainda não foi coberto)
-                solucao<-no;
-            candidatos<- candidatos-no;
-        fim-while
-        if(solucao melhor que best)
-            best<-solucao;
-    fim-for
-    */
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
@@ -987,27 +972,122 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
     cout << "Custo da melhor solução: " << custoBest << endl;
 }
 
-void Grafo::cobertVertPondGRR(list<int> &best)
+void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam){
+
+    float* q = new float[tam];
+    float soma = 0;
+
+    for(int i=0; i<tam; i++){
+        q[i] = custoBest/medias[i];
+        soma+=q[i];
+    }
+
+    for(int i=0; i<tam; i++){
+        p[i] = q[i]/soma;
+    }
+}
+
+float Grafo::escolheAlpha(float* alphas, float* p, int tam){
+    cout << "a" << endl;
+    float* vet = new float[50*tam];
+    for(int i=0; i<tam; i++)
+        for(int j=i*p[i]*50*tam; j<(i+1)*p[i]*50*tam && j<50*tam; j++)
+            vet[j] = alphas[i];
+
+    int index = getRandIndex(1, tam*50);
+    return vet[index];
+}
+
+void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha){
+    float soma = (medias[indexAlpha]*nVezes[indexAlpha])+custo;
+    nVezes[indexAlpha] = nVezes[indexAlpha] + 1;
+    medias[indexAlpha] = soma/nVezes[indexAlpha];
+}
+
+void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas)
 {
-    /*
-    best<-vazio;
-    prob[MAX];
-    for(int i=0; i<nInteracoes; i++)
-        solucao<-vazio;
-        candidatos<-ordenaCandidatos();
-        while(candidatos!=vazio)
-            alpha = prob[getRand()];
-            no<-candidatos[rand(0, alpha*candidatos.size())];
-            if(no cobre nó que ainda não foi coberto)
-                solucao<-no;
-            candidatos<- candidatos-no;
-        fim-while
-        if(solucao melhor que best)
-            best<-solucao;
-            setProbabilidades(prob, best);
-        fim-if
-    fim-for
-    */
+    list<int> solucao;
+    int cont = 1;
+    int custoBest = 0;
+    float* medias = new float[nAlphas];
+    float* probabilidades = new float[nAlphas*50];
+    int* nVezes = new int[nAlphas];
+
+    float bestAlpha = 0;
+
+
+    for(int i=0; i<nAlphas; i++){
+        probabilidades[i] = 1/nAlphas;
+        medias[i] = 0;
+        nVezes[i] = 0;
+    }
+
+    while(cont<=nIteracoes){
+        if(cont%(int)(nIteracoes*0.1)==0)
+            recalculaAlphas(alphas, probabilidades, medias, custoBest, nAlphas);
+
+        No* no;
+        solucao.clear();
+
+        list<int> candidatos;
+        ordenaCandidatos(candidatos);
+
+        float alpha = escolheAlpha(alphas, probabilidades, nAlphas);
+        Arco* arcosNCobertos;
+        arcosNCobertos = auxCobertVertPond();
+        int custo = 0;
+
+        while(!candidatos.empty() && arcosNCobertos!=NULL){
+
+            int index = getRandIndex(alpha, candidatos.size());
+            list<int>::iterator i = candidatos.begin();
+            advance(i, index);
+            no = GetNo(*i);
+            candidatos.remove(*i);
+
+            bool ehSolucao = false;
+            Arco* arco;
+            Arco* aux;
+            arco = arcosNCobertos;
+            for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
+                if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
+                    if(aux==NULL){
+                        arcosNCobertos = arco->getProxArc();
+                        delete arco;
+                        arco = arcosNCobertos;
+                    }
+                    else{
+                        aux->setProxArc(arco->getProxArc());
+                        delete arco;
+                        arco = aux;
+                    }
+                    ehSolucao = true;
+                }
+            }
+            if(ehSolucao){
+                solucao.push_back(no->getId());
+                custo = custo+no->getPeso();
+            }
+        }
+
+        for(int i = 0; i<nAlphas; i++)
+            if(alpha == alphas[i]){
+                atualizaMedias(medias, nVezes, custo, i);
+                break;
+            }
+
+        if(custoBest==0 || custo<custoBest){
+            best.assign(solucao.begin(), solucao.end());
+            custoBest = custo;
+            bestAlpha = alpha;
+        }
+
+        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
+        cout << "Alpha da iteração " << cont <<": " << alpha << endl;
+        cont++;
+    }
+    cout << "Custo da melhor solução: " << custoBest << endl;
+    cout << "Melhor alpha: " << bestAlpha << endl;
 }
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)

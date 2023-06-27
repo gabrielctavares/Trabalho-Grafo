@@ -93,6 +93,19 @@ int main(int argc, const char* argv[]){
 
     cout << "Tamanho: " << solucaoRando.size() << endl;
 
+    cout << "--------Reativo--------" << endl;
+    list<int> solucaoReativo;
+    float* alphas = new float[5];
+    alphas[0] = 0.05;
+    alphas[1] = 0.1;
+    alphas[2] = 0.15;
+    alphas[3] = 0.3;
+    alphas[4] = 0.5;
+    grafo->cobertVertPondGRR(solucaoReativo, 100, alphas, 5);
+    cout << endl;
+
+    cout << "Tamanho: " << solucaoRando.size() << endl;
+
     delete grafo;
     return 0;
 }
@@ -110,21 +123,8 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     int numeroNo = 0;
     int numeroArcos = 0;
     std::string buffer = "";
-
-    if(pondVertice){
-        std::string buffer2 = "";
-        getline(arquivo, buffer); // Primeira linha
-        stringstream linha(buffer);
-
-        getline(linha, buffer2, ' ');
-        numeroNo = std::stoi(buffer2);
-        getline(linha, buffer2);
-        numeroArcos = std::stoi(buffer2);
-    }
-    else{
-        getline(arquivo, buffer); // Primeira linha
-        numeroNo = std::stoi(buffer);
-    }
+    getline(arquivo, buffer); // Primeira linha
+    numeroNo = std::stoi(buffer);
 
     Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice);
     int i = 0;
