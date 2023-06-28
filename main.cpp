@@ -104,7 +104,7 @@ int main(int argc, const char* argv[]){
     grafo->cobertVertPondGRR(solucaoReativo, 100, alphas, 5);
     cout << endl;
 
-    cout << "Tamanho: " << solucaoRando.size() << endl;
+    cout << "Tamanho: " << solucaoReativo.size() << endl;
 
     delete grafo;
     return 0;
@@ -121,7 +121,6 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     }
 
     int numeroNo = 0;
-    int numeroArcos = 0;
     std::string buffer = "";
     getline(arquivo, buffer); // Primeira linha
     numeroNo = std::stoi(buffer);

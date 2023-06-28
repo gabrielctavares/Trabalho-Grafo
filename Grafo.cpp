@@ -662,6 +662,8 @@ No *Grafo::GetNo(int id)
         if(aux->getId() == id)
             return aux;
     }
+
+    return NULL;
 }
 
 Arco* Grafo::arestaPonte(){
@@ -843,13 +845,13 @@ void Grafo::ordenaCandidatos(list<int> &candidatos)
 Arco* Grafo::auxCobertVertPond(){
     No* aux;
     Arco* arco_aux;
-    Arco* lista_arcos;
-    for(aux= primeiro; aux!=NULL; aux = aux->getProxNo()){
+    Arco* lista_arcos = NULL;
+    for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
             if(arcos->getIdOrigem()>arcos->getIdDest()){
-            arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
-            arco_aux->setProxArc(lista_arcos);
-            lista_arcos = arco_aux;
+                arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
+                arco_aux->setProxArc(lista_arcos);
+                lista_arcos = arco_aux;
             }
         }
     }
@@ -878,8 +880,8 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         Arco* arco;
         Arco* aux;
         arco = arcosNCobertos;
-        for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
-            if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
+        for(aux = NULL; arco!=NULL;){
+            if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
                 if(aux==NULL){
                     arcosNCobertos = arco->getProxArc();
                     delete arco;
@@ -891,6 +893,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
                     arco = aux;
                 }
                 ehSolucao = true;
+            }
+            else{
+                aux = arco;
+                arco = arco->getProxArc();
             }
         }
         if(ehSolucao){
@@ -940,8 +946,8 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
             Arco* arco;
             Arco* aux;
             arco = arcosNCobertos;
-            for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
-                if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
+            for(aux = NULL; arco!=NULL;){
+                if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
                     if(aux==NULL){
                         arcosNCobertos = arco->getProxArc();
                         delete arco;
@@ -953,6 +959,10 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
                         arco = aux;
                     }
                     ehSolucao = true;
+                }
+                else{
+                    aux = arco;
+                    arco = arco->getProxArc();
                 }
             }
             if(ehSolucao){
@@ -985,32 +995,36 @@ void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest
     for(int i=0; i<tam; i++){
         p[i] = q[i]/soma;
     }
+    delete [] q;
 }
 
 float Grafo::escolheAlpha(float* alphas, float* p, int tam){
-    cout << "a" << endl;
     float* vet = new float[50*tam];
     for(int i=0; i<tam; i++)
         for(int j=i*p[i]*50*tam; j<(i+1)*p[i]*50*tam && j<50*tam; j++)
             vet[j] = alphas[i];
 
     int index = getRandIndex(1, tam*50);
-    return vet[index];
+    float alpha = vet[index];
+    cout << alpha << endl;
+    delete [] vet;
+    return alpha;
 }
 
 void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha){
     float soma = (medias[indexAlpha]*nVezes[indexAlpha])+custo;
     nVezes[indexAlpha] = nVezes[indexAlpha] + 1;
     medias[indexAlpha] = soma/nVezes[indexAlpha];
+
 }
 
 void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas)
 {
     list<int> solucao;
-    int cont = 1;
+    int cont = 0;
     int custoBest = 0;
     float* medias = new float[nAlphas];
-    float* probabilidades = new float[nAlphas*50];
+    float* probabilidades = new float[nAlphas];
     int* nVezes = new int[nAlphas];
 
     float bestAlpha = 0;
@@ -1022,11 +1036,10 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         nVezes[i] = 0;
     }
 
-    while(cont<=nIteracoes){
-        if(cont%(int)(nIteracoes*0.1)==0)
+    while(cont<nIteracoes){
+        if((cont+1)%(int)(nIteracoes*0.1)==0)
             recalculaAlphas(alphas, probabilidades, medias, custoBest, nAlphas);
 
-        No* no;
         solucao.clear();
 
         list<int> candidatos;
@@ -1042,15 +1055,15 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
             int index = getRandIndex(alpha, candidatos.size());
             list<int>::iterator i = candidatos.begin();
             advance(i, index);
-            no = GetNo(*i);
+            No* no = GetNo(*i);
             candidatos.remove(*i);
 
             bool ehSolucao = false;
             Arco* arco;
             Arco* aux;
             arco = arcosNCobertos;
-            for(aux = NULL; arco!=NULL; aux = arco, arco = arco->getProxArc()){
-                if((arco->getIdOrigem()==no->getId() && no->ehAdjacente(arco->getIdDest())) || (arco->getIdDest()==no->getId() && no->ehAdjacente(arco->getIdOrigem()))){
+            for(aux = NULL; arco!=NULL;){
+                if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
                     if(aux==NULL){
                         arcosNCobertos = arco->getProxArc();
                         delete arco;
@@ -1063,23 +1076,23 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
                     }
                     ehSolucao = true;
                 }
-            }
-            if(ehSolucao){
-                solucao.push_back(no->getId());
-                custo = custo+no->getPeso();
+                else{
+                    aux = arco;
+                    arco = arco->getProxArc();
+                }
             }
         }
-
-        for(int i = 0; i<nAlphas; i++)
-            if(alpha == alphas[i]){
-                atualizaMedias(medias, nVezes, custo, i);
-                break;
-            }
-
         if(custoBest==0 || custo<custoBest){
             best.assign(solucao.begin(), solucao.end());
             custoBest = custo;
             bestAlpha = alpha;
+        }
+
+        for(int i = 0; i<nAlphas; i++){
+            if(alpha == alphas[i]){
+                atualizaMedias(medias, nVezes, custo, i);
+                break;
+            }
         }
 
         cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
