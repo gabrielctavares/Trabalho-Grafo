@@ -1023,10 +1023,12 @@ float Grafo::escolheAlpha(float* alphas, float* p, int tam){
     return alpha;
 }
 
-void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha){
+void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha){
     float soma = (medias[indexAlpha]*nVezes[indexAlpha])+custo;
     nVezes[indexAlpha] = nVezes[indexAlpha] + 1;
     medias[indexAlpha] = soma/nVezes[indexAlpha];
+    if(custo < custoBestAlpha[indexAlpha] || custoBestAlpha[indexAlpha]==0)
+        custoBestAlpha[indexAlpha] = custo;
 }
 
 void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas)
@@ -1037,6 +1039,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
     float* medias = new float[nAlphas];
     float* probabilidades = new float[nAlphas];
     int* nVezes = new int[nAlphas];
+    int custoBestAlpha[nAlphas];
 
     float bestAlpha = 0;
 
@@ -1110,7 +1113,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
 
         for(int i = 0; i<nAlphas; i++){
             if(alpha == alphas[i]){
-                atualizaMedias(medias, nVezes, custo, i);
+                atualizaMedias(medias, nVezes, custo, custoBestAlpha, i);
                 break;
             }
         }
@@ -1120,6 +1123,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
     cout << "--------Info-------" << endl << endl;
     for(int i=0; i<nAlphas; i++){
         cout << "Alpha[" << i << "] = " << alphas[i] << endl;
+        cout << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
         cout << "Media = " << medias[i] << endl;
         cout << "Numero de aparicoes = " << nVezes[i] << endl;
         cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;

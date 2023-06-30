@@ -30,7 +30,7 @@ class Grafo
 
         void recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam);
         float escolheAlpha(float* alphas, float* p, int tam);
-        void atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha);
+        void atualizaMedias(float* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha);
 
     public:
 

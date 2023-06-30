@@ -101,7 +101,7 @@ int main(int argc, const char* argv[]){
     alphas[2] = 0.15;
     alphas[3] = 0.3;
     alphas[4] = 0.5;
-    grafo->cobertVertPondGRR(solucaoReativo, 500, alphas, 5);
+    grafo->cobertVertPondGRR(solucaoReativo, 100, alphas, 5);
     cout << endl;
 
     cout << "Tamanho: " << solucaoReativo.size() << endl;

@@ -81,7 +81,7 @@
 	<iterator>
 	<list>
 
-1688128105 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\main.cpp
+1688129580 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\main.cpp
 	<iostream>
 	<iostream>
 	<fstream>
@@ -160,7 +160,7 @@
 
 1688123025 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\arco.h
 
-1688127978 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.cpp
+1688129123 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.cpp
 	"Grafo.h"
 	<iostream>
 	<fstream>
@@ -174,7 +174,7 @@
 	<algorithm>
 	<ctime>
 
-1688123027 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.h
+1688129610 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.h
 	"No.h"
 	<string>
 	<list>
