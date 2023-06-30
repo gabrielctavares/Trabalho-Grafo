@@ -976,7 +976,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
             custoBest = custo;
         }
 
-        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
+//        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
         cont++;
     }
     cout << "Custo da melhor solução: " << custoBest << endl;

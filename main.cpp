@@ -75,36 +75,34 @@ int main(int argc, const char* argv[]){
 //    //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
 //    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 //
-    cout << "--------Guloso--------" << endl;
-    list<int> solucaoGuloso;
-    grafo->cobertVertPondG(solucaoGuloso);
-//    cout << "Solucao: ";
-//    for(int i:solucao){
-//        cout << i << " ";
-//    }
-    cout << endl;
 
-    cout << "Tamanho: " << solucaoGuloso.size() << endl;
-
-    cout << "--------Randomizado--------" << endl;
-    list<int> solucaoRando;
-    grafo->cobertVertPondGR(solucaoRando, 10, 0.05);
-    cout << endl;
-
-    cout << "Tamanho: " << solucaoRando.size() << endl;
-
-    cout << "--------Reativo--------" << endl;
-    list<int> solucaoReativo;
     float* alphas = new float[5];
     alphas[0] = 0.05;
     alphas[1] = 0.1;
     alphas[2] = 0.15;
     alphas[3] = 0.3;
     alphas[4] = 0.5;
-    grafo->cobertVertPondGRR(solucaoReativo, 100, alphas, 5);
-    cout << endl;
 
-    cout << "Tamanho: " << solucaoReativo.size() << endl;
+    cout << "--------Guloso--------" << endl;
+    list<int> solucaoGuloso;
+    grafo->cobertVertPondG(solucaoGuloso);
+
+    cout << "Tamanho da solucao final: " << solucaoGuloso.size() << endl << endl;
+
+    cout << "--------Randomizado--------" << endl;
+    for(int i=0; i<5; i++){
+        cout << "Alpha = " << alphas[i] << endl;
+        list<int> solucaoRando;
+        grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
+        cout << "Tamanho da solucao final: " << solucaoRando.size() << endl << endl;
+    }
+
+    cout << "--------Reativo--------" << endl;
+    list<int> solucaoReativo;
+
+    grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
+
+    cout << "Tamanho da solucao final: " << solucaoReativo.size() << endl << endl;
 
     delete grafo;
     return 0;
