@@ -18,6 +18,8 @@ class Grafo
         bool ehPonderadoNo;
         bool ehPonderadoArco;
 
+        string arquivo_saida;
+
         void auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisitado); //fun��o auxiliar de fechoTransDir
         Grafo* auxFechoTransInd(); //funcao auxiliar de fechoTransInd
         bool auxBipartido(int n_passo,No* no); //Lana: implementado (auxiliar do bipartido)
@@ -36,6 +38,7 @@ class Grafo
 
         Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo);
         Grafo(int num, bool ehDigrafo, bool ehPondArco, bool ehPondNo);
+        Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo, string caminho_saida);
         ~Grafo();
 
         void addNo(int id); //adiciona n� com o id informado

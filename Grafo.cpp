@@ -35,6 +35,19 @@ Grafo::Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo)
         addNo(i+1);
     }
 }
+Grafo::Grafo(int num, bool ehDigraf, bool ehPondArco, bool ehPondNo, string caminho_saida)
+{
+    //constr�i grafo com o n�mero de n�s informado
+    n = 0;
+    primeiro = NULL;
+    ehDigrafo = ehDigraf;
+    ehPonderadoNo = ehPondNo;
+    ehPonderadoArco = ehPondArco;
+    for(int i=0; i<num; i++){
+        addNo(i+1);
+    }
+    arquivo_saida = caminho_saida;
+}
 
 Grafo::~Grafo()
 {
@@ -833,8 +846,16 @@ void Grafo::ordenaCandidatos(list<int> &candidatos)
             list<int>::iterator it = j;
             No* aux1 = GetNo(*j);
             No* aux2 = GetNo(*(--j));
-            float heur1 = aux1->getPeso()/aux1->grauSaida();
-            float heur2 = aux2->getPeso()/aux2->grauSaida();
+            float heur1;
+            float heur2;
+            if(ehDigrafo){
+                heur1 = aux1->getPeso()/(aux1->grauSaida()+aux1->grauEntrada(primeiro));
+                heur2 = aux2->getPeso()/(aux2->grauSaida()+aux2->grauEntrada(primeiro));
+            }
+            else{
+                heur1 = aux1->getPeso()/aux1->grauSaida();
+                heur2 = aux2->getPeso()/aux2->grauSaida();
+            }
             if(heur1<heur2){
                 swap(*(--it), *it);
             }
@@ -848,7 +869,7 @@ Arco* Grafo::auxCobertVertPond(){
     Arco* lista_arcos = NULL;
     for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
-            if(arcos->getIdOrigem()>arcos->getIdDest()){
+            if(arcos->getIdOrigem()>arcos->getIdDest() || ehDigrafo){
                 arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
                 arco_aux->setProxArc(lista_arcos);
                 lista_arcos = arco_aux;
@@ -860,6 +881,11 @@ Arco* Grafo::auxCobertVertPond(){
 
 void Grafo::cobertVertPondG(list<int> &solucao)
 {
+    if(!ehPonderadoNo){
+        cout << "Erro: Grafo deve ser ponderado" << endl;
+        return;
+    }
+
     No* no;
     solucao.clear();
     //lista de nós candidatos
@@ -867,12 +893,13 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     ordenaCandidatos(candidatos);
 
     Arco* arcosNCobertos;
+    //lista de arcos não cobertos
     arcosNCobertos = auxCobertVertPond();
     int custo = 0;
 
 
     while(!candidatos.empty() && arcosNCobertos!=NULL){
-        //pega o melhor nó
+        //pega sempre o melhor nó
         no = GetNo(*(candidatos.begin()));
         candidatos.pop_front();
 
@@ -880,8 +907,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         Arco* arco;
         Arco* aux;
         arco = arcosNCobertos;
+
         for(aux = NULL; arco!=NULL;){
             if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
+                //arco é tirado da lista de arcos não cobertos
                 if(aux==NULL){
                     arcosNCobertos = arco->getProxArc();
                     delete arco;
@@ -892,19 +921,38 @@ void Grafo::cobertVertPondG(list<int> &solucao)
                     delete arco;
                     arco = aux;
                 }
+                //nó é marcado como parte da solução
                 ehSolucao = true;
             }
             else{
+                //passa pro próximo nó
                 aux = arco;
                 arco = arco->getProxArc();
             }
         }
         if(ehSolucao){
+            //adiciona o nó à solução
             solucao.push_back(no->getId());
             custo = custo+no->getPeso();
         }
     }
-    cout << "Custo da solução: " << custo << endl;
+    ofstream arq;
+    arq.open(arquivo_saida, ios::app);
+    if(arq.is_open()){
+        arq << "=====Algoritmo Guloso=====" << endl;
+        arq << "--------Info-------" << endl;
+        arq << "Custo da solucao: " << custo << endl;
+        arq << "Tamanho da solucao final: " << solucao.size() << endl << endl;
+        arq.close();
+    }
+    else{
+        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
+        cout << "=====Algoritmo Guloso=====" << endl;
+        cout << "--------Info-------" << endl;
+        cout << "Custo da solucao: " << custo << endl;
+        cout << "Tamanho da solucao final: " << solucao.size() << endl << endl;
+    }
+
 }
 
 int Grafo::getRandIndex(float alpha, int tam){
@@ -918,9 +966,15 @@ int Grafo::getRandIndex(float alpha, int tam){
 
 void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 {
+    if(!ehPonderadoNo){
+        cout << "Erro: Grafo deve ser ponderado" << endl;
+        return;
+    }
+
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
+    int soma = 0;
 
     while(cont<nIteracoes){
         No* no;
@@ -930,12 +984,13 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         ordenaCandidatos(candidatos);
 
         Arco* arcosNCobertos;
+        //lista de arcos não cobertos
         arcosNCobertos = auxCobertVertPond();
         int custo = 0;
 
 
         while(!candidatos.empty() && arcosNCobertos!=NULL){
-
+            //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
             int index = getRandIndex(alpha, candidatos.size());
             list<int>::iterator i = candidatos.begin();
             advance(i, index);
@@ -946,8 +1001,10 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
             Arco* arco;
             Arco* aux;
             arco = arcosNCobertos;
+
             for(aux = NULL; arco!=NULL;){
                 if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
+                    //arco é tirado da lista de arcos não cobertos
                     if(aux==NULL){
                         arcosNCobertos = arco->getProxArc();
                         delete arco;
@@ -958,28 +1015,51 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
                         delete arco;
                         arco = aux;
                     }
+                    //nó é marcado como parte da solução
                     ehSolucao = true;
                 }
                 else{
+                    //passa pro próximo nó
                     aux = arco;
                     arco = arco->getProxArc();
                 }
             }
             if(ehSolucao){
+                //adiciona o nó à solução
                 solucao.push_back(no->getId());
                 custo = custo+no->getPeso();
             }
         }
 
         if(custoBest==0 || custo<custoBest){
+            //se a solução encontrada for melhor que melhor encontrada até então, ela passa a ser a melhor
             best.assign(solucao.begin(), solucao.end());
             custoBest = custo;
         }
-
-//        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
+        soma = soma+custo;
         cont++;
     }
-    cout << "Custo da melhor solução: " << custoBest << endl;
+
+    ofstream arq;
+    arq.open(arquivo_saida, ios::app);
+    if(arq.is_open()){
+        arq << "=====Algoritmo Guloso Randomizado=====" << endl;
+        arq << "--------Info-------" << endl;
+        arq << "Alpha: " << alpha << endl;
+        arq << "Custo da melhor solucao: " << custoBest << endl;
+        arq << "Media do custo das solucoes: " << soma/(float)cont << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq.close();
+    }
+    else{
+        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
+        cout << "=====Algoritmo Guloso Randomizado=====" << endl;
+        cout << "--------Info-------" << endl;
+        cout << "Alpha: " << alpha << endl;
+        cout << "Custo da melhor solucao: " << custoBest << endl;
+        cout << "Media do custo das solucoes: " << soma/(float)cont << endl;
+        cout << "Tamanho da solucao final: " << best.size() << endl << endl;
+    }
 }
 
 void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam){
@@ -1033,6 +1113,11 @@ void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int* custoBest
 
 void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas)
 {
+    if(!ehPonderadoNo){
+        cout << "Erro: Grafo deve ser ponderado" << endl;
+        return;
+    }
+
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
@@ -1056,32 +1141,35 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         float alpha;
 
         if(cont<nAlphas){
+            //garante que todos os alphas sejam usados pelo menos uma vez
             alpha = alphas[cont];
         }
         else{
+            //recalcula as probabilidades caso tenha completado um dado número de iterações
             if((cont+1)%(int)(nIteracoes*0.1)==0)
                 recalculaAlphas(alphas, probabilidades, medias, custoBest, nAlphas);
             alpha = escolheAlpha(alphas, probabilidades, nAlphas);
         }
 
         Arco* arcosNCobertos;
+        //lista de arcos não cobertos
         arcosNCobertos = auxCobertVertPond();
         int custo = 0;
 
         while(!candidatos.empty() && arcosNCobertos!=NULL){
-
+            //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
             int index = getRandIndex(alpha, candidatos.size());
             list<int>::iterator i = candidatos.begin();
             advance(i, index);
             No* no = GetNo(*i);
             candidatos.remove(*i);
 
-
             bool ehSolucao = false;
             Arco* arco;
             Arco* aux;
             arco = arcosNCobertos;
             for(aux = NULL; arco!=NULL;){
+                //arco é tirado da lista de arcos não cobertos
                 if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
                     if(aux==NULL){
                         arcosNCobertos = arco->getProxArc();
@@ -1093,25 +1181,30 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
                         delete arco;
                         arco = aux;
                     }
+                    //nó é marcado como parte da solução
                     ehSolucao = true;
                 }
                 else{
+                    //passa pro próximo nó
                     aux = arco;
                     arco = arco->getProxArc();
                 }
             }
             if(ehSolucao){
+                //adiciona o nó à solução
                 solucao.push_back(no->getId());
                 custo = custo+no->getPeso();
             }
         }
         if(custoBest==0 || custo<custoBest){
+            //se a solução encontrada for melhor que melhor encontrada até então, ela passa a ser a melhor
             best.assign(solucao.begin(), solucao.end());
             custoBest = custo;
             bestAlpha = alpha;
         }
 
         for(int i = 0; i<nAlphas; i++){
+            //atualiza a media de custos do alpha atual
             if(alpha == alphas[i]){
                 atualizaMedias(medias, nVezes, custo, custoBestAlpha, i);
                 break;
@@ -1120,18 +1213,42 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cont++;
     }
 
-    cout << "--------Info-------" << endl << endl;
-    for(int i=0; i<nAlphas; i++){
-        cout << "Alpha[" << i << "] = " << alphas[i] << endl;
-        cout << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
-        cout << "Media = " << medias[i] << endl;
-        cout << "Numero de aparicoes = " << nVezes[i] << endl;
-        cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
-    }
+    ofstream arq;
+    arq.open(arquivo_saida, ios::app);
+    if(arq.is_open()){
+        arq << "=====Algoritmo Guloso Randomizado Reativo=====" << endl;
+        arq << "--------Info-------" << endl << endl;
+        for(int i=0; i<nAlphas; i++){
+            arq << "Alpha[" << i << "] = " << alphas[i] << endl;
+            arq << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
+            arq << "Media = " << medias[i] << endl;
+            arq << "Numero de aparicoes = " << nVezes[i] << endl;
+            arq << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
+        }
 
-    cout << "------Melhor solucao------" << endl;
-    cout << "Custo da melhor solução: " << custoBest << endl;
-    cout << "Melhor alpha: " << bestAlpha << endl << endl;
+        arq << "------Melhor solucao------" << endl;
+        arq << "Custo da melhor solucao: " << custoBest << endl;
+        arq << "Alpha da melhor solucao: " << bestAlpha << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq.close();
+    }
+    else{
+        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
+        cout << "=====Algoritmo Guloso Randomizado Reativo=====" << endl;
+        cout << "--------Info-------" << endl << endl;
+        for(int i=0; i<nAlphas; i++){
+            cout << "Alpha[" << i << "] = " << alphas[i] << endl;
+            cout << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
+            cout << "Media = " << medias[i] << endl;
+            cout << "Numero de aparicoes = " << nVezes[i] << endl;
+            cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
+        }
+
+        cout << "------Melhor solucao------" << endl;
+        cout << "Custo da melhor solucao: " << custoBest << endl;
+        cout << "Alpha da melhor solucao: " << bestAlpha << endl;
+        cout << "Tamanho da solucao final: " << best.size() << endl << endl;
+    }
 }
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)

@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool pondVertice);
+Grafo* geraGrafo(string caminhoArquivo, string caminhoSaida, bool direcionado, bool pondAresta, bool pondVertice);
 
 int main(int argc, const char* argv[]){
     if(argc != 6){
@@ -26,7 +26,7 @@ int main(int argc, const char* argv[]){
     bool pondAresta = (strcmp(argv[4], "1") == 0);
     bool pondVertice = (strcmp(argv[5], "1") == 0);
 
-    Grafo* grafo = geraGrafo(arquivoEntrada, direcionado, pondAresta, pondVertice);
+    Grafo* grafo = geraGrafo(arquivoEntrada, arquivoSaida, direcionado, pondAresta, pondVertice);
 
     //imprimeOpcoes();
 //    grafo->imprimeGrafo();
@@ -83,32 +83,29 @@ int main(int argc, const char* argv[]){
     alphas[3] = 0.3;
     alphas[4] = 0.5;
 
-    cout << "--------Guloso--------" << endl;
+    cout << "Executando algoritmo guloso..." << endl;
     list<int> solucaoGuloso;
     grafo->cobertVertPondG(solucaoGuloso);
+    cout << "Executado!" << endl;
 
-    cout << "Tamanho da solucao final: " << solucaoGuloso.size() << endl << endl;
-
-    cout << "--------Randomizado--------" << endl;
+    cout << "Executando algoritmos randomizados..." << endl;
     for(int i=0; i<5; i++){
-        cout << "Alpha = " << alphas[i] << endl;
+        cout << "Com alpha igual a " << alphas[i] << endl;
         list<int> solucaoRando;
         grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
-        cout << "Tamanho da solucao final: " << solucaoRando.size() << endl << endl;
+        cout << "Executado!" << endl;
     }
 
-    cout << "--------Reativo--------" << endl;
+    cout << "Executando algoritmo reativo..." << endl;
     list<int> solucaoReativo;
-
     grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
-
-    cout << "Tamanho da solucao final: " << solucaoReativo.size() << endl << endl;
+    cout << "Executado!" << endl;
 
     delete grafo;
     return 0;
 }
 
-Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool pondVertice)
+Grafo* geraGrafo(string caminhoArquivo, string caminhoSaida, bool direcionado, bool pondAresta, bool pondVertice)
 {
     ifstream arquivo;
     arquivo.open(caminhoArquivo);
@@ -123,7 +120,7 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     getline(arquivo, buffer); // Primeira linha
     numeroNo = std::stoi(buffer);
 
-    Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice);
+    Grafo *g = new Grafo(numeroNo, direcionado, pondAresta, pondVertice, caminhoSaida);
     int i = 0;
 
     if(pondAresta){
@@ -153,6 +150,13 @@ Grafo* geraGrafo(string caminhoArquivo, bool direcionado, bool pondAresta, bool 
     }
 
     arquivo.close();
+    ofstream saida(caminhoSaida, ios::trunc);
+    if(saida.is_open()){
+        saida << "---------Logs----------" << endl;
+        saida.close();
+    }
+    else
+        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
     return g;
 }
 
@@ -175,9 +179,9 @@ int exibeMenu(){
     cout << "14- Remover Aresta" << endl;
     cout << "15- Fecho Transitivo" << endl;
     cout << "16- Fecho Intransitivo" << endl;
-    cout << "17- Cobertura de Vértices Guloso" << endl;
-    cout << "18- Cobertura de Vértices Guloso Randomizado" << endl;
-    cout << "19- Cobertura de Vértices Guloso Randomizado Reativo" << endl;
+    cout << "17- Cobertura de Vertices Ponderados Guloso" << endl;
+    cout << "18- Cobertura de Vertices Ponderados Guloso Randomizado" << endl;
+    cout << "19- Cobertura de Vertices Ponderados Guloso Randomizado Reativo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpção: ";
     cin >> opMenu;
