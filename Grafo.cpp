@@ -987,11 +987,16 @@ void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest
     float* q = new float[tam];
     float soma = 0;
 
+    if(custoBest==0)
+        return;
+
     for(int i=0; i<tam; i++){
         q[i] = custoBest/medias[i];
-        soma+=q[i];
+        soma = soma + q[i];
     }
 
+    float rest = 1;
+    int cont = 0;
     for(int i=0; i<tam; i++){
         p[i] = q[i]/soma;
     }
@@ -999,15 +1004,22 @@ void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest
 }
 
 float Grafo::escolheAlpha(float* alphas, float* p, int tam){
-    float* vet = new float[50*tam];
-    for(int i=0; i<tam; i++)
-        for(int j=i*p[i]*50*tam; j<(i+1)*p[i]*50*tam && j<50*tam; j++)
-            vet[j] = alphas[i];
+    int soma = 0;
+    int aleatorio;
+    float alpha = alphas[0];
 
-    int index = getRandIndex(1, tam*50);
-    float alpha = vet[index];
-    cout << alpha << endl;
-    delete [] vet;
+    for(int i=0; i<5; i++){
+        aleatorio = rand();
+    }
+
+    for(int i =0; i<tam; i++)
+    {
+        soma += (int)(p[i]*10000);
+        if(aleatorio%10000 < soma){
+            alpha = alphas[i];
+            break;
+        }
+    }
     return alpha;
 }
 
@@ -1015,7 +1027,6 @@ void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int indexAlpha
     float soma = (medias[indexAlpha]*nVezes[indexAlpha])+custo;
     nVezes[indexAlpha] = nVezes[indexAlpha] + 1;
     medias[indexAlpha] = soma/nVezes[indexAlpha];
-
 }
 
 void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, int nAlphas)
@@ -1029,23 +1040,27 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
 
     float bestAlpha = 0;
 
-
     for(int i=0; i<nAlphas; i++){
-        probabilidades[i] = 1/nAlphas;
+        probabilidades[i] = 1/(float)nAlphas;
         medias[i] = 0;
         nVezes[i] = 0;
     }
 
     while(cont<nIteracoes){
-        if((cont+1)%(int)(nIteracoes*0.1)==0)
-            recalculaAlphas(alphas, probabilidades, medias, custoBest, nAlphas);
-
         solucao.clear();
-
         list<int> candidatos;
         ordenaCandidatos(candidatos);
+        float alpha;
 
-        float alpha = escolheAlpha(alphas, probabilidades, nAlphas);
+        if(cont<nAlphas){
+            alpha = alphas[cont];
+        }
+        else{
+            if((cont+1)%(int)(nIteracoes*0.1)==0)
+                recalculaAlphas(alphas, probabilidades, medias, custoBest, nAlphas);
+            alpha = escolheAlpha(alphas, probabilidades, nAlphas);
+        }
+
         Arco* arcosNCobertos;
         arcosNCobertos = auxCobertVertPond();
         int custo = 0;
@@ -1057,6 +1072,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
             advance(i, index);
             No* no = GetNo(*i);
             candidatos.remove(*i);
+
 
             bool ehSolucao = false;
             Arco* arco;
@@ -1081,6 +1097,10 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
                     arco = arco->getProxArc();
                 }
             }
+            if(ehSolucao){
+                solucao.push_back(no->getId());
+                custo = custo+no->getPeso();
+            }
         }
         if(custoBest==0 || custo<custoBest){
             best.assign(solucao.begin(), solucao.end());
@@ -1094,13 +1114,20 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
                 break;
             }
         }
-
-        cout << "Custo da solução da iteração " << cont <<": " << custo << endl;
-        cout << "Alpha da iteração " << cont <<": " << alpha << endl;
         cont++;
     }
+
+    cout << "--------Info-------" << endl << endl;
+    for(int i=0; i<nAlphas; i++){
+        cout << "Alpha[" << i << "] = " << alphas[i] << endl;
+        cout << "Media = " << medias[i] << endl;
+        cout << "Numero de aparicoes = " << nVezes[i] << endl;
+        cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
+    }
+
+    cout << "------Melhor solucao------" << endl;
     cout << "Custo da melhor solução: " << custoBest << endl;
-    cout << "Melhor alpha: " << bestAlpha << endl;
+    cout << "Melhor alpha: " << bestAlpha << endl << endl;
 }
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)

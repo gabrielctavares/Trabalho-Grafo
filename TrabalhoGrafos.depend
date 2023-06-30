@@ -81,7 +81,7 @@
 	<iterator>
 	<list>
 
-1687862465 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\main.cpp
+1688128105 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\main.cpp
 	<iostream>
 	<iostream>
 	<fstream>
@@ -147,7 +147,7 @@
 
 1686585500 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\include\coloracao.h
 
-1687176599 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\arco.cpp
+1688123025 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\arco.cpp
 	"Arco.h"
 	<iostream>
 	<fstream>
@@ -158,9 +158,9 @@
 	<iterator>
 	<list>
 
-1687176599 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\arco.h
+1688123025 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\arco.h
 
-1687861115 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.cpp
+1688127978 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.cpp
 	"Grafo.h"
 	<iostream>
 	<fstream>
@@ -172,8 +172,9 @@
 	<list>
 	<string>
 	<algorithm>
+	<ctime>
 
-1687816379 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.h
+1688123027 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\grafo.h
 	"No.h"
 	<string>
 	<list>
@@ -181,11 +182,11 @@
 	<vector>
 	<stack>
 
-1687883544 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.h
+1688123027 c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.h
 	"Arco.h"
 	<list>
 
-1687883846 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.cpp
+1688123027 source:c:\programas_ufjf\projetos_grafos\repositorio_grafos\trabalho-grafo\no.cpp
 	"No.h"
 	<iostream>
 	<fstream>
