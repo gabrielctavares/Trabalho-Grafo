@@ -1062,7 +1062,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
     }
 }
 
-void Grafo::recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam){
+void Grafo::recalculaAlphas(float* alpha, float* p, double* medias, int custoBest, int tam){
 
     float* q = new float[tam];
     float soma = 0;
@@ -1103,7 +1103,7 @@ float Grafo::escolheAlpha(float* alphas, float* p, int tam){
     return alpha;
 }
 
-void Grafo::atualizaMedias(float* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha){
+void Grafo::atualizaMedias(double* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha){
     float soma = (medias[indexAlpha]*nVezes[indexAlpha])+custo;
     nVezes[indexAlpha] = nVezes[indexAlpha] + 1;
     medias[indexAlpha] = soma/nVezes[indexAlpha];
@@ -1121,10 +1121,10 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
-    float* medias = new float[nAlphas];
+    double* medias = new double[nAlphas];
     float* probabilidades = new float[nAlphas];
     int* nVezes = new int[nAlphas];
-    int custoBestAlpha[nAlphas];
+    int* custoBestAlpha =  new int[nAlphas];
 
     float bestAlpha = 0;
 
@@ -1132,6 +1132,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         probabilidades[i] = 1/(float)nAlphas;
         medias[i] = 0;
         nVezes[i] = 0;
+        custoBestAlpha[i] = 0;
     }
 
     while(cont<nIteracoes){

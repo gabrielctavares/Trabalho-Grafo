@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="Arquivos_entrada/arquivo_entrada_n_pond_arco.txt arquivo_saida.txt 1 0 1" />
+				<Option parameters="Arquivos_entrada/brock200_2.txt arquivo_saida.txt 0 0 1" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />

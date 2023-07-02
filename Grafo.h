@@ -30,9 +30,9 @@ class Grafo
         Arco* auxCobertVertPond();
         int getRandIndex(float alpha, int tam);
 
-        void recalculaAlphas(float* alpha, float* p, float* medias, int custoBest, int tam);
+        void recalculaAlphas(float* alpha, float* p, double* medias, int custoBest, int tam);
         float escolheAlpha(float* alphas, float* p, int tam);
-        void atualizaMedias(float* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha);
+        void atualizaMedias(double* medias, int* nVezes, int custo, int* custoBestAlpha, int indexAlpha);
 
     public:
 
