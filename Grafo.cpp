@@ -810,29 +810,20 @@ void Grafo::imprimeIdNoArt()
 
 }
 
-void Grafo::ordenaCandidatos(list<int> &candidatos)
+void Grafo::ordenaCandidatos(int* candidatos, int* pesos, int* graus)
 {
-    for(No* aux=primeiro; aux!=NULL; aux = aux->getProxNo())
-        candidatos.push_back(aux->getId());
-    list<int>::iterator i;
-    list<int>::iterator j;
-    for(i=candidatos.begin(); i!=--candidatos.end(); ++i){
-        for(j=--candidatos.end(); j!=i; ){
-            list<int>::iterator it = j;
-            No* aux1 = GetNo(*j);
-            No* aux2 = GetNo(*(--j));
-            float heur1;
-            float heur2;
-            if(ehDigrafo){
-                heur1 = aux1->getPeso()/(aux1->grauSaida()+aux1->grauEntrada(primeiro));
-                heur2 = aux2->getPeso()/(aux2->grauSaida()+aux2->grauEntrada(primeiro));
-            }
-            else{
-                heur1 = aux1->getPeso()/aux1->grauSaida();
-                heur2 = aux2->getPeso()/aux2->grauSaida();
-            }
-            if(heur1<heur2){
-                swap(*(--it), *it);
+    for(int i =0; i<n-1; i++){
+        for(int j=n-1; j>i; j--){
+            if(candidatos[j]!=-1 && pesos[j]/(float)graus[j]<pesos[j-1]/(float)graus[j-1]){
+                int auxI = candidatos[j];
+                int auxP = pesos[j];
+                int auxG = graus[j];
+                candidatos[j] = candidatos[j-1];
+                pesos[j] = pesos[j-1];
+                graus[j] = graus[j-1];
+                candidatos[j-1] = auxI;
+                pesos[j-1] = auxP;
+                graus[j-1] = auxG;
             }
         }
     }
@@ -844,7 +835,7 @@ Arco* Grafo::auxCobertVertPond(){
     Arco* lista_arcos = NULL;
     for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
-            if(arcos->getIdOrigem()>arcos->getIdDest() || ehDigrafo){
+            if(arcos->getIdOrigem()>arcos->getIdDest()){
                 arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
                 arco_aux->setProxArc(lista_arcos);
                 lista_arcos = arco_aux;
@@ -864,19 +855,41 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     No* no;
     solucao.clear();
     //lista de nós candidatos
-    list<int> candidatos;
-    ordenaCandidatos(candidatos);
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+    No* aux = primeiro;
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatos[i] = aux->getId();
+        pesos[i] = aux->getPeso();
+        graus[i] = aux->grauSaida();
+        i++;
+    }
+    ordenaCandidatos(candidatos, pesos, graus);
 
     Arco* arcosNCobertos;
     //lista de arcos não cobertos
     arcosNCobertos = auxCobertVertPond();
     int custo = 0;
 
-
-    while(!candidatos.empty() && arcosNCobertos!=NULL){
+    while(candidatos[0]!=-1 && arcosNCobertos!=NULL){
         //pega sempre o melhor nó
-        no = GetNo(*(candidatos.begin()));
-        candidatos.pop_front();
+        no = GetNo(candidatos[0]);
+        candidatos[0] = -1;
+        pesos[0] = -1;
+        graus[0] = -1;
+        for(int i=1; candidatos[i]!=-1 && i<n; i++){
+            int aux = candidatos[i];
+            candidatos[i] = candidatos[i-1];
+            candidatos[i-1] = aux;
+            aux = pesos[i];
+            pesos[i] = pesos[i-1];
+            pesos[i-1] = aux;
+            aux = graus[i];
+            graus[i] = graus[i-1];
+            graus[i-1] = aux;
+        }
+        ordenaCandidatos(candidatos, pesos, graus);
 
         bool ehSolucao = false;
         Arco* arco;
@@ -938,7 +951,7 @@ int Grafo::getRandIndex(float alpha, int tam){
     else
         return 0;
 }
-
+/*
 void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 {
     if(!ehPonderadoNo){
@@ -1225,7 +1238,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cout << "Alpha da melhor solucao: " << bestAlpha << endl;
         cout << "Tamanho da solucao final: " << best.size() << endl << endl;
     }
-}
+}*/
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)
 {
