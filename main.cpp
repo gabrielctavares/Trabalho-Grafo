@@ -76,30 +76,30 @@ int main(int argc, const char* argv[]){
 //    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 //
 
-//    float* alphas = new float[5];
-//    alphas[0] = 0.05;
-//    alphas[1] = 0.1;
-//    alphas[2] = 0.15;
-//    alphas[3] = 0.3;
-//    alphas[4] = 0.5;
+    float* alphas = new float[5];
+    alphas[0] = 0.05;
+    alphas[1] = 0.1;
+    alphas[2] = 0.15;
+    alphas[3] = 0.3;
+    alphas[4] = 0.5;
 
     cout << "Executando algoritmo guloso..." << endl;
     list<int> solucaoGuloso;
     grafo->cobertVertPondG(solucaoGuloso);
     cout << "Executado!" << endl;
 
-//    cout << "Executando algoritmos randomizados..." << endl;
-//    for(int i=0; i<5; i++){
-//        cout << "Com alpha igual a " << alphas[i] << endl;
-//        list<int> solucaoRando;
-//        grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
-//        cout << "Executado!" << endl;
-//    }
-//
-//    cout << "Executando algoritmo reativo..." << endl;
-//    list<int> solucaoReativo;
-//    grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
-//    cout << "Executado!" << endl;
+    cout << "Executando algoritmos randomizados..." << endl;
+    for(int i=0; i<5; i++){
+        cout << "Com alpha igual a " << alphas[i] << endl;
+        list<int> solucaoRando;
+        grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
+        cout << "Executado!" << endl;
+    }
+
+    cout << "Executando algoritmo reativo..." << endl;
+    list<int> solucaoReativo;
+    grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
+    cout << "Executado!" << endl;
 
     delete grafo;
     return 0;
