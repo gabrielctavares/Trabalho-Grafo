@@ -3,7 +3,7 @@
 --------Info-------
 Custo da solucao: 19337
 Tamanho da solucao final: 196
-CPU time: 0.0625139
+CPU time: 0.0312458
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -11,7 +11,7 @@ Alpha: 0.05
 Custo da melhor solucao: 19337
 Media do custo das solucoes: 19337
 Tamanho da solucao final: 196
-CPU time: 52.2621
+CPU time: 21.8735
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -19,7 +19,7 @@ Alpha: 0.1
 Custo da melhor solucao: 19337
 Media do custo das solucoes: 19337
 Tamanho da solucao final: 196
-CPU time: 53.8765
+CPU time: 22.4516
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -27,21 +27,21 @@ Alpha: 0.15
 Custo da melhor solucao: 19337
 Media do custo das solucoes: 19337
 Tamanho da solucao final: 196
-CPU time: 52.4296
+CPU time: 23.139
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
 Alpha: 0.3
 Custo da melhor solucao: 19337
-Media do custo das solucoes: 19440.7
+Media do custo das solucoes: 19431.1
 Tamanho da solucao final: 196
-CPU time: 52.3274
+CPU time: 24.4827
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
 Alpha: 0.5
 Custo da melhor solucao: 19140
-Media do custo das solucoes: 19534.2
+Media do custo das solucoes: 19536
 Tamanho da solucao final: 195
-CPU time: 56.0988
+CPU time: 28.8328
 
