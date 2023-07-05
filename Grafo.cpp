@@ -814,7 +814,7 @@ void Grafo::ordenaCandidatos(int* candidatos, int* pesos, int* graus)
 {
     for(int i =0; i<n-1; i++){
         for(int j=n-1; j>i; j--){
-            if(candidatos[j]!=-1 && pesos[j]/(float)graus[j]<pesos[j-1]/(float)graus[j-1] || candidatos[j-1]==-1){
+            if(candidatos[j]!=-1 && pesos[j]/(float)graus[j]<pesos[j-1]/(float)graus[j-1]){
                 int auxI = candidatos[j];
                 int auxP = pesos[j];
                 int auxG = graus[j];
@@ -911,6 +911,14 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         candidatos[0] = -1;
         pesos[0] = -1;
         graus[0] = -1;
+        for(int i=0; candidatos[i+1]!=-1  && i<n; i++){
+            candidatos[i]=candidatos[i+1];
+            pesos[i] = pesos[i+1];
+            graus[i] = graus[i+1];
+            candidatos[i+1] = -1;
+            pesos[i+1] = -1;
+            graus[i+1] = -1;
+        }
         ordenaCandidatos(candidatos, pesos, graus);
     }
     ofstream arq;
@@ -933,8 +941,6 @@ void Grafo::cobertVertPondG(list<int> &solucao)
 }
 
 int Grafo::getRandIndex(float alpha, int tam){
-    unsigned seed = time(0);
-    srand(seed);
     if((int)(alpha*tam) != 0)
         return rand()%(int)(alpha*tam);
     else
@@ -947,6 +953,9 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         cout << "Erro: Grafo deve ser ponderado" << endl;
         return;
     }
+
+    unsigned seed = time(0);
+    srand(seed);
 
     list<int> solucao;
     int cont = 0;
@@ -977,6 +986,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         while(candidatos[0]!=-1 && arcosNCobertos!=NULL){
             //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
             int index = getRandIndex(alpha, tam);
+            No* no = GetNo(candidatos[index]);
             int id = candidatos[index];
 
             bool ehSolucao = false;
@@ -984,7 +994,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
             Arco* aux;
             arco = arcosNCobertos;
 
-            for(aux = NULL; arco!=NULL;){
+            for(aux = NULL; arco!=NULL && id!=-1;){
                 if(arco->getIdOrigem()==id || arco->getIdDest()==id){
                     //arco é tirado da lista de arcos não cobertos
                     if(aux==NULL){
@@ -1006,17 +1016,27 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
                     arco = arco->getProxArc();
                 }
             }
-            if(ehSolucao){
+            if(ehSolucao && id!=-1){
                 //adiciona o nó à solução
                 solucao.push_back(id);
-                custo = custo+pesos[index];
+                custo = custo+no->getPeso();
             }
             candidatos[index] = -1;
             pesos[index] = -1;
             graus[index] = -1;
             tam--;
+            for(int i=index; candidatos[i+1]!=-1  && i<n; i++){
+                candidatos[i]=candidatos[i+1];
+                pesos[i] = pesos[i+1];
+                graus[i] = graus[i+1];
+                candidatos[i+1] = -1;
+                pesos[i+1] = -1;
+                graus[i+1] = -1;
+            }
             ordenaCandidatos(candidatos, pesos, graus);
         }
+
+        cout << cont << ": " << custo << endl;
 
         if(custoBest==0 || custo<custoBest){
             //se a solução encontrada for melhor que melhor encontrada até então, ela passa a ser a melhor
@@ -1105,6 +1125,9 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         return;
     }
 
+    unsigned seed = time(0);
+    srand(seed);
+
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
@@ -1159,13 +1182,14 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         while(candidatos[0]!=-1 && arcosNCobertos!=NULL){
             //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
             int index = getRandIndex(alpha, tam);
+            No* no = GetNo(candidatos[index]);
             int id = candidatos[index];
 
             bool ehSolucao = false;
             Arco* arco;
             Arco* aux;
             arco = arcosNCobertos;
-            for(aux = NULL; arco!=NULL;){
+            for(aux = NULL; arco!=NULL && id!=-1;){
                 //arco é tirado da lista de arcos não cobertos
                 if(arco->getIdOrigem()==id || arco->getIdDest()==id){
                     if(aux==NULL){
@@ -1187,15 +1211,23 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
                     arco = arco->getProxArc();
                 }
             }
-            if(ehSolucao){
+            if(ehSolucao && id!=-1){
                 //adiciona o nó à solução
                 solucao.push_back(id);
-                custo = custo+pesos[index];
+                custo = custo+no->getPeso();
             }
             candidatos[index] = -1;
             pesos[index] = -1;
             graus[index] = -1;
             tam--;
+            for(int i=index; candidatos[i+1]!=-1 && i<n; i++){
+                candidatos[i]=candidatos[i+1];
+                pesos[i] = pesos[i+1];
+                graus[i] = graus[i+1];
+                candidatos[i+1] = -1;
+                pesos[i+1] = -1;
+                graus[i+1] = -1;
+            }
             ordenaCandidatos(candidatos, pesos, graus);
         }
         if(custoBest==0 || custo<custoBest){

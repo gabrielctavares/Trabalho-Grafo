@@ -4,3 +4,38 @@
 Custo da solucao: 19337
 Tamanho da solucao final: 196
 
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.05
+Custo da melhor solucao: 19140
+Media do custo das solucoes: 19337.7
+Tamanho da solucao final: 195
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.1
+Custo da melhor solucao: 19337
+Media do custo das solucoes: 19337
+Tamanho da solucao final: 196
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.15
+Custo da melhor solucao: 19337
+Media do custo das solucoes: 19337
+Tamanho da solucao final: 196
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.3
+Custo da melhor solucao: 19337
+Media do custo das solucoes: 19435.1
+Tamanho da solucao final: 196
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.5
+Custo da melhor solucao: 19132
+Media do custo das solucoes: 19543.3
+Tamanho da solucao final: 194
+
