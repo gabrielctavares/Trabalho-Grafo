@@ -7,9 +7,9 @@ Tamanho da solucao final: 196
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
 Alpha: 0.05
-Custo da melhor solucao: 19140
-Media do custo das solucoes: 19337.7
-Tamanho da solucao final: 195
+Custo da melhor solucao: 19337
+Media do custo das solucoes: 19337
+Tamanho da solucao final: 196
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -29,13 +29,51 @@ Tamanho da solucao final: 196
 --------Info-------
 Alpha: 0.3
 Custo da melhor solucao: 19337
-Media do custo das solucoes: 19435.1
+Media do custo das solucoes: 19428.1
 Tamanho da solucao final: 196
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
 Alpha: 0.5
-Custo da melhor solucao: 19132
-Media do custo das solucoes: 19543.3
-Tamanho da solucao final: 194
+Custo da melhor solucao: 19140
+Media do custo das solucoes: 19525.6
+Tamanho da solucao final: 195
+
+=====Algoritmo Guloso Randomizado Reativo=====
+--------Info-------
+
+Alpha[0] = 0.05
+Melhor solucao do alpha = 19337
+Media = 19337
+Numero de aparicoes = 1208
+Probabilidade de aparicao = 0.200584
+
+Alpha[1] = 0.1
+Melhor solucao do alpha = 19337
+Media = 19337
+Numero de aparicoes = 1075
+Probabilidade de aparicao = 0.200584
+
+Alpha[2] = 0.15
+Melhor solucao do alpha = 19337
+Media = 19337
+Numero de aparicoes = 927
+Probabilidade de aparicao = 0.200584
+
+Alpha[3] = 0.3
+Melhor solucao do alpha = 19337
+Media = 19429.2
+Numero de aparicoes = 930
+Probabilidade de aparicao = 0.199632
+
+Alpha[4] = 0.5
+Melhor solucao do alpha = 19140
+Media = 19528.5
+Numero de aparicoes = 860
+Probabilidade de aparicao = 0.198617
+
+------Melhor solucao------
+Custo da melhor solucao: 19140
+Alpha da melhor solucao: 0.5
+Tamanho da solucao final: 195
 

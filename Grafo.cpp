@@ -962,18 +962,30 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
     int custoBest = 0;
     int soma = 0;
 
+    No* aux = primeiro;
+
+    int* candidatosFixo = new int[n];
+    int* pesosFixo = new int[n];
+    int* grausFixo = new int[n];
+
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatosFixo[i] = aux->getId();
+        pesosFixo[i] = aux->getPeso();
+        grausFixo[i] = aux->grauSaida();
+        i++;
+    }
+
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+
     while(cont<nIteracoes){
         solucao.clear();
         //lista de nós candidatos
-        int* candidatos = new int[n];
-        int* pesos = new int[n];
-        int* graus = new int[n];
-        No* aux = primeiro;
-        for(int i=0; aux!=NULL; aux = aux->getProxNo()){
-            candidatos[i] = aux->getId();
-            pesos[i] = aux->getPeso();
-            graus[i] = aux->grauSaida();
-            i++;
+        for(int i=0; i<n; i++){
+            candidatos[i] = candidatosFixo[i];
+            pesos[i] = pesosFixo[i];
+            graus[i] = grausFixo[i];
         }
         ordenaCandidatos(candidatos, pesos, graus);
 
@@ -1145,18 +1157,30 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         custoBestAlpha[i] = 0;
     }
 
+    No* aux = primeiro;
+
+    int* candidatosFixo = new int[n];
+    int* pesosFixo = new int[n];
+    int* grausFixo = new int[n];
+
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatosFixo[i] = aux->getId();
+        pesosFixo[i] = aux->getPeso();
+        grausFixo[i] = aux->grauSaida();
+        i++;
+    }
+
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+
     while(cont<nIteracoes){
         solucao.clear();
 
-        int* candidatos = new int[n];
-        int* pesos = new int[n];
-        int* graus = new int[n];
-        No* aux = primeiro;
-        for(int i=0; aux!=NULL; aux = aux->getProxNo()){
-            candidatos[i] = aux->getId();
-            pesos[i] = aux->getPeso();
-            graus[i] = aux->grauSaida();
-            i++;
+        for(int i=0; i<n; i++){
+            candidatos[i] = candidatosFixo[i];
+            pesos[i] = pesosFixo[i];
+            graus[i] = grausFixo[i];
         }
         ordenaCandidatos(candidatos, pesos, graus);
 
