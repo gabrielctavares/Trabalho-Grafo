@@ -12,6 +12,7 @@
 #include <ctime>
 
 using namespace std;
+using namespace chrono;
 
 Grafo::Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
@@ -852,6 +853,9 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         return;
     }
 
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
+
     No* no;
     solucao.clear();
     //lista de nós candidatos
@@ -921,13 +925,18 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         }
         ordenaCandidatos(candidatos, pesos, graus);
     }
+
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
         arq << "=====Algoritmo Guloso=====" << endl;
         arq << "--------Info-------" << endl;
         arq << "Custo da solucao: " << custo << endl;
-        arq << "Tamanho da solucao final: " << solucao.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << solucao.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -937,7 +946,7 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         cout << "Custo da solucao: " << custo << endl;
         cout << "Tamanho da solucao final: " << solucao.size() << endl << endl;
     }
-
+    cout << "CPU time: " << time << endl << endl;
 }
 
 int Grafo::getRandIndex(float alpha, int tam){
@@ -956,6 +965,9 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 
     unsigned seed = time(0);
     srand(seed);
+
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
 
     list<int> solucao;
     int cont = 0;
@@ -1059,6 +1071,9 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         cont++;
     }
 
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
@@ -1067,7 +1082,8 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         arq << "Alpha: " << alpha << endl;
         arq << "Custo da melhor solucao: " << custoBest << endl;
         arq << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -1077,8 +1093,9 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         cout << "Alpha: " << alpha << endl;
         cout << "Custo da melhor solucao: " << custoBest << endl;
         cout << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        cout << "Tamanho da solucao final: " << best.size() << endl << endl;
+        cout << "Tamanho da solucao final: " << best.size() << endl;
     }
+    cout << "CPU time: " << time << endl << endl;
 }
 
 void Grafo::recalculaAlphas(float* alpha, float* p, double* medias, int custoBest, int tam){
@@ -1139,6 +1156,9 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
 
     unsigned seed = time(0);
     srand(seed);
+
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
 
     list<int> solucao;
     int cont = 0;
@@ -1271,6 +1291,9 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cont++;
     }
 
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
@@ -1287,7 +1310,8 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         arq << "------Melhor solucao------" << endl;
         arq << "Custo da melhor solucao: " << custoBest << endl;
         arq << "Alpha da melhor solucao: " << bestAlpha << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -1307,6 +1331,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cout << "Alpha da melhor solucao: " << bestAlpha << endl;
         cout << "Tamanho da solucao final: " << best.size() << endl << endl;
     }
+    cout << "CPU time: " << time << endl << endl;
 }
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)
