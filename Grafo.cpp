@@ -812,21 +812,36 @@ void Grafo::imprimeIdNoArt()
 
 void Grafo::ordenaCandidatos(int* candidatos, int* pesos, int* graus)
 {
-    for(int i =0; i<n-1; i++){
-        for(int j=n-1; j>i; j--){
-            if(candidatos[j]!=-1 && pesos[j]/(float)graus[j]<pesos[j-1]/(float)graus[j-1] || candidatos[j-1]==-1){
+    int tam = n;
+    for(int i =0; i<tam; i++){
+        for(int j=i; j<tam; j++){
+                if(candidatos[j] == -1)
+                {
+                    tam--;
+                    candidatos[j] = candidatos[tam];
+                    pesos[j] = pesos[tam];
+                    graus[j] = graus[tam];
+                }
+            if(pesos[i]/(float)graus[i]>pesos[j]/(float)graus[j]){
                 int auxI = candidatos[j];
                 int auxP = pesos[j];
                 int auxG = graus[j];
-                candidatos[j] = candidatos[j-1];
-                pesos[j] = pesos[j-1];
-                graus[j] = graus[j-1];
-                candidatos[j-1] = auxI;
-                pesos[j-1] = auxP;
-                graus[j-1] = auxG;
+                candidatos[j] = candidatos[i];
+                pesos[j] = pesos[i];
+                graus[j] = graus[i];
+                candidatos[i] = auxI;
+                pesos[i] = auxP;
+                graus[i] = auxG;
             }
         }
     }
+    /*
+    for(int i=0;i<n;i++)
+    {
+        cout << "No " << i+1 <<endl;
+        cout << "Peso: " << pesos[i] <<endl << "Grau: " << graus[i] <<endl << "Valor: " << pesos[i]/(float)graus[i]<<endl;
+    }
+    */
 }
 
 Arco* Grafo::auxCobertVertPond(){
@@ -953,18 +968,31 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
     int custoBest = 0;
     int soma = 0;
 
+    No* aux = primeiro;
+
+    int candidatosFixo[n];
+    int pesosFixo[n];
+    int grausFixo[n];
+
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatosFixo[i] = aux->getId();
+        pesosFixo[i] = aux->getPeso();
+        grausFixo[i] = aux->grauSaida();
+        i++;
+    }
+
+    int candidatos[n];
+    int pesos[n];
+    int graus[n];
+
     while(cont<nIteracoes){
         solucao.clear();
         //lista de nós candidatos
-        int* candidatos = new int[n];
-        int* pesos = new int[n];
-        int* graus = new int[n];
-        No* aux = primeiro;
-        for(int i=0; aux!=NULL; aux = aux->getProxNo()){
-            candidatos[i] = aux->getId();
-            pesos[i] = aux->getPeso();
-            graus[i] = aux->grauSaida();
-            i++;
+
+        for(int i=0; i<n; i++){
+            candidatos[i] = candidatosFixo[i];
+            pesos[i] = pesosFixo[i];
+            graus[i] = grausFixo[i];
         }
         ordenaCandidatos(candidatos, pesos, graus);
 
@@ -974,7 +1002,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         int custo = 0;
 
         int tam = n;
-        while(candidatos[0]!=-1 && arcosNCobertos!=NULL){
+        while(tam > 0 && arcosNCobertos!=NULL){
             //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
             int index = getRandIndex(alpha, tam);
             int id = candidatos[index];
@@ -1015,7 +1043,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
             pesos[index] = -1;
             graus[index] = -1;
             tam--;
-            ordenaCandidatos(candidatos, pesos, graus);
+            ordenaCandidatos(candidatos,pesos,graus);
         }
 
         if(custoBest==0 || custo<custoBest){
@@ -1025,6 +1053,7 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         }
         soma = soma+custo;
         cont++;
+        cout << cont << ": " << custo << endl;
     }
 
     ofstream arq;

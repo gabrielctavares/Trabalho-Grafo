@@ -197,3 +197,65 @@
 	<iterator>
 	<list>
 
+1688184193 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\arco.cpp
+	"Arco.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+
+1688522133 c:\users\claud\onedrive\documentos\github\trabalho-grafo\arco.h
+
+1688341275 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\main.cpp
+	<iostream>
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+	"Grafo.h"
+
+1688522049 c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.h
+	"No.h"
+	<string>
+	<list>
+	<algorithm>
+	<vector>
+	<stack>
+
+1688184194 c:\users\claud\onedrive\documentos\github\trabalho-grafo\no.h
+	"Arco.h"
+	<list>
+
+1688184194 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\no.cpp
+	"No.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+
+1688526942 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.cpp
+	"Grafo.h"
+	<iostream>
+	<fstream>
+	<string>
+	<cstdlib>
+	<chrono>
+	<bits/stdc++.h>
+	<iterator>
+	<list>
+	<string>
+	<algorithm>
+	<ctime>
+
