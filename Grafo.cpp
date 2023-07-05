@@ -12,6 +12,7 @@
 #include <ctime>
 
 using namespace std;
+using namespace chrono;
 
 Grafo::Grafo(bool ehDigraf, bool ehPondArco, bool ehPondNo)
 {
@@ -810,48 +811,41 @@ void Grafo::imprimeIdNoArt()
 
 }
 
-void Grafo::ordenaCandidatos(list<int> &candidatos)
+void Grafo::ordenaCandidatos(int* candidatos, int* pesos, int* graus)
 {
-    for(No* aux=primeiro; aux!=NULL; aux = aux->getProxNo())
-        candidatos.push_back(aux->getId());
-    list<int>::iterator i;
-    list<int>::iterator j;
-    for(i=candidatos.begin(); i!=--candidatos.end(); ++i){
-        for(j=--candidatos.end(); j!=i; ){
-            list<int>::iterator it = j;
-            No* aux1 = GetNo(*j);
-            No* aux2 = GetNo(*(--j));
-            float heur1;
-            float heur2;
-            if(ehDigrafo){
-                heur1 = aux1->getPeso()/(aux1->grauSaida()+aux1->grauEntrada(primeiro));
-                heur2 = aux2->getPeso()/(aux2->grauSaida()+aux2->grauEntrada(primeiro));
-            }
-            else{
-                heur1 = aux1->getPeso()/aux1->grauSaida();
-                heur2 = aux2->getPeso()/aux2->grauSaida();
-            }
-            if(heur1<heur2){
-                swap(*(--it), *it);
+    for(int i =0; i<n-1; i++){
+        for(int j=n-1; j>i; j--){
+            if(candidatos[j]!=-1 && pesos[j]/(float)graus[j]<pesos[j-1]/(float)graus[j-1]){
+                int auxI = candidatos[j];
+                int auxP = pesos[j];
+                int auxG = graus[j];
+                candidatos[j] = candidatos[j-1];
+                pesos[j] = pesos[j-1];
+                graus[j] = graus[j-1];
+                candidatos[j-1] = auxI;
+                pesos[j-1] = auxP;
+                graus[j-1] = auxG;
             }
         }
     }
 }
 
-Arco* Grafo::auxCobertVertPond(){
+void Grafo::auxCobertVertPond(int* orig, int* dest){
     No* aux;
-    Arco* arco_aux;
-    Arco* lista_arcos = NULL;
+    for(int i=0; i<n*(n-1)/2; i++){
+        orig[i] = -1;
+        dest[i] = -1;
+    }
+    int i=0;
     for(aux = primeiro; aux!=NULL; aux = aux->getProxNo()){
         for(Arco* arcos = aux->getAdjacentes(); arcos!=NULL; arcos = arcos->getProxArc()){
-            if(arcos->getIdOrigem()>arcos->getIdDest() || ehDigrafo){
-                arco_aux = new Arco(arcos->getIdOrigem(), arcos->getIdDest(), 0);
-                arco_aux->setProxArc(lista_arcos);
-                lista_arcos = arco_aux;
+            if(arcos->getIdOrigem()>arcos->getIdDest()){
+                orig[i] = arcos->getIdOrigem();
+                dest[i] = arcos->getIdDest();
+                i++;
             }
         }
     }
-    return lista_arcos;
 }
 
 void Grafo::cobertVertPondG(list<int> &solucao)
@@ -861,63 +855,81 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         return;
     }
 
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
+
     No* no;
     solucao.clear();
     //lista de nós candidatos
-    list<int> candidatos;
-    ordenaCandidatos(candidatos);
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+    No* aux = primeiro;
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatos[i] = aux->getId();
+        pesos[i] = aux->getPeso();
+        graus[i] = aux->grauSaida();
+        i++;
+    }
+    ordenaCandidatos(candidatos, pesos, graus);
 
-    Arco* arcosNCobertos;
     //lista de arcos não cobertos
-    arcosNCobertos = auxCobertVertPond();
+    int* orig = new int[n*(n-1)/2];
+    int* dest = new int[n*(n-1)/2];
+    auxCobertVertPond(orig, dest);
     int custo = 0;
 
-
-    while(!candidatos.empty() && arcosNCobertos!=NULL){
+    while(candidatos[0]!=-1){
         //pega sempre o melhor nó
-        no = GetNo(*(candidatos.begin()));
-        candidatos.pop_front();
+        int id = candidatos[0];
 
         bool ehSolucao = false;
-        Arco* arco;
-        Arco* aux;
-        arco = arcosNCobertos;
 
-        for(aux = NULL; arco!=NULL;){
-            if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
+        for(int i=0; i<n*(n-1)/2; i++){
+            if(orig[i]!=-1 && (orig[i]==id || dest[i]==id)){
                 //arco é tirado da lista de arcos não cobertos
-                if(aux==NULL){
-                    arcosNCobertos = arco->getProxArc();
-                    delete arco;
-                    arco = arcosNCobertos;
-                }
-                else{
-                    aux->setProxArc(arco->getProxArc());
-                    delete arco;
-                    arco = aux;
-                }
+                orig[i] = -1;
+                dest[i] = -1;
                 //nó é marcado como parte da solução
                 ehSolucao = true;
-            }
-            else{
-                //passa pro próximo nó
-                aux = arco;
-                arco = arco->getProxArc();
             }
         }
         if(ehSolucao){
             //adiciona o nó à solução
-            solucao.push_back(no->getId());
-            custo = custo+no->getPeso();
+            solucao.push_back(id);
+            custo = custo+pesos[0];
         }
+        candidatos[0] = -1;
+        pesos[0] = -1;
+        graus[0] = -1;
+        for(int i=0; candidatos[i+1]!=-1  && i<n; i++){
+            candidatos[i]=candidatos[i+1];
+            pesos[i] = pesos[i+1];
+            graus[i] = graus[i+1];
+            candidatos[i+1] = -1;
+            pesos[i+1] = -1;
+            graus[i+1] = -1;
+        }
+        //ordenaCandidatos(candidatos, pesos, graus);
     }
+
+    delete [] candidatos;
+    delete [] pesos;
+    delete [] graus;
+    delete [] orig;
+    delete [] dest;
+
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
         arq << "=====Algoritmo Guloso=====" << endl;
         arq << "--------Info-------" << endl;
         arq << "Custo da solucao: " << custo << endl;
-        arq << "Tamanho da solucao final: " << solucao.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << solucao.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -927,12 +939,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         cout << "Custo da solucao: " << custo << endl;
         cout << "Tamanho da solucao final: " << solucao.size() << endl << endl;
     }
-
+    cout << "CPU time: " << time << endl << endl;
 }
 
 int Grafo::getRandIndex(float alpha, int tam){
-    unsigned seed = time(0);
-    srand(seed);
     if((int)(alpha*tam) != 0)
         return rand()%(int)(alpha*tam);
     else
@@ -946,64 +956,94 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         return;
     }
 
+    unsigned seed = time(0);
+    srand(seed);
+
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
+
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
     int soma = 0;
 
+    No* aux = primeiro;
+
+    int* candidatosFixo = new int[n];
+    int* pesosFixo = new int[n];
+    int* grausFixo = new int[n];
+
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatosFixo[i] = aux->getId();
+        pesosFixo[i] = aux->getPeso();
+        grausFixo[i] = aux->grauSaida();
+        i++;
+    }
+
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+
+    int* origFixo = new int[n*(n-1)/2];
+    int* destFixo = new int[n*(n-1)/2];
+    auxCobertVertPond(origFixo, destFixo);
+
+    int* orig = new int[n*(n-1)/2];
+    int* dest = new int[n*(n-1)/2];
+
     while(cont<nIteracoes){
-        No* no;
         solucao.clear();
         //lista de nós candidatos
-        list<int> candidatos;
-        ordenaCandidatos(candidatos);
+        for(int i=0; i<n; i++){
+            candidatos[i] = candidatosFixo[i];
+            pesos[i] = pesosFixo[i];
+            graus[i] = grausFixo[i];
+        }
+        ordenaCandidatos(candidatos, pesos, graus);
 
-        Arco* arcosNCobertos;
         //lista de arcos não cobertos
-        arcosNCobertos = auxCobertVertPond();
+        for(int i=0; i<n*(n-1)/2; i++){
+            orig[i] = origFixo[i];
+            dest[i] = destFixo[i];
+        }
         int custo = 0;
 
-
-        while(!candidatos.empty() && arcosNCobertos!=NULL){
+        int tam = n;
+        while(candidatos[0]!=-1){
             //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
-            int index = getRandIndex(alpha, candidatos.size());
-            list<int>::iterator i = candidatos.begin();
-            advance(i, index);
-            no = GetNo(*i);
-            candidatos.remove(*i);
+            int index = getRandIndex(alpha, tam);
+            No* no = GetNo(candidatos[index]);
+            int id = candidatos[index];
 
             bool ehSolucao = false;
-            Arco* arco;
-            Arco* aux;
-            arco = arcosNCobertos;
 
-            for(aux = NULL; arco!=NULL;){
-                if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
+            for(int i=0; i<n*(n-1)/2; i++){
+                if(orig[i]!=-1 && (orig[i]==id || dest[i]==id)){
                     //arco é tirado da lista de arcos não cobertos
-                    if(aux==NULL){
-                        arcosNCobertos = arco->getProxArc();
-                        delete arco;
-                        arco = arcosNCobertos;
-                    }
-                    else{
-                        aux->setProxArc(arco->getProxArc());
-                        delete arco;
-                        arco = aux;
-                    }
+                    orig[i] = -1;
+                    dest[i] = -1;
                     //nó é marcado como parte da solução
                     ehSolucao = true;
                 }
-                else{
-                    //passa pro próximo nó
-                    aux = arco;
-                    arco = arco->getProxArc();
-                }
             }
-            if(ehSolucao){
+            if(ehSolucao && id!=-1){
                 //adiciona o nó à solução
-                solucao.push_back(no->getId());
+                solucao.push_back(id);
                 custo = custo+no->getPeso();
             }
+            candidatos[index] = -1;
+            pesos[index] = -1;
+            graus[index] = -1;
+            tam--;
+            for(int i=index; candidatos[i+1]!=-1  && i<n; i++){
+                candidatos[i]=candidatos[i+1];
+                pesos[i] = pesos[i+1];
+                graus[i] = graus[i+1];
+                candidatos[i+1] = -1;
+                pesos[i+1] = -1;
+                graus[i+1] = -1;
+            }
+            //ordenaCandidatos(candidatos, pesos, graus);
         }
 
         if(custoBest==0 || custo<custoBest){
@@ -1015,6 +1055,20 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         cont++;
     }
 
+    delete [] candidatos;
+    delete [] pesos;
+    delete [] graus;
+    delete [] candidatosFixo;
+    delete [] pesosFixo;
+    delete [] grausFixo;
+    delete [] origFixo;
+    delete [] destFixo;
+    delete [] orig;
+    delete [] dest;
+
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
@@ -1023,7 +1077,8 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         arq << "Alpha: " << alpha << endl;
         arq << "Custo da melhor solucao: " << custoBest << endl;
         arq << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -1033,8 +1088,9 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
         cout << "Alpha: " << alpha << endl;
         cout << "Custo da melhor solucao: " << custoBest << endl;
         cout << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        cout << "Tamanho da solucao final: " << best.size() << endl << endl;
+        cout << "Tamanho da solucao final: " << best.size() << endl;
     }
+    cout << "CPU time: " << time << endl << endl;
 }
 
 void Grafo::recalculaAlphas(float* alpha, float* p, double* medias, int custoBest, int tam){
@@ -1093,6 +1149,12 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         return;
     }
 
+    unsigned seed = time(0);
+    srand(seed);
+
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    double time = 0;
+
     list<int> solucao;
     int cont = 0;
     int custoBest = 0;
@@ -1110,10 +1172,40 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         custoBestAlpha[i] = 0;
     }
 
+    No* aux = primeiro;
+
+    int* candidatosFixo = new int[n];
+    int* pesosFixo = new int[n];
+    int* grausFixo = new int[n];
+
+    for(int i=0; aux!=NULL; aux = aux->getProxNo()){
+        candidatosFixo[i] = aux->getId();
+        pesosFixo[i] = aux->getPeso();
+        grausFixo[i] = aux->grauSaida();
+        i++;
+    }
+
+    int* candidatos = new int[n];
+    int* pesos = new int[n];
+    int* graus = new int[n];
+
+    int* origFixo = new int[n*(n-1)/2];
+    int* destFixo = new int[n*(n-1)/2];
+    auxCobertVertPond(origFixo, destFixo);
+
+    int* orig = new int[n*(n-1)/2];
+    int* dest = new int[n*(n-1)/2];
+
     while(cont<nIteracoes){
         solucao.clear();
-        list<int> candidatos;
-        ordenaCandidatos(candidatos);
+
+        for(int i=0; i<n; i++){
+            candidatos[i] = candidatosFixo[i];
+            pesos[i] = pesosFixo[i];
+            graus[i] = grausFixo[i];
+        }
+        ordenaCandidatos(candidatos, pesos, graus);
+
         float alpha;
 
         if(cont<nAlphas){
@@ -1127,50 +1219,49 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
             alpha = escolheAlpha(alphas, probabilidades, nAlphas);
         }
 
-        Arco* arcosNCobertos;
         //lista de arcos não cobertos
-        arcosNCobertos = auxCobertVertPond();
+        for(int i=0; i<n*(n-1)/2; i++){
+            orig[i] = origFixo[i];
+            dest[i] = destFixo[i];
+        }
         int custo = 0;
 
-        while(!candidatos.empty() && arcosNCobertos!=NULL){
+        int tam = n;
+        while(candidatos[0]!=-1){
             //pega um nó aleatório dentro da faixa determinada pelo valor de alpha e o remove da lista
-            int index = getRandIndex(alpha, candidatos.size());
-            list<int>::iterator i = candidatos.begin();
-            advance(i, index);
-            No* no = GetNo(*i);
-            candidatos.remove(*i);
+            int index = getRandIndex(alpha, tam);
+            No* no = GetNo(candidatos[index]);
+            int id = candidatos[index];
 
             bool ehSolucao = false;
-            Arco* arco;
-            Arco* aux;
-            arco = arcosNCobertos;
-            for(aux = NULL; arco!=NULL;){
-                //arco é tirado da lista de arcos não cobertos
-                if(arco->getIdOrigem()==no->getId() || arco->getIdDest()==no->getId()){
-                    if(aux==NULL){
-                        arcosNCobertos = arco->getProxArc();
-                        delete arco;
-                        arco = arcosNCobertos;
-                    }
-                    else{
-                        aux->setProxArc(arco->getProxArc());
-                        delete arco;
-                        arco = aux;
-                    }
+
+            for(int i=0; i<n*(n-1)/2; i++){
+                if(orig[i]!=-1 && (orig[i]==id || dest[i]==id)){
+                    //arco é tirado da lista de arcos não cobertos
+                    orig[i] = -1;
+                    dest[i] = -1;
                     //nó é marcado como parte da solução
                     ehSolucao = true;
                 }
-                else{
-                    //passa pro próximo nó
-                    aux = arco;
-                    arco = arco->getProxArc();
-                }
             }
-            if(ehSolucao){
+            if(ehSolucao && id!=-1){
                 //adiciona o nó à solução
-                solucao.push_back(no->getId());
+                solucao.push_back(id);
                 custo = custo+no->getPeso();
             }
+            candidatos[index] = -1;
+            pesos[index] = -1;
+            graus[index] = -1;
+            tam--;
+            for(int i=index; candidatos[i+1]!=-1 && i<n; i++){
+                candidatos[i]=candidatos[i+1];
+                pesos[i] = pesos[i+1];
+                graus[i] = graus[i+1];
+                candidatos[i+1] = -1;
+                pesos[i+1] = -1;
+                graus[i+1] = -1;
+            }
+            //ordenaCandidatos(candidatos, pesos, graus);
         }
         if(custoBest==0 || custo<custoBest){
             //se a solução encontrada for melhor que melhor encontrada até então, ela passa a ser a melhor
@@ -1189,6 +1280,20 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cont++;
     }
 
+    delete [] candidatos;
+    delete [] pesos;
+    delete [] graus;
+    delete [] candidatosFixo;
+    delete [] pesosFixo;
+    delete [] grausFixo;
+    delete [] origFixo;
+    delete [] destFixo;
+    delete [] orig;
+    delete [] dest;
+
+    high_resolution_clock::time_point stop = high_resolution_clock::now();
+    time = duration_cast<duration<double>>(stop-start).count();
+
     ofstream arq;
     arq.open(arquivo_saida, ios::app);
     if(arq.is_open()){
@@ -1205,7 +1310,8 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         arq << "------Melhor solucao------" << endl;
         arq << "Custo da melhor solucao: " << custoBest << endl;
         arq << "Alpha da melhor solucao: " << bestAlpha << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl << endl;
+        arq << "Tamanho da solucao final: " << best.size() << endl;
+        arq << "CPU time: " << time << endl << endl;
         arq.close();
     }
     else{
@@ -1225,6 +1331,7 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
         cout << "Alpha da melhor solucao: " << bestAlpha << endl;
         cout << "Tamanho da solucao final: " << best.size() << endl << endl;
     }
+    cout << "CPU time: " << time << endl << endl;
 }
 
 /*void Grafo::auxSubGrafo(Arco* adj, int x, int* id_n)

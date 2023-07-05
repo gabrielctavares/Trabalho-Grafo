@@ -26,8 +26,8 @@ class Grafo
         void auxConexo(No *n);
         No* GetNo(int id);
 
-        void ordenaCandidatos(list<int> &candidatos); //função auxiliar que ordena os nós baseado na heurística
-        Arco* auxCobertVertPond();
+        void ordenaCandidatos(int* candidatos, int* pesos, int* graus); //função auxiliar que ordena os nós baseado na heurística
+        void auxCobertVertPond(int* orig, int* dest);
         int getRandIndex(float alpha, int tam);
 
         void recalculaAlphas(float* alpha, float* p, double* medias, int custoBest, int tam);
