@@ -1,0 +1,86 @@
+---------Logs----------
+=====Algoritmo Guloso=====
+--------Info-------
+Custo da solucao: 40005
+Tamanho da solucao final: 399
+CPU time: 0.0724513
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.05
+Custo da melhor solucao: 40005
+Media do custo das solucoes: 40005
+Tamanho da solucao final: 399
+CPU time: 69.0913
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.1
+Custo da melhor solucao: 40005
+Media do custo das solucoes: 40005
+Tamanho da solucao final: 399
+CPU time: 72.1752
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.15
+Custo da melhor solucao: 40005
+Media do custo das solucoes: 40005
+Tamanho da solucao final: 399
+CPU time: 75.1847
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.3
+Custo da melhor solucao: 40005
+Media do custo das solucoes: 40005
+Tamanho da solucao final: 399
+CPU time: 82.6512
+
+=====Algoritmo Guloso Randomizado=====
+--------Info-------
+Alpha: 0.5
+Custo da melhor solucao: 39808
+Media do custo das solucoes: 39967.3
+Tamanho da solucao final: 398
+CPU time: 89.0534
+
+=====Algoritmo Guloso Randomizado Reativo=====
+--------Info-------
+
+Alpha[0] = 0.05
+Melhor solucao do alpha = 40005
+Media = 40005
+Numero de aparicoes = 992
+Probabilidade de aparicao = 0.199965
+
+Alpha[1] = 0.1
+Melhor solucao do alpha = 40005
+Media = 40005
+Numero de aparicoes = 1039
+Probabilidade de aparicao = 0.199965
+
+Alpha[2] = 0.15
+Melhor solucao do alpha = 40005
+Media = 40005
+Numero de aparicoes = 993
+Probabilidade de aparicao = 0.199965
+
+Alpha[3] = 0.3
+Melhor solucao do alpha = 40005
+Media = 40005
+Numero de aparicoes = 997
+Probabilidade de aparicao = 0.199965
+
+Alpha[4] = 0.5
+Melhor solucao do alpha = 39808
+Media = 39970.2
+Numero de aparicoes = 979
+Probabilidade de aparicao = 0.200139
+
+------Melhor solucao------
+Custo da melhor solucao: 39808
+Alpha da melhor solucao: 0.5
+Tamanho da solucao final: 398
+CPU time: 388.866
+
