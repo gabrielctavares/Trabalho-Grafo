@@ -932,23 +932,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
     high_resolution_clock::time_point stop = high_resolution_clock::now();
     time = duration_cast<duration<double>>(stop-start).count();
 
-    ofstream arq;
-    arq.open(arquivo_saida, ios::app);
-    if(arq.is_open()){
-        arq << "=====Algoritmo Guloso=====" << endl;
-        arq << "--------Info-------" << endl;
-        arq << "Custo da solucao: " << custo << endl;
-        arq << "Tamanho da solucao final: " << solucao.size() << endl;
-        arq << "CPU time: " << time << endl << endl;
-        arq.close();
-    }
-    else{
-        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
-        cout << "=====Algoritmo Guloso=====" << endl;
-        cout << "--------Info-------" << endl;
-        cout << "Custo da solucao: " << custo << endl;
-        cout << "Tamanho da solucao final: " << solucao.size() << endl << endl;
-    }
+    cout << "=====Algoritmo Guloso=====" << endl;
+    cout << "--------Info-------" << endl;
+    cout << "Custo da solucao: " << custo << endl;
+    cout << "Tamanho da solucao final: " << solucao.size() << endl << endl;
     cout << "CPU time: " << time << endl << endl;
 }
 
@@ -1079,27 +1066,12 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
     high_resolution_clock::time_point stop = high_resolution_clock::now();
     time = duration_cast<duration<double>>(stop-start).count();
 
-    ofstream arq;
-    arq.open(arquivo_saida, ios::app);
-    if(arq.is_open()){
-        arq << "=====Algoritmo Guloso Randomizado=====" << endl;
-        arq << "--------Info-------" << endl;
-        arq << "Alpha: " << alpha << endl;
-        arq << "Custo da melhor solucao: " << custoBest << endl;
-        arq << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl;
-        arq << "CPU time: " << time << endl << endl;
-        arq.close();
-    }
-    else{
-        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
-        cout << "=====Algoritmo Guloso Randomizado=====" << endl;
-        cout << "--------Info-------" << endl;
-        cout << "Alpha: " << alpha << endl;
-        cout << "Custo da melhor solucao: " << custoBest << endl;
-        cout << "Media do custo das solucoes: " << soma/(float)cont << endl;
-        cout << "Tamanho da solucao final: " << best.size() << endl;
-    }
+    cout << "=====Algoritmo Guloso Randomizado=====" << endl;
+    cout << "--------Info-------" << endl;
+    cout << "Alpha: " << alpha << endl;
+    cout << "Custo da melhor solucao: " << custoBest << endl;
+    cout << "Media do custo das solucoes: " << soma/(float)cont << endl;
+    cout << "Tamanho da solucao final: " << best.size() << endl;
     cout << "CPU time: " << time << endl << endl;
 }
 
@@ -1304,43 +1276,19 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
     high_resolution_clock::time_point stop = high_resolution_clock::now();
     time = duration_cast<duration<double>>(stop-start).count();
 
-    ofstream arq;
-    arq.open(arquivo_saida, ios::app);
-    if(arq.is_open()){
-        arq << "=====Algoritmo Guloso Randomizado Reativo=====" << endl;
-        arq << "--------Info-------" << endl << endl;
-        for(int i=0; i<nAlphas; i++){
-            arq << "Alpha[" << i << "] = " << alphas[i] << endl;
-            arq << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
-            arq << "Media = " << medias[i] << endl;
-            arq << "Numero de aparicoes = " << nVezes[i] << endl;
-            arq << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
-        }
-
-        arq << "------Melhor solucao------" << endl;
-        arq << "Custo da melhor solucao: " << custoBest << endl;
-        arq << "Alpha da melhor solucao: " << bestAlpha << endl;
-        arq << "Tamanho da solucao final: " << best.size() << endl;
-        arq << "CPU time: " << time << endl << endl;
-        arq.close();
+    cout << "=====Algoritmo Guloso Randomizado Reativo=====" << endl;
+    cout << "--------Info-------" << endl << endl;
+    for(int i=0; i<nAlphas; i++){
+        cout << "Alpha[" << i << "] = " << alphas[i] << endl;
+        cout << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
+        cout << "Media = " << medias[i] << endl;
+        cout << "Numero de aparicoes = " << nVezes[i] << endl;
+        cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
     }
-    else{
-        cout << "Erro: nao foi possivel abrir arquivo de saida" << endl;
-        cout << "=====Algoritmo Guloso Randomizado Reativo=====" << endl;
-        cout << "--------Info-------" << endl << endl;
-        for(int i=0; i<nAlphas; i++){
-            cout << "Alpha[" << i << "] = " << alphas[i] << endl;
-            cout << "Melhor solucao do alpha = " << custoBestAlpha[i] << endl;
-            cout << "Media = " << medias[i] << endl;
-            cout << "Numero de aparicoes = " << nVezes[i] << endl;
-            cout << "Probabilidade de aparicao = " << probabilidades[i] << endl << endl;
-        }
-
-        cout << "------Melhor solucao------" << endl;
-        cout << "Custo da melhor solucao: " << custoBest << endl;
-        cout << "Alpha da melhor solucao: " << bestAlpha << endl;
-        cout << "Tamanho da solucao final: " << best.size() << endl << endl;
-    }
+    cout << "------Melhor solucao------" << endl;
+    cout << "Custo da melhor solucao: " << custoBest << endl;
+    cout << "Alpha da melhor solucao: " << bestAlpha << endl;
+    cout << "Tamanho da solucao final: " << best.size() << endl << endl;
     cout << "CPU time: " << time << endl << endl;
 }
 
