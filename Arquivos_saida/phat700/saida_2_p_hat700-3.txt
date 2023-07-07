@@ -3,7 +3,7 @@
 --------Info-------
 Custo da solucao: 65251
 Tamanho da solucao final: 699
-CPU time: 0.379971
+CPU time: 0.380908
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -11,7 +11,7 @@ Alpha: 0.05
 Custo da melhor solucao: 65251
 Media do custo das solucoes: 65251
 Tamanho da solucao final: 699
-CPU time: 371.054
+CPU time: 370.008
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -19,7 +19,7 @@ Alpha: 0.1
 Custo da melhor solucao: 65251
 Media do custo das solucoes: 65251
 Tamanho da solucao final: 699
-CPU time: 382.476
+CPU time: 381.436
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -27,7 +27,7 @@ Alpha: 0.15
 Custo da melhor solucao: 65251
 Media do custo das solucoes: 65251
 Tamanho da solucao final: 699
-CPU time: 394.24
+CPU time: 393.143
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -35,7 +35,7 @@ Alpha: 0.3
 Custo da melhor solucao: 65251
 Media do custo das solucoes: 65251
 Tamanho da solucao final: 699
-CPU time: 424.817
+CPU time: 423.59
 
 =====Algoritmo Guloso Randomizado=====
 --------Info-------
@@ -43,7 +43,7 @@ Alpha: 0.5
 Custo da melhor solucao: 64875
 Media do custo das solucoes: 65190.8
 Tamanho da solucao final: 697
-CPU time: 455.691
+CPU time: 454.536
 
 =====Algoritmo Guloso Randomizado Reativo=====
 --------Info-------
@@ -51,36 +51,36 @@ CPU time: 455.691
 Alpha[0] = 0.05
 Melhor solucao do alpha = 65251
 Media = 65251
-Numero de aparicoes = 1076
-Probabilidade de aparicao = 0.199963
+Numero de aparicoes = 1034
+Probabilidade de aparicao = 0.199964
 
 Alpha[1] = 0.1
 Melhor solucao do alpha = 65251
 Media = 65251
-Numero de aparicoes = 1002
-Probabilidade de aparicao = 0.199963
+Numero de aparicoes = 993
+Probabilidade de aparicao = 0.199964
 
 Alpha[2] = 0.15
 Melhor solucao do alpha = 65251
 Media = 65251
-Numero de aparicoes = 954
-Probabilidade de aparicao = 0.199963
+Numero de aparicoes = 988
+Probabilidade de aparicao = 0.199964
 
 Alpha[3] = 0.3
 Melhor solucao do alpha = 65251
 Media = 65251
-Numero de aparicoes = 981
-Probabilidade de aparicao = 0.199963
+Numero de aparicoes = 1023
+Probabilidade de aparicao = 0.199964
 
 Alpha[4] = 0.5
 Melhor solucao do alpha = 64875
-Media = 65191.3
-Numero de aparicoes = 987
-Probabilidade de aparicao = 0.200146
+Media = 65193
+Numero de aparicoes = 962
+Probabilidade de aparicao = 0.200142
 
 ------Melhor solucao------
 Custo da melhor solucao: 64875
 Alpha da melhor solucao: 0.5
 Tamanho da solucao final: 697
-CPU time: 2032.23
+CPU time: 2027.86
 
