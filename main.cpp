@@ -12,6 +12,7 @@
 using namespace std;
 
 Grafo* geraGrafo(string caminhoArquivo, string caminhoSaida, bool direcionado, bool pondAresta, bool pondVertice);
+int exibeMenu();
 
 int main(int argc, const char* argv[]){
     if(argc != 6){
@@ -76,17 +77,106 @@ int main(int argc, const char* argv[]){
 //    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 //
 
+int valMenu = exibeMenu();
+int idMenu1;
+
+while(valMenu != 0)
+{
+    switch(valMenu)
+    {
+    case 1:
+        cout << "Digite o id do no: ";
+        cin >> idMenu1;
+        if(grafo->grauNo(idMenu1)!= NULL)
+        {
+            cout << "Grau de saida do no: " << grafo->grauNo(idMenu1)[0]<<endl<<endl;
+            if(direcionado)
+                cout << "Grau de entrada do no: " << grafo->grauNo(idMenu1)[1]<<endl<<endl;
+        }
+        break;
+    case 2:
+        cout << "O grau do grafo eh: " << grafo->grauGrafo() <<endl<<endl;
+        break;
+    /*case 3:
+        cout << "Digite o id do primeiro no: ";
+        cin >> idMenu1;
+        No* aux;
+        for(aux = primeiro; aux != NULL; aux = aux->getProxNo())
+        {
+            if(aux->getId() == idMenu1)
+                break;
+        }
+        if(aux == NULL)
+        {
+            cout << "Id invalido"<<endl;
+            break;
+        }
+        cout << "Digite o id do segundo no: ";
+        cin >> idMenu1;
+        if(aux->ehAdjacente(idMenu1))
+            cout << "Sao adjacentes"<<endl;
+        else
+            cout << "Nao sao adjacentes"<<endl;
+    */
+    case 6:
+        int K;
+        cout << "Digite o valor K: ";
+        cin >> K;
+        if(grafo->verificaK(K))
+        cout << "O grafo eh " << K << "-regular"<<endl<<endl;
+        else
+            cout << "O grafo nao eh " << K << "-regular"<<endl<<endl;
+        break;
+    case 8:
+        if(grafo->ehCompleto())
+            cout << "O grafo eh completo"<<endl<<endl;
+        else
+            cout << "O grafo nao eh completo"<<endl<<endl;
+        break;
+    case 10:
+        if(grafo->ehConexo())
+            cout << "O grafo eh conexo" <<endl<<endl;
+        else
+            cout << "O grafo nao eh conexo" <<endl<<endl;
+        break;
+    case 11:
+        cout << "Digite o id do no: ";
+        cin >> idMenu1;
+        if(grafo->ehNoArt(idMenu1))
+            cout << "O no eh de articulacao" << endl<<endl;
+        else
+            cout << "O no nao eh de articulacao" <<endl<<endl;
+        break;
+    case 13:
+        cout << "Digite o id do no: ";
+        cin >>idMenu1;
+        grafo->removeNo(idMenu1);
+        break;
+    case 14:
+        cout << "Digite o no de origem do arco: ";
+        cin >> idMenu1;
+        int idMenu2;
+        cout << "Digite o no de destino do arco: ";
+        cin >> idMenu2;
+        grafo->removeArco(idMenu1,idMenu2);
+        break;
+    case 17:
+        cout << "Executando algoritmo guloso..." << endl;
+        list<int> solucaoGuloso;
+        grafo->cobertVertPondG(solucaoGuloso);
+        cout << "Executado!" << endl;
+        break;
+
+    }
+    valMenu = exibeMenu();
+}
+
     float* alphas = new float[5];
     alphas[0] = 0.05;
     alphas[1] = 0.1;
     alphas[2] = 0.15;
     alphas[3] = 0.3;
     alphas[4] = 0.5;
-
-    cout << "Executando algoritmo guloso..." << endl;
-    list<int> solucaoGuloso;
-    grafo->cobertVertPondG(solucaoGuloso);
-    cout << "Executado!" << endl;
 
     cout << "Executando algoritmos randomizados..." << endl;
     for(int i=0; i<5; i++){
@@ -165,20 +255,20 @@ int exibeMenu(){
 
     cout << " 1- Verificar o Grau de um vértice" << endl;
     cout << " 2- Verificar o Grau de G" << endl;
-    cout << " 3- Verificar adjacência entre vértices" << endl;
-    cout << " 4- Listar os adjacentes de um vértice" << endl;
-    cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
+    //cout << " 3- Verificar adjacência entre vértices" << endl;
+    //cout << " 4- Listar os adjacentes de um vértice" << endl;
+    //cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
     cout << " 6- Verificar se o Grafo é K-Regular" << endl;
-    cout << " 7- Retornar o Grafo Complementar G" << endl;
+    //cout << " 7- Retornar o Grafo Complementar G" << endl;
     cout << " 8- Verificar se o Grafo é Completo" << endl;
-    cout << " 9- Verificar se o Grafo é Bipartido" << endl;
+    //cout << " 9- Verificar se o Grafo é Bipartido" << endl;
     cout << "10- Verificar se o Grafo é conexo" << endl;
     cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
-    cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
+    //cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "13- Remover Vértice" << endl;
     cout << "14- Remover Aresta" << endl;
-    cout << "15- Fecho Transitivo" << endl;
-    cout << "16- Fecho Intransitivo" << endl;
+    //cout << "15- Fecho Transitivo" << endl;
+    //cout << "16- Fecho Intransitivo" << endl;
     cout << "17- Cobertura de Vertices Ponderados Guloso" << endl;
     cout << "18- Cobertura de Vertices Ponderados Guloso Randomizado" << endl;
     cout << "19- Cobertura de Vertices Ponderados Guloso Randomizado Reativo" << endl;

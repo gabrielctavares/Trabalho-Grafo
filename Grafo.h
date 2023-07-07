@@ -60,7 +60,7 @@ class Grafo
         bool ehCompleto(); // Davi: implementado
         bool ehBipartido(); //Lana: implementado
         void caminhoMinimo();
-        void grauGrafo();
+        int grauGrafo();
         int compCon (); //calcula quantas componentes conexas possui o grafo
         void prof(int visitados[], int no, int marca); //percorrendo por profundidade, auxilia a calcular as componentes conexas
         int compConSemNo(int id); // calcula quantas comp con sem o no passado

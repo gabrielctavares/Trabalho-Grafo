@@ -482,6 +482,16 @@ void Grafo::seqGraus()
     }
 }
 
+int Grafo::grauGrafo()
+{
+    int maior = 0;
+    for(No* auxNo = primeiro; auxNo!= NULL; auxNo = auxNo -> getProxNo())
+    {
+        if(grauNo(auxNo -> getId())[0] > maior)
+            maior = grauNo(auxNo -> getId())[0];
+    }
+    return maior;
+}
 Grafo* Grafo::complementarGrafo()
 {
     Grafo* complementar = new Grafo(this->n, this->ehDigrafo, this->ehPonderadoArco, this->ehPonderadoNo);
