@@ -166,76 +166,38 @@ while(valMenu != 0)
             cout << "O no nao eh de articulacao" <<endl;
         break;
     case 10:
-        cout << "Digite o id do no: ";
-        cin >>idMenu1;
-        grafo->removeNo(idMenu1);
+        grafo->imprimeIdNoArt();
         break;
     case 11:
-        cout << "Digite o no de origem do arco: ";
-        cin >> idMenu1;
-        int idMenu3;
-        cout << "Digite o no de destino do arco: ";
-        cin >> idMenu3;
-        grafo->removeArco(idMenu1,idMenu2);
+        cout << "Sequencia de graus:"<<endl;
+        grafo->seqGraus();
         break;
     case 12:
-        {
-        cout << "Digite o id do no: ";
-        cin >> idMenu1;
-        list<int> lista;
-        grafo->vizAberto(idMenu1, lista);
-        break;
-        }
-    case 13:
-        {
-        cout << "Digite o id do no: ";
-        cin >> idMenu1;
-        list<int> lista;
-        grafo->vizFechado(idMenu1, lista);
-        break;
-        }
-    case 14:
         if(grafo->ehNulo())
         cout << "O grafo eh nulo" <<endl;
         else
         cout << "O grafo nao eh nulo"<<endl;
         break;
-    case 15:
+    case 13:
         if(grafo->ehTrivial())
         cout << "O grafo eh trivial"<<endl;
         else
         cout << "O grafo nao eh trivial"<<endl;
         break;
-    case 16:
+    case 14:
         cout << "O grafo possui " << grafo->compCon() << " componentes conexas"<<endl;
         break;
-    case 17:
+    case 15:
         cout << "O grafo possui ordem " << grafo->ordemGrafo() <<endl;
         break;
-    case 18:
+    case 16:
         if(grafo -> ehEuleriano())
         cout << "O grafo eh euleriano" <<endl;
         else
         cout << "O grafo nao eh euleriano" <<endl;
         break;
-    case 19:
-    {
-        cout << "Digite o id do no: ";
-        cin >> idMenu1;
-        list<int> fTransDireto;
-        grafo->fechoTransDir(idMenu1,fTransDireto);
-        break;
-    }
-    case 20:
-    {
-        cout << "Digite o id do no: ";
-        cin >> idMenu1;
-        list<int> fTransIndireto;
-        grafo->fechoTransDir(idMenu1,fTransIndireto);
-        break;
-    }
 
-    case 21:
+    case 17:
     {
         cout << "Executando algoritmo guloso..." << endl;
         list<int> solucaoGuloso;
@@ -243,7 +205,7 @@ while(valMenu != 0)
         cout << "Executado!" << endl;
         break;
     }
-    case 22:
+    case 18:
     {
         cout << "Executando algoritmos randomizados..." << endl;
         for(int i=0; i<5; i++){
@@ -254,7 +216,7 @@ while(valMenu != 0)
         }
         break;
     }
-    case 23:
+    case 19:
     {
         cout << "Executando algoritmo reativo..." << endl;
         list<int> solucaoReativo;
@@ -334,29 +296,23 @@ int exibeMenu(){
     cout << "\n 1- Verificar o Grau de um vertice" << endl;
     cout << " 2- Verificar o Grau de G" << endl;
     cout << " 3- Verificar adjacencia entre vertices" << endl;
-    cout << " 4- Listar os adjacentes de um vértice" << endl;
-    //cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
+    cout << " 4- Listar os adjacentes de um vertice" << endl;
     cout << " 5- Verificar se o Grafo eh K-Regular" << endl;
     cout << " 6- Retornar o Grafo Complementar G" << endl;
     cout << " 7- Verificar se o Grafo eh Completo" << endl;
-    //cout << " 9- Verificar se o Grafo é Bipartido" << endl;
     cout << "8- Verificar se o Grafo eh conexo" << endl;
     cout << "9- Verificar se um dado Vertice eh de Articulacao" << endl;
     //cout << "10- Verificar se uma dada Aresta é Ponte" << endl;
-    cout << "10- Remover Vertice" << endl;
-    cout << "11- Remover Aresta" << endl;
-    cout << "12- Vizinhanca Aberta de um no" << endl;
-    cout << "13- Vizinhanca Fechada de um no" << endl;
-    cout << "14- Verificar se o grafo eh nulo" << endl;
-    cout << "15- Verificar se o grafo eh trivial" << endl;
-    cout << "16- Verificar o numero de componentes conexas do grafo" <<endl;
-    cout << "17- Verificar a ordem do grafo" << endl;
-    cout << "18- Verificar se o grafo eh euleriano" << endl;
-    //cout << "19- Fecho Transitivo" << endl;
-    //cout << "20- Fecho Transitivo Indireto" << endl;
-    cout << "21- Cobertura de Vertices Ponderados Guloso" << endl;
-    cout << "22- Cobertura de Vertices Ponderados Guloso Randomizado" << endl;
-    cout << "23- Cobertura de Vertices Ponderados Guloso Randomizado Reativo" << endl;
+    cout << "10- Listar os nos de articulacao" << endl;
+    cout << "11- Mostrar sequencia de graus" << endl;
+    cout << "12- Verificar se o grafo eh nulo" << endl;
+    cout << "13- Verificar se o grafo eh trivial" << endl;
+    cout << "14- Verificar o numero de componentes conexas do grafo" <<endl;
+    cout << "15- Verificar a ordem do grafo" << endl;
+    cout << "16- Verificar se o grafo eh euleriano" << endl;
+    cout << "17- Cobertura de Vertices Ponderados Guloso" << endl;
+    cout << "18- Cobertura de Vertices Ponderados Guloso Randomizado" << endl;
+    cout << "19- Cobertura de Vertices Ponderados Guloso Randomizado Reativo" << endl;
     cout << " 0- Sair" << endl;
     cout << "\nOpcao: ";
     cin >> opMenu;
