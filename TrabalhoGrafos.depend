@@ -222,7 +222,7 @@
 	<list>
 	"Grafo.h"
 
-1688775226 c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.h
+1688778972 c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.h
 	"No.h"
 	<string>
 	<list>
@@ -245,7 +245,7 @@
 	<iterator>
 	<list>
 
-1688775616 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.cpp
+1688778972 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.cpp
 	"Grafo.h"
 	<iostream>
 	<fstream>
