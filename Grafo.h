@@ -82,6 +82,7 @@ class Grafo
         Arco* arestaPonte();
         void infografo();
         void AGM(); //muda o nome se necess�rio
+        void listaAdjacentes(int idNo, list<int> &adj);
 
         void imprimeGrafo();
 

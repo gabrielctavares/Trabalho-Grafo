@@ -114,6 +114,21 @@ while(valMenu != 0)
         else
             cout << "Nao sao adjacentes"<<endl;
         break;
+    case 4:{
+        cout << "Digite o id do no: ";
+        int id;
+        cin >> id;
+        list<int> adj;
+        grafo->listaAdjacentes(id, adj);
+        if(!adj.empty()){
+            cout << "Nos adjacentes a " << id << ": " << endl;
+            for(list<int>::iterator i = adj.begin(); i!=adj.end(); ++i){
+                cout << *i << " ";
+            }
+            cout << endl;
+        }
+        break;
+    }
     case 6:
         int K;
         cout << "Digite o valor K: ";
@@ -123,6 +138,13 @@ while(valMenu != 0)
         else
             cout << "O grafo nao eh " << K << "-regular"<<endl;
         break;
+    case 7:{
+        cout<< "=======Grafo complementar=========" << endl;
+        Grafo* complementar = grafo->complementarGrafo();
+        complementar->imprimeGrafo();
+        cout<< "==================================" << endl;
+        break;
+    }
     case 8:
         if(grafo->ehCompleto())
             cout << "O grafo eh completo"<<endl;
@@ -143,6 +165,13 @@ while(valMenu != 0)
         else
             cout << "O no nao eh de articulacao" <<endl;
         break;
+    case 11:{
+        cout << "Digite o id do o que deseja verificar: ";
+        int id;
+        cin >> id;
+        cout << "No de id " << id << " eh no articulacao[0,1]? " << grafo->ehNoArt(id) << endl;
+        break;
+    }
     case 12:
         cout << "Digite o id do no: ";
         cin >>idMenu1;
@@ -264,15 +293,15 @@ int exibeMenu(){
     cout << "\n 1- Verificar o Grau de um vertice" << endl;
     cout << " 2- Verificar o Grau de G" << endl;
     cout << " 3- Verificar adjacencia entre vertices" << endl;
-    //cout << " 4- Listar os adjacentes de um vértice" << endl;
+    cout << " 4- Listar os adjacentes de um vértice" << endl;
     //cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
     cout << " 6- Verificar se o Grafo eh K-Regular" << endl;
-    //cout << " 7- Retornar o Grafo Complementar G" << endl;
+    cout << " 7- Retornar o Grafo Complementar G" << endl;
     cout << " 8- Verificar se o Grafo eh Completo" << endl;
     //cout << " 9- Verificar se o Grafo é Bipartido" << endl;
     cout << "9- Verificar se o Grafo eh conexo" << endl;
     cout << "10- Verificar se um dado Vertice eh de Articulacao" << endl;
-    //cout << "11- Verificar se uma dada Aresta é Ponte" << endl;
+    cout << "11- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "12- Remover Vertice" << endl;
     cout << "13- Remover Aresta" << endl;
     //cout << "14- Fecho Transitivo" << endl;

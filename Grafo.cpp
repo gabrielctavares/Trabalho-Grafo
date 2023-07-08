@@ -174,6 +174,10 @@ void Grafo::removeArco(int idOrig, int idDest)
 
 bool Grafo::ehAdjacente(int id1, int id2)
 {
+    if(((id1 > n + 1) || id1 < 0) || (id2 > n + 1) || id2 < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
+        return false;
+    }
     No* no1;
     for(no1 = primeiro; no1!=NULL && no1->getId()!= id1; no1 = no1->getProxNo());
     if(no1 == NULL)
@@ -237,12 +241,29 @@ void Grafo::auxFechoTransDir(No* no, list<int> &fTransDireto, list<int> &lVisita
     fTransDireto.unique();
 }
 
+void Grafo::listaAdjacentes(int idNo, list<int> &adj){
+    if((idNo > n + 1) || idNo < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
+        return;
+    }
+    No* no1;
+    adj.clear();
+    for(no1 = primeiro; no1!=NULL && no1->getId()!= idNo; no1 = no1->getProxNo());
+    if(no1!=NULL){
+        no1->getAdjacentes(adj);
+    }
+}
+
 void Grafo::fechoTransDir(int idNo, list <int> &fTransDireto)
 {
     if(n==0)
         return;
     if(!ehDigrafo){
         cout << "Erro: grafo nao eh direcionado!" << endl;
+        return;
+    }
+    if((idNo > n + 1) || idNo < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
         return;
     }
 
@@ -280,6 +301,10 @@ Grafo* Grafo::auxFechoTransInd()
 
 void Grafo::fechoTransInd(int idNo, list <int> &fTransIndireto)
 {
+    if((idNo > n + 1) || idNo < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
+        return;
+    }
     Grafo* invertido = auxFechoTransInd();
     invertido->fechoTransDir(idNo, fTransIndireto);
     delete invertido;
@@ -287,6 +312,10 @@ void Grafo::fechoTransInd(int idNo, list <int> &fTransIndireto)
 
 void Grafo::vizAberto(int idNo, list <int> &lista){
 
+    if((idNo > n + 1) || idNo < 0){
+        cout << "Erro: grafo nao contém esse no" << endl;
+        return;
+    }
     No* aux;
 
     for(aux = primeiro; aux!=NULL && aux->getId()!= idNo; aux = aux->getProxNo());
@@ -299,6 +328,11 @@ void Grafo::vizAberto(int idNo, list <int> &lista){
 }
 
 void Grafo::vizFechado(int idNo, list <int> &lista){
+
+    if((idNo > n + 1) || idNo < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
+        return;
+    }
 
     No* aux;
 
@@ -361,6 +395,11 @@ bool Grafo::ehBipartido(){
 
 
 int* Grafo::grauNo(int id){
+
+    if((id > n + 1) || id < 0){
+        cout << "Erro: grafo nao contem esse no" << endl;
+        return NULL;
+    }
 
     No* auxNo;
     int grau;
