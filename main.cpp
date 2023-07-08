@@ -302,7 +302,6 @@ int exibeMenu(){
     cout << " 7- Verificar se o Grafo eh Completo" << endl;
     cout << "8- Verificar se o Grafo eh conexo" << endl;
     cout << "9- Verificar se um dado Vertice eh de Articulacao" << endl;
-    //cout << "10- Verificar se uma dada Aresta é Ponte" << endl;
     cout << "10- Listar os nos de articulacao" << endl;
     cout << "11- Mostrar sequencia de graus" << endl;
     cout << "12- Verificar se o grafo eh nulo" << endl;
@@ -318,6 +317,3 @@ int exibeMenu(){
     cin >> opMenu;
     return opMenu;
 }
- void imprimeOpcoes(){
-
- }
