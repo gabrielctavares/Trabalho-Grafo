@@ -29,53 +29,6 @@ int main(int argc, const char* argv[]){
 
     Grafo* grafo = geraGrafo(arquivoEntrada, arquivoSaida, direcionado, pondAresta, pondVertice);
 
-    //imprimeOpcoes();
-//    grafo->imprimeGrafo();
-//
-//    cout << "Componentes fortemente conexas:\n";
-//    vector<vector<No*>> result = grafo->compFortConex();
-//    for (vector<No*> component : result) {
-//        for (No* no : component) {
-//            cout << no->getId() << " ";
-//        }
-//        cout << ""<< endl;
-//    }
-//
-//
-//    cout << "Ordem do grafo: " << grafo->ordemGrafo() << endl;
-//    for(int i=0; i<grafo->ordemGrafo(); i++){
-//        cout << "Grau do no " << i+1 << ": " << grafo->grauNo(i+1)[0] << endl;
-//    }
-//    cout << "Eh 4-regular?(0 - falso / 1 - verdadeiro): " << grafo->verificaK(4) << endl;
-//
-//
-//    cout << "Imprimindo grafo oficial --------" << endl;
-//    grafo->imprimeGrafo();
-//    cout << "----------------------" << endl;
-//
-//    cout << "Imprimindo grafo complementar --------" << endl;
-//    //grafo->complementarGrafo()->imprimeGrafo();
-//    cout << "----------------------" << endl;
-//
-//    cout << "Fecho transitivo direto do no 1: ";
-//    list<int> fechoDireto;
-//    grafo->fechoTransDir(1, fechoDireto);
-//
-//    cout << "Fecho transitivo indireto do no 1: ";
-//    list<int> fechoIndireto;
-//    grafo->fechoTransInd(1, fechoIndireto);
-//
-//    cout << "O no 1 eh adjacente a 4?(0 - falso / 1 - verdadeiro): " << grafo->ehAdjacente(1, 4) << endl;
-//
-//    cout << "O grafo eh euleriano?(0 - falso / 1 - verdadeiro): " << grafo->ehEuleriano() << endl;
-//
-//    for(int i=1; i<=grafo->ordemGrafo(); i++)
-//        cout << "O no " << i << " eh no de articulacao?(0 - falso / 1 - verdadeiro): " << grafo->ehNoArt(i) << endl;
-//
-//    //cout << "Eh conexo? " << grafo->ehConexo() << endl;
-//    //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
-//    cout << "N de componentes conexas: " << grafo->compCon() << endl;
-//
 float* alphas = new float[5];
     alphas[0] = 0.05;
     alphas[1] = 0.1;
