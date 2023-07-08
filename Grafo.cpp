@@ -864,6 +864,10 @@ void Grafo::cobertVertPondG(list<int> &solucao)
         cout << "Erro: Grafo deve ser ponderado" << endl;
         return;
     }
+    if(ehDigrafo){
+        cout << "Erro: Grafo não deve ser direcionado" << endl;
+        return;
+    }
 
     high_resolution_clock::time_point start = high_resolution_clock::now();
     double time = 0;
@@ -950,6 +954,10 @@ void Grafo::cobertVertPondGR(list<int> &best, int nIteracoes, float alpha)
 {
     if(!ehPonderadoNo){
         cout << "Erro: Grafo deve ser ponderado" << endl;
+        return;
+    }
+    if(ehDigrafo){
+        cout << "Erro: Grafo não deve ser direcionado" << endl;
         return;
     }
 
@@ -1128,6 +1136,10 @@ void Grafo::cobertVertPondGRR(list<int> &best, int nIteracoes, float* alphas, in
 {
     if(!ehPonderadoNo){
         cout << "Erro: Grafo deve ser ponderado" << endl;
+        return;
+    }
+    if(ehDigrafo){
+        cout << "Erro: Grafo não deve ser direcionado" << endl;
         return;
     }
 
