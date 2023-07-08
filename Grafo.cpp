@@ -120,7 +120,7 @@ void Grafo::addArco(int orig, int dest, float p)
     for(auxOrig = primeiro; auxOrig->getId()!=orig && auxOrig!=NULL; auxOrig = auxOrig->getProxNo());
 
     if(auxOrig==NULL){
-        cout << "Erro: n� n�o est� contido no grafo" << endl;
+        cout << "Erro: no nao esta contido no grafo" << endl;
         return;
     }
 
@@ -128,7 +128,7 @@ void Grafo::addArco(int orig, int dest, float p)
     for(auxDest = primeiro; auxDest->getId()!=dest && auxDest!=NULL; auxDest = auxDest->getProxNo());
 
     if(auxDest==NULL){
-        cout << "Erro: n� n�o est� contido no grafo" << endl;
+        cout << "Erro: no nao esta contido no grafo" << endl;
         return;
     }
 
@@ -152,7 +152,7 @@ void Grafo::removeArco(int idOrig, int idDest)
 
     if(auxOrig==NULL)
     {
-        cout << "Erro: o grafo n�o possui esse n�" << endl;
+        cout << "Erro: o grafo nao possui esse no" << endl;
         return;
     }
 
@@ -165,7 +165,7 @@ void Grafo::removeArco(int idOrig, int idDest)
 
     if(auxDest==NULL)
     {
-        cout << "Erro: o grafo n�o possui esse n�" << endl;
+        cout << "Erro: o grafo nao possui esse no" << endl;
         return;
     }
 

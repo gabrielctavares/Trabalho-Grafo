@@ -76,6 +76,12 @@ int main(int argc, const char* argv[]){
 //    //cout << "Eh bipartido? " << grafo->ehBipartido() << endl;
 //    cout << "N de componentes conexas: " << grafo->compCon() << endl;
 //
+float* alphas = new float[5];
+    alphas[0] = 0.05;
+    alphas[1] = 0.1;
+    alphas[2] = 0.15;
+    alphas[3] = 0.3;
+    alphas[4] = 0.5;
 
 int valMenu = exibeMenu();
 int idMenu1;
@@ -97,27 +103,17 @@ while(valMenu != 0)
     case 2:
         cout << "O grau do grafo eh: " << grafo->grauGrafo() <<endl<<endl;
         break;
-    /*case 3:
+    case 3:
         cout << "Digite o id do primeiro no: ";
         cin >> idMenu1;
-        No* aux;
-        for(aux = primeiro; aux != NULL; aux = aux->getProxNo())
-        {
-            if(aux->getId() == idMenu1)
-                break;
-        }
-        if(aux == NULL)
-        {
-            cout << "Id invalido"<<endl;
-            break;
-        }
+        int idMenu2;
         cout << "Digite o id do segundo no: ";
-        cin >> idMenu1;
-        if(aux->ehAdjacente(idMenu1))
-            cout << "Sao adjacentes"<<endl;
+        cin >> idMenu2;
+        if(grafo->ehAdjacente(idMenu1,idMenu2))
+            cout << "Sao adjacentes"<<endl<<endl;
         else
-            cout << "Nao sao adjacentes"<<endl;
-    */
+            cout << "Nao sao adjacentes"<<endl<<endl;
+        break;
     case 6:
         int K;
         cout << "Digite o valor K: ";
@@ -155,41 +151,44 @@ while(valMenu != 0)
     case 14:
         cout << "Digite o no de origem do arco: ";
         cin >> idMenu1;
-        int idMenu2;
+        int idMenu3;
         cout << "Digite o no de destino do arco: ";
-        cin >> idMenu2;
+        cin >> idMenu3;
         grafo->removeArco(idMenu1,idMenu2);
         break;
     case 17:
+    {
         cout << "Executando algoritmo guloso..." << endl;
         list<int> solucaoGuloso;
         grafo->cobertVertPondG(solucaoGuloso);
         cout << "Executado!" << endl;
         break;
-
+    }
+    case 18:
+    {
+        cout << "Executando algoritmos randomizados..." << endl;
+        for(int i=0; i<5; i++){
+            cout << "Com alpha igual a " << alphas[i] << endl;
+            list<int> solucaoRando;
+            grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
+            cout << "Executado!" << endl;
+        }
+        break;
+    }
+    case 19:
+    {
+        cout << "Executando algoritmo reativo..." << endl;
+        list<int> solucaoReativo;
+        grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
+        cout << "Executado!" << endl;
+        break;
+    }
+    default:
+        cout << "Opcao invalida" <<endl<<endl;
+        break;
     }
     valMenu = exibeMenu();
 }
-
-    float* alphas = new float[5];
-    alphas[0] = 0.05;
-    alphas[1] = 0.1;
-    alphas[2] = 0.15;
-    alphas[3] = 0.3;
-    alphas[4] = 0.5;
-
-    cout << "Executando algoritmos randomizados..." << endl;
-    for(int i=0; i<5; i++){
-        cout << "Com alpha igual a " << alphas[i] << endl;
-        list<int> solucaoRando;
-        grafo->cobertVertPondGR(solucaoRando, 1000, alphas[i]);
-        cout << "Executado!" << endl;
-    }
-
-    cout << "Executando algoritmo reativo..." << endl;
-    list<int> solucaoReativo;
-    grafo->cobertVertPondGRR(solucaoReativo, 5000, alphas, 5);
-    cout << "Executado!" << endl;
 
     delete grafo;
     return 0;
@@ -253,19 +252,19 @@ Grafo* geraGrafo(string caminhoArquivo, string caminhoSaida, bool direcionado, b
 int exibeMenu(){
     int opMenu;
 
-    cout << " 1- Verificar o Grau de um vértice" << endl;
+    cout << " 1- Verificar o Grau de um vertice" << endl;
     cout << " 2- Verificar o Grau de G" << endl;
-    //cout << " 3- Verificar adjacência entre vértices" << endl;
+    cout << " 3- Verificar adjacencia entre vertices" << endl;
     //cout << " 4- Listar os adjacentes de um vértice" << endl;
     //cout << " 5- Dado um conjunto x de vértices, retornar o grafo induzido por x" << endl;
-    cout << " 6- Verificar se o Grafo é K-Regular" << endl;
+    cout << " 6- Verificar se o Grafo eh K-Regular" << endl;
     //cout << " 7- Retornar o Grafo Complementar G" << endl;
-    cout << " 8- Verificar se o Grafo é Completo" << endl;
+    cout << " 8- Verificar se o Grafo eh Completo" << endl;
     //cout << " 9- Verificar se o Grafo é Bipartido" << endl;
-    cout << "10- Verificar se o Grafo é conexo" << endl;
-    cout << "11- Verificar se um dado Vértice é de Articulação" << endl;
+    cout << "10- Verificar se o Grafo eh conexo" << endl;
+    cout << "11- Verificar se um dado Vertice eh de Articulacao" << endl;
     //cout << "12- Verificar se uma dada Aresta é Ponte" << endl;
-    cout << "13- Remover Vértice" << endl;
+    cout << "13- Remover Vertice" << endl;
     cout << "14- Remover Aresta" << endl;
     //cout << "15- Fecho Transitivo" << endl;
     //cout << "16- Fecho Intransitivo" << endl;
@@ -273,7 +272,7 @@ int exibeMenu(){
     cout << "18- Cobertura de Vertices Ponderados Guloso Randomizado" << endl;
     cout << "19- Cobertura de Vertices Ponderados Guloso Randomizado Reativo" << endl;
     cout << " 0- Sair" << endl;
-    cout << "\nOpção: ";
+    cout << "\nOpcao: ";
     cin >> opMenu;
     return opMenu;
 }

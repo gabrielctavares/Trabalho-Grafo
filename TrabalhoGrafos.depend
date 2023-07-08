@@ -210,7 +210,7 @@
 
 1688522133 c:\users\claud\onedrive\documentos\github\trabalho-grafo\arco.h
 
-1688766524 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\main.cpp
+1688775420 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\main.cpp
 	<iostream>
 	<iostream>
 	<fstream>
@@ -222,7 +222,7 @@
 	<list>
 	"Grafo.h"
 
-1688768823 c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.h
+1688775226 c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.h
 	"No.h"
 	<string>
 	<list>
@@ -245,7 +245,7 @@
 	<iterator>
 	<list>
 
-1688768823 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.cpp
+1688775470 source:c:\users\claud\onedrive\documentos\github\trabalho-grafo\grafo.cpp
 	"Grafo.h"
 	<iostream>
 	<fstream>
